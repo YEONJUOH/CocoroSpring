@@ -5,16 +5,21 @@
 >
 
 <tiles-definitions>
-
-	<definition name="base_layout" template="/WEB-INF/views/template/mainLayout.jsp">
+<!-- 로그인전 -->
+	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/beforeHeader.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
+	</definition>
+	
+<!-- 로그인후 -->	
+	<definition name="after_layout" template="/WEB-INF/views/template/mainLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/header.jsp"></put-attribute>
-		<put-attribute name="navigator" value="/WEB-INF/views/template/navigator.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
 	</definition>
 
-
-	<definition name="insert_form" extends="base_layout">
-		<put-attribute name="body" value="/WEB-INF/views/insert_form.jsp"></put-attribute>
+<!-- 로그인전  -->
+	<definition name="beforeMain" extends="before_layout">
+		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody.jsp"></put-attribute>
 	</definition>
 
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+
+		<!--공통 -->
+		<typeAlias type="cocoro.studygroup.model.StudyGroup" alias="StudyGroup" />
+		<typeAlias type="cocoro.user.model.Users" alias="Users" />
+	    <!--오연주 -->
+
+		<typeAlias type="cocoro.search.model.Search" alias="Search" />
+		<typeAlias type="cocoro.search.model.tagSuggestion" alias="tagSuggestion" />
+		<typeAlias type="cocoro.search.model.tagSearch" alias="tagSearch" />
+
+
+		<!--고석진 -->
+		<typeAlias type="cocoro.user.model.Follow" alias="Follow" />
+		<typeAlias type="cocoro.user.model.Mento" alias="Mento" />
+		<typeAlias type="cocoro.user.model.UsersAccount" alias="UsersAccount" />
+		<typeAlias type="cocoro.user.model.Likes" alias="Likes" />
+		<typeAlias type="cocoro.user.model.Comment" alias="Comment" />
+		<typeAlias type="cocoro.user.model.Message" alias="Message" />
+		<!-- 스터디 -->
+		<typeAlias type="cocoro.studygroup.model.PlanInfo" alias="PlanInfo" />
+		<typeAlias type="cocoro.studygroup.model.Apply" alias="Apply" />
+		<typeAlias type="cocoro.studygroup.model.Applydata" alias="Applydata" />
+		<typeAlias type="cocoro.studygroup.model.StudyActivity" alias="StudyActivity" />
+		
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="JNDI">
+				<property name="data_source" value="java:comp/env/jdbc/oracle" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+
+		<mapper resource="cocoro/xml/Users.xml" />
+		<mapper resource="cocoro/xml/StudyGroup.xml" />
+		<mapper resource="cocoro/xml/Search.xml" />
+	</mappers>
+
+</configuration>
+
+
+
+
+
+
+
+
+
+
