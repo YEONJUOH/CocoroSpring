@@ -9,7 +9,7 @@ public class Follow implements Serializable {
 	private int f_o_id;
 	private Timestamp f_history;
 	private String f_check;
-	
+	 
 	
 	public String getF_check() {
 		return f_check;
