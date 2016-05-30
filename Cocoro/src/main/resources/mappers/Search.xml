@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cocoro.mapper.SearchMapper">
+	<cache />
+<!-- 	<insert id="insertSearchInfo" parameterType="SearchInfo">
+		insert into	searchinfo
+		(
+		u_id, s_id, s_hit, search_date
+		) values (
+		#{u_id}, #{s_id}, 0
+		)
+	</insert>
+ -->
+	<select id="recommendSelectS_id" parameterType="int" resultType="Integer">
+		select s_id
+		from (select s_id from searchinfo where u_id = #{u_id} order by SEARCH_DATE desc)
+		where rownum=1
+		
+		<!-- 
+		select rownum, alias.s_id as s_id, alias.s_name as s_name
+        from (select * from study where s_name like #{searchWord} or s_intro like #{searchWord}  or s_tag like #{searchWord})alias
+        where rownum  between #{start} and #{end}
+		 -->
+	</select>
+	
+	
+	
+	
+	<!-- <update id="updateS_hit" parameterType="SearchInfo">
+		update searchinfo
+		set
+		s_hit=s_hit+1,
+		search_date= #{sysdate}
+
+		where u_id=#{u_id}
+		and s_id=#{s_id}
+	</update>
+
+
+ -->
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
