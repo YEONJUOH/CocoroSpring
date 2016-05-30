@@ -1,4 +1,4 @@
-package cocoro.users.dao;
+package cocoro.users.persistance;
 import java.io.InputStream;
 
 import org.apache.ibatis.io.Resources;

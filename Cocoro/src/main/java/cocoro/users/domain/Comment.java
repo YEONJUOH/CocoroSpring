@@ -1,4 +1,4 @@
-package cocoro.users.model;
+package cocoro.users.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
