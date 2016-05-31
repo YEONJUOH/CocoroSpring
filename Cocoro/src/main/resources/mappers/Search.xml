@@ -4,7 +4,7 @@
 
 
 
-<mapper namespace="cocoro.mapper.SearchMapper">
+<mapper namespace="cocoro.search.mapper.SearchMapper">
 	<cache />
 <!-- 	<insert id="insertSearchInfo" parameterType="SearchInfo">
 		insert into	searchinfo

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cocoro.mapper.UsersMapper">
+
+   <cache />  
+     <!--사람 검색  -->
+   <select id="searchPeople" resultType="Users" parameterType="Search">
+      select u.u_id, u.u_name, u.u_like_num, u.u_intro, u.u_tag, m.m_major as m_major from users u, mento m
+      <where>  
+      m.u_id(+) =u.u_id
+      <if test="keyWords !=null">
+      and 
+      (u_name like #{keyWords} or u_intro like #{keyWords}
+            or u_tag like #{keyWords} or m.m_major like #{keyWords})
+      </if>
+      <if test="mentorFilter=='mentor'">
+        and
+        (u.u_mento_check='T')
+      </if>
+          <if test="com_filter!=null and com_filter == 'history'">
+                order by u_history desc      
+         
+         </if>
+          <if test="com_filter!=null and com_filter == 'total_hit'">
+                order by u_like_num desc   
+         
+         </if>
+      </where>
+
+
+   </select>
+   
+   <!-- User Insert -->
+   <insert id="insertUsers" parameterType="Users">
+      insert into USERS(u_id,u_name,u_email,u_pwd,u_birth,u_birth_check,u_address,u_address_check,u_image,u_sex,u_intro,
+      u_tag,u_history,u_last_login,u_mento_check,u_like_num,u_sns_address,u_goal_ration)
+      values(users_seq.NEXTVAL,#{u_name},#{u_email},#{u_pwd},#{u_birth},'T',#{u_address},'T','default.jpg',#{u_sex},'다른회원에게 당신을 알려주세요',
+      '#태그를 이용해 관심사를 적어주세요',SYSDATE,SYSDATE,'F',0,'sns정보를입력하세요',0)
+   </insert>
+   
+   <!-- UserLogin -->
+   <select id="usersLogin" parameterType="hashmap" resultType="Users">
+      select * from USERS where u_email=#{u_email} and u_pwd=#{u_pwd}
+   </select>
+   <!-- 회원 정보가져오기 -->
+   <select id="usersInfo" parameterType="int" resultType="Users">
+      select * from USERS where u_id= #{u_id}
+   </select>
+   <!-- 모든 회원정보 가져오기  -->
+   <select id="usersList" resultType="Users">
+      select * from USERS order by U_LAST_LOGIN DESC
+   </select>
+   <!-- 로그인 할때마다 최신 접속시간 업데이트  -->
+   <update id="usersLoginTime" parameterType="int">
+   UPDATE USERS 
+      SET u_last_login = SYSDATE
+      WHERE u_id= #{u_id}
+   </update>
+   <!-- 멘토등록 -->
+   <insert id="usersMento" parameterType="Mento">
+   insert into MENTO(M_ID,U_ID,M_MAJOR,M_CHECK_DATE)
+   VALUES(mento_seq.nextval,#{u_id},#{m_major},SYSDATE)
+   </insert>
+   <!-- 전체 멘토 불러오기 -->
+   <select id="usersMentoList" resultType="Mento">
+   select * from MENTO
+   </select>
+   <!-- 멘토링 여부 -->
+   <select id="usersMentoCheck" parameterType="int" resultType="Mento">
+   select * from MENTO where u_id = #{u_id}
+   </select>
+   <!-- 멘토 업데이트 -->
+   <update id="usersMentoUpdate" parameterType="Mento">
+   update MENTO SET M_MAJOR = #{m_major} WHERE U_ID = #{u_id}
+   </update>
+   <!-- 멘토 삭제 -->
+   <delete id="usersMentoDelete" parameterType="int">
+   delete FROM MENTO WHERE U_ID = #{u_id}
+   </delete>
+   <!-- 팔로우 하기 -->
+   <insert id="usersFollow" parameterType="hashmap">
+   insert into FOLLOW(F_ID,U_ID,F_O_ID,F_HISTORY) values(FOLLOW_SEQ.nextval,#{u_id},#{f_o_id},SYSDATE) 
+   </insert>
+   <!-- 팔로우 끊기 -->
+   <delete id="usersUnFollow" parameterType="hashmap">
+   delete FROM FOLLOW WHERE F_O_ID IN
+      (select f.f_o_id FROM USERS u Join FOLLOW f
+       ON u.u_id = f.u_id 
+       WHERE u.u_id=#{u_id} AND f.f_o_id=#{f_o_id}
+       )
+   </delete>
+   <!-- 회원이 팔로우 하고있는 친구들 -->
+   <select id="usersFollowCheck" parameterType="hashmap" resultType="Follow">
+   select * from
+   FOLLOW f JOIN USERS u
+   ON f.u_id = u.u_id 
+   WHERE u.u_id=#{u_id} and f.f_o_id=#{f_o_id}
+   </select>
+   <!-- 회원이 팔로우하고있는 친구들의 정보  불러오기  -->
+   <select id="usersFollowList" parameterType="int"  resultType="Users">
+      select * from USERS 
+      where u_id in (select f.F_O_ID 
+                  from USERS u JOIN FOLLOW f 
+                  ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
+   </select>
+   <!-- 마이페이지 수정 -->
+   <update id="usersModify" parameterType="Users">
+      UPDATE USERS 
+      SET
+      u_image = #{u_image},u_intro = #{u_intro},
+      u_tag = #{u_tag},u_address_check=#{u_address_check},
+      u_address = #{u_address},u_birth_check=#{u_birth_check},
+      u_sns_address=#{u_sns_address},u_mento_check = #{u_mento_check}
+      WHERE u_id= #{u_id}
+   </update>
+   <!-- 회원가입시 계좌등록 -->
+   <insert id="usersAccount" parameterType="UsersAccount" >
+   insert into USERSACCOUNT(u_account_id,u_account,u_balance,u_id) values(
+   account_seq.nextval,#{u_account},0,#{u_id})
+   </insert>
+   <!-- 해당회원 계좌 뽑아오기 -->
+   <select id="usersAccountInfo" parameterType="int" resultType="UsersAccount">
+   select * from USERSACCOUNT WHERE u_id=#{u_id}
+   </select>
+   <!-- 회원들의 계좌번호 뽑아오기(중복체크) -->
+   <select id="usersAccountNumber" resultType="UsersAccount">
+   select * from USERSACCOUNT
+   </select>
+   <!-- 계좌 입금 관리 -->
+   <update id="usersAccountPlus" parameterType="UsersAccount">
+   update USERSACCOUNT SET u_balance = u_balance + #{u_balance} WHERE u_id=#{u_id}
+   </update>
+   <!-- 계좌 출금 관리 -->
+   <update id="usersAccountMinus" parameterType="UsersAccount">
+   update USERSACCOUNT SET u_balance = u_balance - #{u_balance} WHERE u_id=#{u_id}
+   </update>
+   <!-- 후기 작성 -->
+   <insert id="usersAfter" parameterType="Comment">
+   insert into COMMENTS(C_ID,U_ID,C_O_ID,C_COMMENT,C_DATE) 
+   VALUES(comment_seq.nextval,#{u_id},#{c_o_id},#{c_comment},SYSDATE)
+   </insert>
+   <!-- 후기 불러오기 -->
+   <select id="usersAfterInfo" parameterType="int" resultType="Comment">
+   SELECT c.C_O_ID,c.c_comment,c_date
+   FROM USERS u JOIN COMMENTS c 
+   ON u.u_id = c.u_id
+   WHERE u.u_id=#{u_id}
+   ORDER BY C.C_DATE ASC
+   </select>
+   <!-- 후기 남긴애들 정보 불러오기  -->
+   <select id="usersAfterUsersInfo" parameterType="int" resultType="Users">
+   select * from users where u_id IN (
+   SELECT c.C_O_ID
+   FROM USERS u JOIN COMMENTS c 
+   ON u.u_id = c.u_id
+   WHERE u.u_id=#{u_id}
+   )
+   </select>
+   <!-- 좋아요 누르기 -->
+   <insert id="usersLike" parameterType="hashmap">
+   insert into LIKES(l_id,u_id,l_o_id,l_history)
+   values(like_seq.nextval,#{u_id},#{l_o_id},SYSDATE)
+   </insert>
+   <!-- 좋아요 취소 -->
+   <delete id="usersUnLike" parameterType="hashmap">
+      delete from LIKES
+      WHERE l_o_id IN (
+       select  l.l_o_id
+       FROM LIKES l JOIN USERS u
+       ON l.u_id = u.u_id
+       WHERE u.u_id=#{u_id} and l.l_o_id=#{l_o_id})
+   </delete>
+   <!-- 회원이 좋아요를 눌렀나 판단 -->
+   <select id="usersLikeCheck" parameterType="hashmap" resultType="Likes">
+   select * FROM USERS u JOIN LIKES l
+   ON u.u_id = l.u_id
+   WHERE u.u_id = #{u_id} and l.L_O_ID = #{l_o_id}
+   </select>
+   <!-- 회원을 좋아요하고있는 숫자 -->
+   <select id="usersLikeNum" parameterType="int" resultType="Likes">
+   select * from  LIKES  where u_id = #{u_id}
+   </select>
+   <!-- 좋아요 누를때마다  + 업데이트  -->
+   <update id="usersLikeUpdate" parameterType="int">
+   update users set u_like_num = u_like_num + 1 where u_id=#{u_id}
+   </update>
+   <!-- 좋아요 누를때마다 - 업데이트  -->
+   <update id="usersLikeMinusUpdate" parameterType="int">
+   update users set u_like_num = u_like_num - 1 where u_id=#{u_id}
+   </update>
+   
+   <!-- 자동검색 쿼리 -->
+   <select id="autoSearch" parameterType="String" resultType="Users">
+   select * from USERS Where u_email LIKE '%'||#{searchKey}||'%' OR u_name LIKE '%'||#{searchKey}||'%'
+   </select>
+   <!-- 자동검색 쿼리 -->
+   <select id="joinSearch" parameterType="String" resultType="Users">
+   select u_email from USERS Where u_email = #{searchKey}
+   </select>
+   
+   	<!-- 쪽지보내기 -->
+	<insert id="sendMessage" parameterType="Message">
+	insert into message(MESSAGE_ID,MESSAGE_U_ID,MESSAGE_o_id,MESSAGE_date,MESSAGE_comment,MESSAGE_check) 
+	values(message_seq.nextVal,#{message_u_id},#{message_o_id},SYSDATE,#{message_comment},'F')
+	</insert>
+	
+	<!-- 받은쪽지정보  -->
+	<select id="receiveMessage" parameterType="int" resultType="Message">
+	select * from message where MESSAGE_O_ID=#{message_o_id}
+	</select>
+
+	<!-- 받은 쪽지(보낸사람의 정보)  -->
+	<select id="receiveInfo" parameterType="int" resultType="Users">
+	select * from users 
+	where u_id IN (
+	select message_u_id from message where MESSAGE_O_ID=#{message_o_id})
+	</select>
+	
+	<!-- 보낸 쪽지 -->
+	<select id="postMessage" parameterType="int" resultType="Message">
+	select * from message where MESSAGE_U_ID=#{message_u_id}
+	</select>
+    
+    <!-- 보낸 쪽지(보낸사람의 정보)  -->
+	<select id="postInfo" parameterType="int" resultType="Users">
+		  select * from users where u_id IN(
+			select m.MESSAGE_O_ID
+			from Message m Join Users u
+			ON m.MESSAGE_U_ID = u.U_ID
+			Where u.U_ID = #{u_id})
+	</select>
+	
+	
+	<!-- 해당 쪽지 삭제 -->
+	<delete id="delMessage" parameterType="int">
+	delete from Message
+	WHERE message_id = #{message_id}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

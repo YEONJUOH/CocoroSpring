@@ -1,4 +1,4 @@
-<%@page import="cocoro.user.model.UsersAccount"%>
+<%@page import="cocoro.use.model.UsersAccount"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Random"%>
 <%@page import="java.util.HashMap"%>
