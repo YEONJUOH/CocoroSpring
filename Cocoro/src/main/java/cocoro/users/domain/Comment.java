@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 public class Comment implements Serializable{
 
-	
 	private int c_id;
 	private int u_id;
 	private int c_o_id;

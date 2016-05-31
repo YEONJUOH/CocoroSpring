@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <head>
 
-<script src="../js/carousel.js"></script>
+<script src="/resources/js/carousel.js"></script>
 <style type="text/css">
 #main_img {
 	max-width: 100%;
@@ -31,7 +31,7 @@ $(function(){
 	 <div class="carousel-inner" role="listbox">
 
 			<img data-src="holder.js/900x500/auto/#777:#777" alt="900x500"
-				src="../img/mainTestimg2.jpg" data-holder-rendered="true"
+				src="/resources/img/mainTestimg2.jpg" data-holder-rendered="true"
 				id="main_img">
 			<div class="carousel-caption">
 				<h2 class="text-center">
@@ -54,7 +54,7 @@ $(function(){
           <h4>여러분만의 스터디를 만들어서 사람들을 모집해보세요</h4>
         </div>
         <div class="col-md-6">
-			<img src="../../img/Main.png" class="img-responsive" style="height: 270px;width: 480px;" alt="Responsive image">
+			<img src="/resources/img/Main.png" class="img-responsive" style="height: 270px;width: 480px;" alt="Responsive image">
 		</div>
     </div>
     <!-- 두번쨰 메뉴 -->
@@ -66,7 +66,7 @@ $(function(){
           <h4>매칭해주는 시스템 적용하고있습니다.</h4>
         </div>
         <div class="col-md-6">
-			<img src="../../img/Main2.png" class="img-responsive" style="height: 270px;width: 480px;" alt="Responsive image">
+			<img src="/resources/img/Main2.png" class="img-responsive" style="height: 270px;width: 480px;" alt="Responsive image">
 		</div>
     </div>
     <!-- 세번째 메뉴 -->
@@ -78,7 +78,7 @@ $(function(){
          <a href="../layout/mainLayout.jsp?body=../page/Join/JoinForm.jsp"><button class="btn-lg btn-success">가입하러가기</button></a>
         </div>
         <div class="col-md-6">
-			<img src="../../img/Main3.png" class="img-responsive" style="height: 270px;width: 480px; margin-left: 15px;" alt="Responsive image">
+			<img src="/resources/img/Main3.png" class="img-responsive" style="height: 270px;width: 480px; margin-left: 15px;" alt="Responsive image">
 		</div>
     </div>
 </body>

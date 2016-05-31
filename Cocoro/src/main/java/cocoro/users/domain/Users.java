@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 public class Users implements Serializable{
 
-
 	// user , account, mentor 갓상효
 
 	private int u_id;
