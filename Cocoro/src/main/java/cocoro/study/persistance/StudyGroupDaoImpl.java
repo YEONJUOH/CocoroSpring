@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
 
+@Repository
 public class StudyGroupDaoImpl implements StudyGroupDao {
 
 	@Override
