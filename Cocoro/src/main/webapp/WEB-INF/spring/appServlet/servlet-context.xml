@@ -50,7 +50,8 @@
 	</beans:bean>
  -->
 	<context:component-scan base-package="cocoro.home.controller" />
-
-
+    <context:component-scan base-package="cocoro.search.*" />
+    <context:component-scan base-package="cocoro.study.*" />
+    <context:component-scan base-package="cocoro.users.*" />
 
 </beans:beans>
