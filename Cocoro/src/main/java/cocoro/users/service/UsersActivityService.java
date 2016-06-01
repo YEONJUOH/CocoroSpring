@@ -17,35 +17,14 @@ import cocoro.user.model.Users;
 import cocoro.user.model.UsersAccount;
 
 public class UsersActivityService {
-	public static UsersActivityDao dao;
-	public static UsersActivityService ActivityService = new UsersActivityService();
 	
-	public static UsersActivityService getInstance(){
-		
-		dao = UsersActivityDao.getInstance();
-		return ActivityService;
-	}
-	//insert
-		public int insertUsers(Users users) throws Exception{
-			return dao.insertUsers(users);
-		}
-	
-	//로그인 
-	public Users usersLogin(HashMap<String,String> login) throws Exception{
-		return dao.usersLogin(login);
-	}
+
+
 	//로그인 할때마다 최신 시간 업데이트 
 	public int usersLoginTime(int u_id){
 		return dao.usersLoginTime(u_id);
 	}
-	//회원정보 가져오기 
-	public Users usersInfo(int u_id){
-		return dao.usersInfo(u_id);
-	}
-	//모든 회원정보
-	public List<Users> usersList(){
-		return dao.usersList();
-	}
+	
 	//멘토등록
 	public int usersMento(Mento Mento){
 		return dao.usersMento(Mento);
@@ -70,10 +49,7 @@ public class UsersActivityService {
 	public List<Users> usersFollowList(int u_id)throws Exception{
 		return dao.usersFollowList(u_id);
 	}
-	//팔로우 걸기 
-	public int usersFollow(HashMap<String, Integer> follow){
-		return dao.usersFollow(follow);
-	}
+	
 	//팔로우 해제 
 	public int usersUnFollow(HashMap<String, Integer> unFollow){
 		return dao.usersUnFollow(unFollow);
@@ -106,10 +82,7 @@ public class UsersActivityService {
 	public int usersAccountMinus(UsersAccount usersAccount){
 		return dao.usersAccountMinus(usersAccount);
 	}
-	//후기 작성
-	public int usersAfter(Comment comment){
-		return dao.usersAfter(comment);
-	}
+
 	//후기 불러오기 
 	public List<Comment> usersAfterInfo(int u_id){
 		return dao.usersAfterInfo(u_id);

@@ -15,6 +15,8 @@ public class UsersInterceptor extends HandlerInterceptorAdapter {
             if(request.getSession().getAttribute("Users") == null ){
                     response.sendRedirect("/"); 
                     return false;
+            }else{
+            	
             }
         } catch (Exception e) {
             e.printStackTrace();
