@@ -11,60 +11,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<link href="/resources/css/login/login.css" rel="stylesheet">
+<script src="/resources/js/login/login.js"></script>
 <style type="text/css">
-#logo {
-	padding-bottom: 5px;
+select{
+display: inline-block;
 }
-
-.modal-dialog {
-	width: 300px;
-	height: auto;
-	margin-top: 200px;
-}
-label{
-	margin-bottom: 15px;
-}
-
-input,
-input::-webkit-input-placeholder {
-    font-size: 11px;
-    padding-top: 3px;
-}
-
-.main-login{
- 	background-color: #fff;
-    /* shadows and rounded borders */
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-
-}
-
-.main-center{
- 	margin-top: 30px;
- 	margin: 0 auto;
-
-}
-
-.login-button{
-	margin-top: 5px;
-}
-
-.login-register{
-	font-size: 11px;
-	text-align: center;
-}
-
 </style>
 </head>
 <body>
 	<!-- 네비게이션바 -->
 	<div class="header_nav">
 		<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
+		<div class="container" style="width: 100%;">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -77,14 +36,9 @@ input::-webkit-input-placeholder {
 					style="color: #fff;">Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right" style="float: right;">
 					<li><a href="#">스터디</a></li>
-					<li><a data-toggle="dropdown" class="dropdown-toggle"
-						href="index.html#"> <i class="glyphicon glyphicon-send"></i> <span
-							class="badge bg-theme">4</span>
-					</a></li>
-					<li><a href="#" data-toggle="modal" data-target=".joinModal"
-						style="color: #fff;">회원가입</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#join-modal">회원가입</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">도움말<span
 							class="caret"></span></a>
@@ -97,8 +51,7 @@ input::-webkit-input-placeholder {
 							<li><a href="#">Separated link</a></li>
 							<li><a href="#">One more separated link</a></li>
 						</ul></li>
-					<li><a
-						href='<%=realPath%>/layout/mainLayout.jsp?body=../page/Join/LoginForm.jsp'>로그인</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#login-modal">로그인</a></li>
 				</ul>
 			</div>
 		</div>
@@ -106,56 +59,33 @@ input::-webkit-input-placeholder {
 	</div>
 	
 	
-	<!-- 모달 -->
-	
-<!-- BEGIN # MODAL LOGIN -->
+	<!-- 로그인 모달 -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     	<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" align="center">
-					<img class="img-circle" id="img_logo" src="http://bootsnipp.com/img/logo.jpg">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</button>
+				<h4>Cocoro</h4>
 				</div>
-                
                 <!-- Begin # DIV Form -->
                 <div id="div-forms">
-                
-                    <!-- Begin # Login Form -->
-                    <form id="login-form">
+                    <!--로그인폼-->
+                    <form id="login-form" action="/users/insertUsers">
 		                <div class="modal-body">
-				    		<div id="div-login-msg">
-                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                <span id="text-login-msg">Type your username and password.</span>
-                            </div>
-				    		<input id="login_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
+				    		<input id="login_username" name="u_email"class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
 				    		<input id="login_password" class="form-control" type="password" placeholder="Password" required>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember me
-                                </label>
-                            </div>
         		    	</div>
 				        <div class="modal-footer">
                             <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">로그인</button>
                             </div>
 				    	    <div>
-                                <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
-                                <button id="login_register_btn" type="button" class="btn btn-link">Register</button>
+                                <button id="login_lost_btn" type="button" class="btn btn-link">비밀번호를 잊어버리셨어요?</button>
                             </div>
 				        </div>
                     </form>
-                    <!-- End # Login Form -->
-                    
-                    <!-- Begin | Lost Password Form -->
+                    <!-- 비밀번호 찾기 폼 -->
                     <form id="lost-form" style="display:none;">
     	    		    <div class="modal-body">
-		    				<div id="div-lost-msg">
-                                <div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                <span id="text-lost-msg">Type your e-mail.</span>
-                            </div>
 		    				<input id="lost_email" class="form-control" type="text" placeholder="E-Mail (type ERROR for error effect)" required>
             			</div>
 		    		    <div class="modal-footer">
@@ -164,43 +94,72 @@ input::-webkit-input-placeholder {
                             </div>
                             <div>
                                 <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
-                                <button id="lost_register_btn" type="button" class="btn btn-link">Register</button>
                             </div>
 		    		    </div>
                     </form>
                     <!-- End | Lost Password Form -->
-                    
-                    <!-- Begin | Register Form -->
-                    <form id="register-form" style="display:none;">
-            		    <div class="modal-body">
-		    				<div id="div-register-msg">
-                                <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                <span id="text-register-msg">Register an account.</span>
-                            </div>
-		    				<input id="register_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
-                            <input id="register_email" class="form-control" type="text" placeholder="E-Mail" required>
-                            <input id="register_password" class="form-control" type="password" placeholder="Password" required>
-            			</div>
-		    		    <div class="modal-footer">
-                            <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
-                            </div>
-                            <div>
-                                <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
-                                <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
-                            </div>
-		    		    </div>
-                    </form>
-                    <!-- End | Register Form -->
-                    
                 </div>
                 <!-- End # DIV Form -->
-                
 			</div>
 		</div>
 	</div>
     <!-- END # MODAL LOGIN -->
 
-
+<!-- 회원가입 폼 -->
+<!-- BEGIN # MODAL LOGIN -->
+<div class="modal fade" id="join-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" align="center">
+				<h4>Cocoro에 오신여러분을 환영합니다!</h4>
+				</div>
+                <!-- Begin # DIV Form -->
+				    	  <form action="/users/insertUsers" id="insertForm" method="post">
+                <div id="div-forms">
+		                <div class="modal-body">
+				    	    <div class='col-md-12'>
+				    	    이메일<input id="u_email" name="u_email" class="form-control" type="text" placeholder="이메일" required>
+				    		<div>중복된 이메일입니다.</div>
+				    		</div>
+				    		 <div class='col-md-12'>
+				    		이름<input id="u_name" name="u_name" class="form-control" type="text" placeholder="이름" required>
+				    		</div>
+				    		 <div class='col-md-12'>
+				    		비밀번호<input id="u_password" class="form-control" type="password" placeholder="비밀번호" required>
+				    		</div>
+				    		 <div class='col-md-12'>
+				    		주소<input id="u_address" class="form-control" type="text" placeholder="주소" required>
+				    		</div>
+				    		<div class="col-md-12">
+				    		생년월일<br>
+				    		<select style="width: 74px; height: 32px;" id="birth1" name="birth1">
+				    		<%for(int i=1;i<13;i++){ %>
+				    			<option value="<%=i%>" ><%=i%></option>	
+				    		<%} %>
+				    		</select>
+				    		<select style="width: 74px; height: 32px;" id="birth2" name="birth2">
+				    		<%for(int i=1;i<13;i++){ %>
+				    			<option value="<%=i%>" ><%=i%></option>	
+				    		<%} %>
+				    		</select>
+				    		<select style="width: 74px; height: 32px;" id="birth3" name="birth3">
+				    		<%for(int i=1;i<13;i++){ %>
+				    			<option value="<%=i%>"><%=i%></option>	
+				    		<%} %>
+				    		</select>
+							</div>
+							  <div class="modal-footer">
+				        </div>
+                            <div>
+                                <button id="submitBtn" type="submit" class="btn btn-primary btn-lg btn-block">로그인</button>
+                            </div>
+					</div>
+        		   </div>
+					   </form>
+                </div>
+                <!-- End # DIV Form -->
+			</div>
+		</div>
+    <!-- END # MODAL LOGIN -->
 </body>
 </html>

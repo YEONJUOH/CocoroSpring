@@ -29,7 +29,6 @@ $(function(){
 	<!-- body -->
 	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 	 <div class="carousel-inner" role="listbox">
-
 			<img data-src="holder.js/900x500/auto/#777:#777" alt="900x500"
 				src="/resources/img/mainTestimg2.jpg" data-holder-rendered="true"
 				id="main_img">

@@ -25,6 +25,10 @@ public class UsersActivityService {
 		dao = UsersActivityDao.getInstance();
 		return ActivityService;
 	}
+	//insert
+		public int insertUsers(Users users) throws Exception{
+			return dao.insertUsers(users);
+		}
 	
 	//로그인 
 	public Users usersLogin(HashMap<String,String> login) throws Exception{
