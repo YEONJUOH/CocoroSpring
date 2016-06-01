@@ -10,6 +10,10 @@
 		<put-attribute name="header" value="/WEB-INF/views/template/beforeHeader.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
 	</definition>
+<!-- 회원가입 -->	
+	<definition name="join_form" extends="before_layout">
+		<put-attribute name="body" value="/WEB-INF/views/Join/JoinForm.jsp"></put-attribute>
+	</definition>
 
 <!-- 검색 template -->
  <definition name="search_layout" template="/WEB-INF/views/template/searchLayout.jsp">
@@ -29,7 +33,7 @@
 <!-- 검색 로그인 전 -->
 
 <!-- 검색 -->
-<definition name="searchMain" extends="search_layout">
+	<definition name="searchMain" extends="search_layout">
 		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody.jsp"></put-attribute>
 	</definition> 
 

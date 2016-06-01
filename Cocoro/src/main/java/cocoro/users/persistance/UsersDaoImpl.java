@@ -14,9 +14,11 @@ public class UsersDaoImpl implements UsersDao {
 	@Inject
 	private SqlSession sqlsession;
 
+	private static final String namespace = "cocoro.mapper.UsersMapper";
+	
 	@Override
 	public void insertUsers(Users users) {
-		
+		sqlsession.insert(namespace +".insertUsers",users);
 	}
 
 }

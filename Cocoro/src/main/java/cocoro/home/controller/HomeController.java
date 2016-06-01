@@ -24,15 +24,14 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		return "beforeMain";
 	}
-	
-	@RequestMapping(value="/insert", method = RequestMethod.GET)
+	//회원가입폼
+	@RequestMapping(value="/join_form", method = RequestMethod.GET)
 	public String insert(){
-		
-		return "insert_form";
+		return "join_form";
 	}
 	@RequestMapping("/home")
-	public String vv(){
-		return "home.jsp";
+	public String home(){
+		return "";
 	}
 	
 	
