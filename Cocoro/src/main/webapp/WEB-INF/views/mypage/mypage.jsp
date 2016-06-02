@@ -31,14 +31,10 @@
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
 											<ul class="nav nav-tabs" role="tablist" style="margin-left: 70%;">
-												<li role="presentation" class="active"><a href="#home"
-													aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-												<li role="presentation"><a href="#profile"
-													aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-												<li role="presentation"><a href="#messages"
-													aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-												<li role="presentation"><a href="#settings"
-													aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+												<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
 											</ul>
 											<!-- Home탭 메뉴 -->
 											<div class="tab-content">
@@ -56,7 +52,7 @@
 														<!--참여중인 스터디 -->
 														<div class="panel panel-default">
 															<div class="panel-heading">
-																<a href="#" class="pull-right">더보기</a>
+														<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>
 																	<i class="glyphicon glyphicon-search"></i>참여중인 스터디
 																</h4>
@@ -74,7 +70,7 @@
 
 														<div class="panel panel-default">
 															<div class="panel-heading">
-																<a href="#" class="pull-right">더보기</a>
+																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>팔로우중인 친구</h4>
 															</div>
 															<div class="panel-body">

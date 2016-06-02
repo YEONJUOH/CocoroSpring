@@ -10,7 +10,14 @@ public class Comment implements Serializable{
 	private int c_o_id;
 	private String c_comment;
 	private Timestamp c_date;
+	private String c_img;
 	
+	public String getC_img() {
+		return c_img;
+	}
+	public void setC_img(String c_img) {
+		this.c_img = c_img;
+	}
 	public int getC_id() {
 		return c_id;
 	}
