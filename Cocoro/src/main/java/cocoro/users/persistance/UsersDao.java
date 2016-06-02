@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 
 public interface UsersDao {

@@ -1,16 +1,24 @@
 package cocoro.users.controller;
 
+import java.util.HashMap;
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 import cocoro.users.service.UsersServiceImpl;
 
@@ -25,20 +33,38 @@ public class UsersController {
 	@Inject
 	private UsersServiceImpl service;
 	
-	
-	@RequestMapping(value="/insertUsers")
-	public String insertUsers(Users users,HttpServletRequest request)throws Exception{
+	//회원가입
+	@RequestMapping("/insertUsers")
+	public String insertUsers(Users users)throws Exception{
 		
 		System.out.println(users.getU_email());
 		
 		service.insertUsers(users);
-		return "beforeMain";
+		return "redirect:beforeMain";
+	}
+	//유저 로그인
+	@RequestMapping("/usersLogin")
+	public @ResponseBody Users usersLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpServletRequest request,Model model)throws Exception{
+		System.out.println("로그인 컨트롤러");
+		System.out.println(u_email);
+		System.out.println(u_pwd);
+		
+		HashMap<String, String> login = new HashMap<String, String>();
+		login.put("u_email",u_email);
+		login.put("u_pwd", u_pwd);
+		
+		Users users = service.usersLogin(login);
+		
+		if(users != null){
+		System.out.println("값이있어");
+		request.getSession().setAttribute("users", users);
+		}
+		return users;
 	}
 	
-	
-	
-	
-	
-	
-
+	//로그인 후 기본 맵핑
+	@RequestMapping(value = "/afterMain", method = RequestMethod.GET)
+	public String afterMain(Locale locale, Model model) {
+	return "afterMain";
+	}
 }

@@ -1,11 +1,13 @@
 package cocoro.users.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 import cocoro.users.persistance.UsersDao;
 
@@ -40,5 +42,9 @@ public class UsersServiceImpl implements UsersService {
 	public Users usersInfo(Integer u_id) throws Exception {
 		return dao.usersInfo(u_id);
 	}
-
+	@Override
+	public Users usersLogin(HashMap<String, String> login) throws Exception {
+		return dao.usersLogin(login);
+	}
+	
 }

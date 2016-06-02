@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 
 //Respositroy 스프링에서 Dao를 인식할 수 있도록 해준다.

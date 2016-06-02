@@ -1,11 +1,13 @@
 package cocoro.users.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 import cocoro.users.persistance.UsersDao;
 
@@ -21,4 +23,6 @@ public interface UsersService {
 		public void delUsers(Integer u_id)throws Exception;
 		//한명의 멤버만 가져오기
 		public Users usersInfo(Integer u_id)throws Exception;
+		//유저 로그인 
+		public Users usersLogin(HashMap<String, String> login)throws Exception;
 }

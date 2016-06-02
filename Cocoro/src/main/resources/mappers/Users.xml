@@ -44,7 +44,7 @@
    delete FROM USers WHERE U_ID = #{u_id}
    </delete>
    <!-- UserLogin -->
-   <select id="usersLogin" parameterType="hashmap" resultType="Users">
+   <select id="usersLogin" parameterType="hashMap" resultType="Users">
       select * from USERS where u_email=#{u_email} and u_pwd=#{u_pwd}
    </select>
    <!-- 회원 정보가져오기 -->
