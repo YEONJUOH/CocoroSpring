@@ -56,8 +56,7 @@ public class UsersController {
 		Users users = service.usersLogin(login);
 		
 		if(users != null){
-		System.out.println("값이있어");
-		request.getSession().setAttribute("users", users);
+		model.addAttribute("users",users);
 		}
 		return users;
 	}
@@ -66,5 +65,11 @@ public class UsersController {
 	@RequestMapping(value = "/afterMain", method = RequestMethod.GET)
 	public String afterMain(Locale locale, Model model) {
 	return "afterMain";
+	}
+	
+	//마이페이지 
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String mypage(Locale locale, Model model) {
+	return "mypage";
 	}
 }

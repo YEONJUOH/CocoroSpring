@@ -18,7 +18,7 @@
 
 <!-- 로그인후	메인레이아웃 -->
 	<definition name="after_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/template/beforeHeader_test1.jsp"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/template/afterHeader.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
 	</definition>
 
@@ -29,6 +29,10 @@
 <!-- 로그인후  -->
 	<definition name="afterMain" extends="after_layout">
 		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody_test1.jsp"></put-attribute>
+	</definition>
+<!--  마이페이지 -->	
+	<definition name="mypage" extends="after_layout">
+		<put-attribute name="body" value="/WEB-INF/views/mypage/mypage.jsp"></put-attribute>
 	</definition>
 <!-- 검색 로그인 전 -->
 
