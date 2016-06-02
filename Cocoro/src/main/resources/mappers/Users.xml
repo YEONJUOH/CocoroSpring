@@ -30,8 +30,6 @@
          
          </if>
       </where>
-
-
    </select>
    
    <!-- User Insert -->
@@ -41,9 +39,12 @@
       values(users_seq.NEXTVAL,#{u_name},#{u_email},#{u_pwd},#{u_birth},'T',#{u_address},'T','default.jpg',#{u_sex},'다른회원에게 당신을 알려주세요',
       '#태그를 이용해 관심사를 적어주세요',SYSDATE,SYSDATE,'F',0,'sns정보를입력하세요',0)
    </insert>
-   
+   <!-- 회원삭제 -->
+   <delete id="delUsers">
+   delete FROM USers WHERE U_ID = #{u_id}
+   </delete>
    <!-- UserLogin -->
-   <select id="usersLogin" parameterType="hashmap" resultType="Users">
+   <select id="usersLogin" parameterType="hashMap" resultType="Users">
       select * from USERS where u_email=#{u_email} and u_pwd=#{u_pwd}
    </select>
    <!-- 회원 정보가져오기 -->

@@ -1,3 +1,4 @@
+package users;
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -11,7 +12,7 @@ import cocoro.users.persistance.UsersDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
-public class usersDaoTest {
+public class usersInsertTest {
 
 	@Inject
 	private UsersDao dao;
@@ -19,8 +20,8 @@ public class usersDaoTest {
 	@Test
 	public void insert()throws Exception{
 		Users users = new Users();
-		users.setU_name("홍길동");
-		users.setU_email("aa@naver.com");
+		users.setU_name("웅쨩");
+		users.setU_email("cc@naver.com");
 		users.setU_pwd("1234");
 		users.setU_birth("1997-07-10");
 		users.setU_address("안양");

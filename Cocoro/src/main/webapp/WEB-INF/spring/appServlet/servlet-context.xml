@@ -49,6 +49,20 @@
 		<beans:property name="order" value="2"></beans:property>
 	</beans:bean>
  -->
+ 
+ 	<!-- 인터셉터 설정 -->
+	<beans:bean id="usersInterceptor" class="cocoro.users.controller.UsersInterceptor"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+		<!-- 해당 맵핑이 호출됬을때 인터셉터 실시 -->
+			<mapping path=""/>
+		<!-- 위에 만들어놓은 인터셉터를 주입 -->
+		<beans:ref bean="usersInterceptor"/>
+		</interceptor>
+	</interceptors>
+	 	
+ 	
 	<context:component-scan base-package="cocoro.home.controller" />
     <context:component-scan base-package="cocoro.search.*" />
     <context:component-scan base-package="cocoro.study.*" />
