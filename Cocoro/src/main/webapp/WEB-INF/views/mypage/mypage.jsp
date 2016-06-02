@@ -14,7 +14,7 @@
 	<div class="wrapper">
 		<!-- /container -->
 		<div class="box">
-			<div class="row row-offcanvas row-offcanvas-left">
+			<div>
 				<!-- main right col -->
 				<div class="column col-sm-12 col-xs-12" id="main">
 					<div class="padding">

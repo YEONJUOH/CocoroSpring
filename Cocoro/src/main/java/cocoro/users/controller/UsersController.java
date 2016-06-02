@@ -44,10 +44,8 @@ public class UsersController {
 	}
 	//유저 로그인
 	@RequestMapping("/usersLogin")
-	public @ResponseBody Users usersLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpServletRequest request,Model model)throws Exception{
+	public @ResponseBody Users usersLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpSession session,Model model)throws Exception{
 		System.out.println("로그인 컨트롤러");
-		System.out.println(u_email);
-		System.out.println(u_pwd);
 		
 		HashMap<String, String> login = new HashMap<String, String>();
 		login.put("u_email",u_email);
@@ -57,6 +55,7 @@ public class UsersController {
 		
 		if(users != null){
 		model.addAttribute("users",users);
+		session.setAttribute("users", users);
 		}
 		return users;
 	}

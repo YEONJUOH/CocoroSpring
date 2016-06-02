@@ -13,6 +13,8 @@ public class UsersInterceptor extends HandlerInterceptorAdapter {
 	//동작이전에 가로챈다
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    	System.out.println("pre...");
+    	response.sendRedirect("/users/usersLogin");
     	return true;
     }
     
