@@ -6,88 +6,15 @@
 
 <mapper namespace="cocoro.mapper.StudyGroupMapper">
 
-	<cache />
-
-	<select id="searchResult" resultType="StudyGroup" parameterType="Search">
-		select * from study s
-		<if test="levelCheck !=null">
-			,(select s.s_id,avg(a.a_rank)as s_avg_abil from study s, STUDYACTIVITY ac, ABILITYINFO a where s.s_id= ac.s_id(+) and a.j_id(+) = ac.j_id group by s.s_id) ab 		 
-			</if>
-		
-		<where>
-			<if test="keyWords != null">
-
-				(s_name like #{keyWords} or s_intro like #{keyWords}
-				or s_tag like #{keyWords})
-
-			</if>
-			<if test="locCheck !=null">
-			 and (s_location_x is not null)			 
-			</if>
-			<if test="tutorCheck !=null">
-			 and (s_mento_check = 'T')			 
-			</if>
-			<if test="timeCheck !=null">
-			 and (s_time_check = 'T' and #{startT} <![CDATA[ < ]]>= s_t_start and #{endT} <![CDATA[ > ]]>= s_t_end)		 
-			</if>
-			
-			<if test="levelCheck !=null">
-			 and (s.s_id = ab.s_id)
-			 and (s_abil_check >0)			 
-			</if>
-			
-		    <if test="com_filter!=null and com_filter == 'history'">
-                order by s_history desc		
-			
-			</if>
-			 <if test="com_filter!=null and com_filter == 'total_hit'">
-                order by s_total_hit desc	
-			
-			</if>
-			
-			 <if test="com_filter!=null and com_filter == 's_last_act'">
-                order by s_last_act desc	
-			
-			</if>
-		    
-				
-		</where>
-
-
-	</select>
-	
-		<select id="recommendStudy" resultType="StudyGroup">
-		select * from study 
-		<where>
-		<foreach collection="list" item="item" index="index" separator="or">
-		s_id =#{item.value}
-		</foreach>
-		
-		</where>
-		
-	</select>
-	
-	<select id="tagSuggest" resultType="tagSuggestion" parameterType="tagSearch">
-		select rownum, alias.s_id as s_id, alias.s_name as s_name
-        from (select * from study where s_name like #{searchWord} or s_intro like #{searchWord}  or s_tag like #{searchWord})alias
-        where rownum  between #{start} and #{end}
-	</select>
-	
-	<select id="getSnum" resultType="Integer" parameterType="String" >
-        select count(*)
-        from study
-        where s_name like #{str} or s_intro like #{str}  or s_tag like #{str}
-	</select>
-	
 	<insert id="createStudy" parameterType="StudyGroup">
 		insert into study(
 			s_id, s_name, s_intro, s_leader_id, s_max_member, s_fix_member, s_start, s_end, s_attend_check, s_abil_check, s_location_x, s_location_y, s_address, s_online, s_offline, s_mento_check, s_kind_check, s_time_check, s_deposit, s_last_act, s_tag, s_recent_hit, s_total_hit, s_history, s_t_start, s_t_end
 		) values (
-			#{s_id}, #{s_name}, #{s_intro}, #{s_leader_id}, #{s_max_member}, 'F' , #{s_start}, #{s_end}, #{s_attend_check}, #{s_abil_check}, #{s_location_x}, #{s_location_y}, #{s_address}, #{s_online}, #{s_offline}, #{s_mento_check}, #{s_kind_check}, #{s_time_check}, #{s_deposit}, SYSDATE , #{s_tag}, 0, 0, SYSDATE, #{s_t_start}, #{s_t_end}
+			study_seq.NEXTVAL, #{s_name}, #{s_intro}, #{s_leader_id}, #{s_max_member}, 'F' , #{s_start}, #{s_end}, #{s_attend_check}, #{s_abil_check}, #{s_location_x}, #{s_location_y}, #{s_address}, #{s_online}, #{s_offline}, #{s_mento_check}, #{s_kind_check}, #{s_time_check}, #{s_deposit}, SYSDATE , #{s_tag}, 0, 0, SYSDATE, #{s_t_start}, #{s_t_end}
 		)
 		
 	</insert>
-	
+<!-- 	
 	<select id="selectS_id" resultType="Integer">
 		select max(s_id) from study
 	</select>
@@ -162,6 +89,8 @@
 			(select nvl(Max(a_id),0) from abilityInfo)+1,#{j_id},#{rank}
 		)
 	</insert>
+	
+	 -->
 </mapper>
 
 

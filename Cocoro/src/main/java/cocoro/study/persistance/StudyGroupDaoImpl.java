@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import cocoro.study.domain.StudyGroup;
@@ -12,10 +15,14 @@ import cocoro.users.domain.Users;
 @Repository
 public class StudyGroupDaoImpl implements StudyGroupDao {
 
+	@Inject
+	private SqlSession session;
+	
+	private static String namespace = "cocoro.mapper.StudyGroupMapper";
+	
 	@Override
-	public int createStudy(StudyGroup studygroup) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void createStudy(StudyGroup studygroup) {
+		session.insert(namespace+".createStudy", studygroup);
 	}
 
 	@Override
