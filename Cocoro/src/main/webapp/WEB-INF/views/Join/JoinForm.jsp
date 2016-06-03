@@ -9,20 +9,10 @@ response.setContentType("text/html;charset=UTF-8");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
-$(function(){
-	$('#submitbtn').click(function(){
-			alert($('#name').val());
-		if($('#password').val ="" ||  $('#name').val == ""|| $('#reenterpassword').val == ""|| $('#searchTextField').val == ""|| $('#birth').val == ""){
-			alert("nono");
-		} else {
-			$('#Joinform').submit();
-		}
-	})
-})
-</script>
+	<script type="text/javascript" src="/resources/js/join/joinForm.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/css/join/jquery.timepicker.css" />
+	<link rel="stylesheet" type="text/css" href="/resources/css/join/bootstrap-datepicker.css" />
 </head>
-
 <body>
 	<h3 class="text-center">Cocoro 회원가입</h3>
 	<hr>
@@ -43,7 +33,6 @@ $(function(){
 						
 						</div>
 						</div>
-
 					</div>
 
 					<!-- Text input -->
@@ -58,8 +47,6 @@ $(function(){
 
 					<!-- Text input -->
 					<div class="control-group">
-
-
 						<div class="controls">
 							<label class="control-label">이름</label> <input id="name"
 								name="u_name" class="form-control input-large" type="text"
@@ -121,40 +108,16 @@ $(function(){
 			</form>
 		</div>
 	</div>
-
-	<script type="text/javascript" src="../js/Join/jQuery.js"></script>
-	<script type="text/javascript" src="../js/Join/pwstrength.js"></script>
-	<script type="text/javascript" src="../js/Join/checkPassword.js"></script>
-	<script type="text/javascript" src="../js/Join/checkId.js"></script>
-	<script type="text/javascript" src="../js/Join/checkName.js"></script>
-	<script type="text/javascript" src="../js/Join/submit.js"></script>
-	<script
-		src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"
-		type="text/javascript"></script>
-	<link rel="stylesheet" type="text/css"
-		href="../css/Join/jquery.timepicker.css" />
-	<link rel="stylesheet" type="text/css"
-		href="../css/Join/bootstrap-datepicker.css" />
-	<script type="text/javascript"
-		src="../js/Join/bootstrap-datepicker.js"></script>
-	<script type="text/javascript" src="../js/Join/jquery.timepicker.js"></script>
-
-	<script type="text/javascript" src="../js/Join/datepair.js"></script>
-	<script type="text/javascript" src="../js/Join/loginStart.js"></script>
-		<script type="text/javascript">
-	$(function(){
-		
-	$('#Email').keyup(function(){
-				$.getJSON('../../page/Join/JoinSearch.jsp',{searchKey:$('#Email').val()},function(data){
-					$.each(data,function(key,value){
-						var div = '<div>';
-						div += '<h6>'+value.u_email+ '은 중복된 값입니다</h6>';
-						div += '</div>';
-						$('#joinResult').append(div);
-					})
-				})
-			})
-		})
-</script>
+	<script type="text/javascript" src="/resources/js/join/jQuery.js"></script>
+	<script type="text/javascript" src="/resources/js/join/pwstrength.js"></script>
+	<script type="text/javascript" src="/resources/js/join/checkPassword.js"></script>
+	<script type="text/javascript" src="/resources/js/join/checkId.js"></script>
+	<script type="text/javascript" src="/resources/js/join/checkName.js"></script>
+	<script type="text/javascript" src="/resources/js/join/submit.js"></script>
+	<script	src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+	<script type="text/javascript" src="/resources/js/join/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="/resources/js/join/jquery.timepicker.js"></script>
+	<script type="text/javascript" src="/resources/js/join/datepair.js"></script>
+	<script type="text/javascript" src="/resources/js/join/loginStart.js"></script>
 </body>
 </html>

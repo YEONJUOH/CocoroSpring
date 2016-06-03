@@ -1,56 +1,68 @@
-<%@page import="sun.reflect.ReflectionFactory.GetReflectionFactoryAction"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page
+	import="sun.reflect.ReflectionFactory.GetReflectionFactoryAction"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
- String realPath  = request.getContextPath();
-System.out.print(realPath);
+	String realPath = request.getContextPath();
+	System.out.print(realPath);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<link href="/resources/css/login/login.css" rel="stylesheet">
+<script src="/resources/js/login/login.js"></script>
+<style type="text/css">
+select{
+display: inline-block;
+}
+</style>
 </head>
 <body>
-<!-- ³×ºñ°ÔÀÌ¼Ç¹Ù -->
+	<!-- ë„¤ë¹„ê²Œì´ì…˜ë°” -->
 	<div class="header_nav">
-	<nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="<%=realPath%>/layout/mainLayout.jsp">Cocoro</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../page/CreateStudy/CreateStudyForm1.jsp">½ºÅÍµğ ¸¸µé±â</a></li>
-           
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">µµ¿ò¸»<span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-            <li><a href="mainLayout.jsp?body=../page/mypage/mypage.jsp?m_check=true">¸¶ÀÌÆäÀÌÁö</a></li>
-            <li><a href="../page/Join/LogoutOk.jsp">·Î±×¾Æ¿ô</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    </div>
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container" style="width: 100%;">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="beforeMain"><b>Cocoro</b></a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right" style="float: right;">
+					<li><a href="#">Study</a></li>
+					<!-- ë©”ì„¸ì§€ ë³´ê¸° -->
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						Message<span class="badge">42</span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><img src="/resources/img/img.png" class="img-rounded" style="width: 30px;">ì›…ì¨©<br>
+							ã„´ã…‡ã„¹ã„´ã…‡ëŸ¬ã…ë‹ˆì–´ë¦¬ã…ã„´ì–´ë¼ã…£ë„ˆì•„ë¦¬ã…“ã…£ã…
+							</li>
+							<li><a href="#"><button class="btn-primary" style="width:100%;">ë¡œê·¸ì•„ì›ƒ</button></a></li>
+						</ul>
+					   </li>
+					   <!-- ë§ˆì´í˜ì´ì§€ -->
+					   	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 20px;">
+						<ul class="dropdown-menu" role="menu">
+							<li>
+							<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 200px;">
+							</li>
+							<li class="divider"></li>
+							<li><a href="/users/mypage"><button class="btn-success" style="width:100%;">My Page</button></a></li>
+							<li><a href="#"><button class="btn-primary" style="width:100%;">ë¡œê·¸ì•„ì›ƒ</button></a></li>
+						</ul>
+					   </li>
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</div>
 </body>
 </html>

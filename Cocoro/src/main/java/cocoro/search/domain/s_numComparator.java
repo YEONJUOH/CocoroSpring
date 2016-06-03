@@ -2,6 +2,7 @@ package cocoro.search.domain;
 
 import java.util.Comparator;
 
+
 import javax.inject.Inject;
 
 
@@ -40,6 +41,7 @@ public class s_numComparator implements Comparator{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 		int val1 = snum1+(Integer)o1;
 		int val2 = snum2+(Integer)o2;

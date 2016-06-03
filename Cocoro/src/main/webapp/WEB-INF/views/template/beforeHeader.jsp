@@ -1,61 +1,70 @@
 <%@page import="sun.reflect.ReflectionFactory.GetReflectionFactoryAction"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%
- String realPath  = request.getContextPath();
-System.out.print(realPath);
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
 <style type="text/css">
-#logo{
-padding-bottom: 5px;
+select {
+	display: inline-block;
 }
 
+li input {
+	width: 100%;
+}
+
+#loginBtn {
+	margin-top: 35px;
+}
 </style>
+<script type="text/javascript">
+$(function(){
+	$('#loginForm').submit(function(e){
+		event.preventDefault();
+		var params = $('#loginForm').serialize();
+		$.ajax({
+			url: '/users/usersLogin',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType : 'json',
+			success : function(data){
+				alert('ë¡œê·¸ì¸ ì„±ê³µ');
+				location.href = "/users/afterMain";
+			},
+			error : function() {
+                alert('ë¡œê·¸ì¸ ì‹¤íŒ¨');
+			}
+		})
+	})
+})
+</script>
 </head>
 <body>
-<!-- ³×ºñ°ÔÀÌ¼Ç¹Ù -->
+	<!-- ë„¤ë¹„ê²Œì´ì…˜ë°” -->
 	<div class="header_nav">
-	<nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href='<%=realPath%>/layout/mainLayout.jsp'>Cocoro</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">½ºÅÍµğ</a></li>
-            <li><a href='<%=realPath%>/layout/mainLayout.jsp?body=../page/Join/JoinForm.jsp'>È¸¿ø°¡ÀÔ</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">µµ¿ò¸»<span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-            <li><a href='<%=realPath%>/layout/mainLayout.jsp?body=../page/Join/LoginForm.jsp'>·Î±×ÀÎ</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    </div>
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container" style="width: 100%;">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar">
+					</span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="beforeMain"><b>Cocoro</b></a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<form action="" method="post" id="loginForm">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">ì•„ì´ë””<br><input type="text" name="u_email" required></a></li>
+					<li><a href="#">ë¹„ë°€ë²ˆí˜¸<br><input type="password" name="u_pwd" required></a></li>
+					<li><button class="btn-primary" id="loginBtn" type="submit">ë¡œê·¸ì¸</button></li>
+				</ul>
+				</form>
+			</div>
+		</div>
+		</nav>
+	</div>
 </body>
 </html>

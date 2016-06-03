@@ -29,6 +29,26 @@ public class UsersActivityDao {
 		return dao;
 	}
 	
+	//유저 인설트
+		public int insertUsers(Users users){
+			SqlSession session = getSqlSessionFactory().openSession();
+			int re = 0;
+			try{
+				re = session.getMapper(UsersMapper.class).insertUsers(users);
+				
+				if(re > 0){
+					session.commit();
+				}else{
+					session.rollback();
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				session.close();
+			}
+			return re;
+		}
+	
 	public SqlSessionFactory getSqlSessionFactory(){
 		String resource = "cocoro/mybatis-config.xml";
 		InputStream input = null;

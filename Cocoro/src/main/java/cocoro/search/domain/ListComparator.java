@@ -2,7 +2,10 @@ package cocoro.search.domain;
 
 import java.util.Comparator;
 
+
 import cocoro.study.domain.StudyGroup;
+
+
 
 public class ListComparator implements Comparator{
 	

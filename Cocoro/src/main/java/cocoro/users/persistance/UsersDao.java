@@ -1,50 +1,36 @@
 package cocoro.users.persistance;
-import java.io.InputStream;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import java.util.HashMap;
+import java.util.List;
 
-import cocoro.mapper.UsersMapper;
-import cocoro.user.model.Users;
+import cocoro.users.domain.Comment;
+import cocoro.users.domain.LoginVo;
+import cocoro.users.domain.Users;
 
-public class UsersDao {
-	private static UsersDao dao = new UsersDao();
-	
-	public static UsersDao getInstance(){
-		return dao;
-	}
-	
-	//세션펙토리 생성
-	public SqlSessionFactory getSqlSessionFactory(){
-		String resource = "cocoro/mybatis-config.xml";
-		InputStream input = null;
-		try{
-			input = Resources.getResourceAsStream(resource);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return new SqlSessionFactoryBuilder().build(input);
-	}
-	
-	//유저 인설트
-	public int insertUsers(Users users){
-		SqlSession session = getSqlSessionFactory().openSession();
-		int re = 0;
-		try{
-			re = session.getMapper(UsersMapper.class).insertUsers(users);
-			
-			if(re > 0){
-				session.commit();
-			}else{
-				session.rollback();
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-		return re;
-	}
+public interface UsersDao {
+	//인설트
+	public void insertUsers(Users users)throws Exception;
+	//유저리스트 
+	public List<Users> usersList()throws Exception;
+	//유저 수정
+	public void usersModify(Users users)throws Exception;
+	//유저삭제 
+	public void delUsers(Integer u_id)throws Exception;
+	//한명의 멤버만 가져오기
+	public Users usersInfo(Integer u_id)throws Exception;
+	//로그인
+	public Users usersLogin(HashMap<String, String> login)throws Exception;
+	//팔로우 걸기
+	public void usersFollow(HashMap<String,Integer> follow)throws Exception;
+	//후기 남기기
+	public void usersAfter(Comment comment)throws Exception;
+	//해당해원의 후기 불러오기 
+	public List<Comment> usersAfterInfo(Integer u_id)throws Exception;
+
+
+
+
+
+
+
 }

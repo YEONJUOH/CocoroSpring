@@ -24,15 +24,9 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		return "beforeMain";
 	}
-	
-	@RequestMapping(value="/insert", method = RequestMethod.GET)
-	public String insert(){
-		
-		return "insert_form";
-	}
-	@RequestMapping("/home")
-	public String vv(){
-		return "home.jsp";
+	@RequestMapping(value = "/beforeMain", method = RequestMethod.GET)
+	public String home(){
+		return "beforeMain";
 	}
 	
 	

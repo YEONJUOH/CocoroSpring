@@ -6,9 +6,9 @@
 
 	
   <typeAliases>
-    <package name="cocoro.study.domain"/>  
-    <package name="cocoro.users.domain"/>     
-    <package name="cocoro.search.domain"/>     
+    <package name="cocoro.study.domain"/>
+    <package name="cocoro.users.domain"/> 
+    <package name="cocoro.search.domain"/> 
   </typeAliases>
   
 
