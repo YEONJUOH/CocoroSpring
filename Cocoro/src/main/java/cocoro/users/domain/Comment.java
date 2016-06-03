@@ -3,6 +3,8 @@ package cocoro.users.domain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Comment implements Serializable{
 
 	private int c_id;
@@ -11,7 +13,7 @@ public class Comment implements Serializable{
 	private String c_comment;
 	private Timestamp c_date;
 	private String c_img;
-	
+
 	public String getC_img() {
 		return c_img;
 	}

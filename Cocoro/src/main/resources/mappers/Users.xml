@@ -142,7 +142,7 @@
    <!-- 후기 작성 -->
    <insert id="usersAfter" parameterType="Comment">
    insert into COMMENTS(C_ID,U_ID,C_O_ID,C_COMMENT,C_DATE,C_img) 
-   VALUES(comment_seq.nextval,#{u_id},#{c_o_id},#{c_comment},SYSDATE,'comment_default.jpg')
+   VALUES(comment_seq.nextval,#{u_id},#{c_o_id},#{c_comment},SYSDATE,#{c_img})
    </insert>
    <!-- 후기 불러오기 -->
    <select id="usersAfterInfo" parameterType="int" resultType="Comment">

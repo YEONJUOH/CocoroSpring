@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import cocoro.users.domain.Comment;
 import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Users;
 import cocoro.users.persistance.UsersDao;
@@ -25,4 +29,6 @@ public interface UsersService {
 		public Users usersInfo(Integer u_id)throws Exception;
 		//유저 로그인 
 		public Users usersLogin(HashMap<String, String> login)throws Exception;
+		//후기 남기기 
+		public void usersAfter(Comment comment)throws Exception;
 }

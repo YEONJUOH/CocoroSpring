@@ -67,6 +67,7 @@
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
+
 														<div class="panel panel-default">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
@@ -104,14 +105,12 @@
 													<!-- 오른쪽 메뉴 부분  -->
 													<div class="col-sm-7" style="overflow: hidden;">
 														<div class="well">
-															<form action="/users/usersAfter" id="commentForm" enctype="multipart/form-data" method="post">
+															<form class="form">
 																<div class="input-group text-center">
-																	<input type="text" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
-																	<button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
+																	<input type="text" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
+																	<input type="hidden" name="u_id" value="${fUsers.u_id}">
+																	<input type="hidden" name="c_o_id" value="${users.u_id}">
 																</div>
-																<div><input type="file" name="file"></div>
-																<input type="hidden" name="c_o_id" value="${users.u_id}">
-																<input type="hidden" name="u_id" value="${users.u_id}">
 															</form>
 														</div>
 
