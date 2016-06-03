@@ -6,43 +6,142 @@
 
 <mapper namespace="cocoro.search.mapper.SearchMapper">
 	<cache />
-<!-- 	<insert id="insertSearchInfo" parameterType="SearchInfo">
-		insert into	searchinfo
-		(
-		u_id, s_id, s_hit, search_date
-		) values (
-		#{u_id}, #{s_id}, 0
-		)
+	<insert id="insertSearchInfo">
+		insert into searchinfo ( u_id, s_id, s_hit, search_date ) values ( #{u_id},
+		#{s_id}, 0 )
 	</insert>
- -->
-	<select id="recommendSelectS_id" parameterType="int" resultType="Integer">
-		select s_id
-		from (select s_id from searchinfo where u_id = #{u_id} order by SEARCH_DATE desc)
-		where rownum=1
-		
-		<!-- 
-		select rownum, alias.s_id as s_id, alias.s_name as s_name
-        from (select * from study where s_name like #{searchWord} or s_intro like #{searchWord}  or s_tag like #{searchWord})alias
-        where rownum  between #{start} and #{end}
-		 -->
-	</select>
-	
-	
-	
-	
-	<!-- <update id="updateS_hit" parameterType="SearchInfo">
-		update searchinfo
-		set
-		s_hit=s_hit+1,
-		search_date= #{sysdate}
 
-		where u_id=#{u_id}
-		and s_id=#{s_id}
+	<select id="recommendSelectS_id" resultType="Integer">
+		select s_id
+		from (select s_id from searchinfo where u_id = #{u_id}
+		order by SEARCH_DATE desc)
+		where rownum=1
+
+		<!-- select rownum, alias.s_id as s_id, alias.s_name as s_name from (select 
+			* from study where s_name like #{searchWord} or s_intro like #{searchWord} 
+			or s_tag like #{searchWord})alias where rownum between #{start} and #{end} -->
+	</select>
+
+
+
+
+	<update id="updateS_hit">
+		update searchinfo set s_hit=s_hit+1, search_date= #{sysdate} where
+		u_id=#{u_id} and s_id=#{s_id}
 	</update>
 
 
- -->
+	<select id="searchResult" resultType="cocoro.study.domain.StudyGroup">
+		select * from study s
+		<if test="levelCheck !=null">
+			,(select s.s_id,avg(a.a_rank)as s_avg_abil from study s,
+			STUDYACTIVITY ac, ABILITYINFO a where s.s_id= ac.s_id(+) and
+			a.j_id(+) = ac.j_id group by s.s_id) ab
+		</if>
 
+		<where>
+			<if test="keyWords != null">
+
+				(s_name like #{keyWords} or s_intro like #{keyWords}
+				or
+				s_tag like #{keyWords})
+
+			</if>
+			<if test="locCheck !=null">
+				and (s_location_x is not null)
+			</if>
+			<if test="tutorCheck !=null">
+				and (s_mento_check = 'T')
+			</if>
+			<if test="timeCheck !=null">
+				and (s_time_check = 'T' and #{startT} <![CDATA[ < ]]>=
+				s_t_start and #{endT} <![CDATA[ > ]]>=
+				s_t_end)
+			</if>
+
+			<if test="levelCheck !=null">
+				and (s.s_id = ab.s_id)
+				and (s_abil_check >0)
+			</if>
+
+			<if test="com_filter!=null and com_filter == 'history'">
+				order by s_history desc
+
+			</if>
+			<if test="com_filter!=null and com_filter == 'total_hit'">
+				order by s_total_hit desc
+
+			</if>
+
+			<if test="com_filter!=null and com_filter == 's_last_act'">
+				order by s_last_act desc
+
+			</if>
+
+
+		</where>
+
+
+	</select>
+
+	<select id="recommendStudy" resultType="cocoro.study.domain.StudyGroup">
+		select * from study
+		<where>
+			<foreach collection="list" item="item" index="index"
+				separator="or">
+				s_id =#{item.value}
+			</foreach>
+
+		</where>
+
+	</select>
+
+
+
+
+	<select id="tagSuggest" resultType="cocoro.search.domain.tagSuggestion">
+		select rownum, alias.s_id as
+		s_id, alias.s_name as
+		s_name
+		from (select * from study where s_name like
+		#{searchWord} or s_intro like
+		#{searchWord} or s_tag like
+		#{searchWord})alias
+		where rownum between #{start} and #{end}
+	</select>
+
+	<select id="getSnum" resultType="Integer">
+		select count(*)
+		from
+		study
+		where s_name like #{str} or s_intro like #{str} or s_tag like
+		#{str}
+	</select>
+
+	<select id="searchPeople" resultType="cocoro.users.domain.Users">
+		select u.u_id, u.u_name, u.u_like_num, u.u_intro, u.u_tag, m.m_major
+		as m_major from users u, mento m
+		<where>
+			m.u_id(+) =u.u_id
+			<if test="keyWords !=null">
+				and
+				(u_name like #{keyWords} or u_intro like #{keyWords}
+				or u_tag like #{keyWords} or m.m_major like #{keyWords})
+			</if>
+			<if test="mentorFilter=='mentor'">
+				and
+				(u.u_mento_check='T')
+			</if>
+			<if test="com_filter!=null and com_filter == 'history'">
+				order by u_history desc
+
+			</if>
+			<if test="com_filter!=null and com_filter == 'total_hit'">
+				order by u_like_num desc
+
+			</if>
+		</where>
+	</select>
 
 
 </mapper>

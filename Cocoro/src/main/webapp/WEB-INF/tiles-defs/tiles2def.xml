@@ -11,11 +11,6 @@
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
 	</definition>
 
-<!-- 검색 template -->
- <definition name="search_layout" template="/WEB-INF/views/template/searchLayout.jsp">
-	<put-attribute name="header" value="/WEB-INF/views/Search/SearchHeader.jsp"></put-attribute>
-    </definition>
-
 <!-- 로그인후	 -->
 	<definition name="after_layout" template="/WEB-INF/views/template/mainLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/header.jsp"></put-attribute>
@@ -26,12 +21,7 @@
 	<definition name="beforeMain" extends="before_layout">
 		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody.jsp"></put-attribute>
 	</definition>
-<!-- 검색 로그인 전 -->
 
-<!-- 검색 -->
-<definition name="searchMain" extends="search_layout">
-		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody.jsp"></put-attribute>
-	</definition> 
 
 </tiles-definitions>
 

@@ -1,8 +1,9 @@
-<%@page import="cocoro.search.model.Search"%>
+<%@page import="cocoro.search.domain.Search"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	Search search = (Search) request.getAttribute("search");
+	//Search search = (Search)request.getAttribute("search");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,16 +28,18 @@
 
 
 <!-- css 파일 -->
-<link href="../../css/SearchResult/sidebar.css" rel="stylesheet">
-<link href="../../css/SearchResult/dashboard.css" rel="stylesheet">
+<link href="/resources/css/SearchResult/sidebar.css" rel="stylesheet">
+<link href="/resources/css/SearchResult/dashboard.css" rel="stylesheet">
 
 <!-- 구글 자동 완성 -->
 <!-- <script type="text/javascript" src="../js/SearchResult/autoPlaceIn.js"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBwAF1ihCTZwN-ZQi5HRcq0B6WdrPEn70&signed_in=true&libraries=places&callback=initAutocomplete"
 	async defer></script> -->
-	
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+
+<script
+	src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"
+	type="text/javascript"></script>
 
 <script type="text/javascript">
     function initialize() {
@@ -58,14 +61,14 @@
 
 <!-- time picker plugin  -->
 <script type="text/javascript"
-	src="../../js/SearchResult/jquery.timepicker.js"></script>
+	src="/resources/js/SearchResult/jquery.timepicker.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="../../css/SearchResult/jquery.timepicker.css" />
+	href="/resources/css/SearchResult/jquery.timepicker.css" />
 
 <script type="text/javascript"
-	src="../../js/SearchResult/bootstrap-datepicker.js"></script>
+	src="/resources/js/SearchResult/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="../../css/SearchResult/bootstrap-datepicker.css" />
+	href="/resources/css/SearchResult/bootstrap-datepicker.css" />
 <script>
 	$(function() {
 		$('#stepExample1').timepicker({
@@ -119,41 +122,55 @@
 		
 	});
 
-	function formSubmit() {
+ 	function formSubmitS(){
        
-		var params = $("#searchForm").serialize(); // serialize() : 입력된 모든Element(을)를 문자열의 데이터에 serialize 한다.
+		// serialize() : 입력된 모든Element(을)를 문자열의 데이터에 serialize 한다.
+		//var data =  $('#searchForm').serialize();
+		  var json = {};
+		 $.each($('#searchForm').serializeArray(), function() {
+		   json[this.name] = this.value;
+		 }); 
 		
+	    //var data = JSON.stringify(jQuery('#searchForm').serializeObject());
+	    // var data =   jQuery('#searchForm').serializeObject();
+		alert(json);
 		$.ajax({
-			url : 'doAjaxSearch.jsp',
+			url : '/search/doAjax',
 			type : 'post',
-			data : params,
+			data :  JSON.stringify(json),
 			dataType : 'json',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
 			success : function(data) {
 				$("#main").empty();
 				
                 var html ="";
-				$.each(data, function(index, entry) {
-					 <%if(search!=null&&search.getSearchCtg().equals("스터디")){%>
+            	
+				$(data.list).each(function(){
+					
+			
 					var html = '';
 					
 							html +='<div class="row"><div class="col-md-1"></div>';
 							html +='<div class="col-md-9"><div class="well well-sm"><div class="row infoBox">';
 							html +='<div class="col-xs-3 col-md-3 text-center ">';
-							html +='<a href="../../page/preview/previewStudy.jsp?s_id='+entry.s_id+'"><img src="../../img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" /></a>';
+							html +='<a href="/"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" /></a>';
 							html +='<div><span class="glyphicon glyphicon-info-sign"></span><span class="glyphicon glyphicon-home"></span></div></div>';
 							html +='<div class="col-xs-8 col-md-8 section-box"><h4><b>';
 							
-							html += entry.s_name+'</b></h4>';
-							html += '<p>'+entry.s_intro+'</p>';
+							html += this.s_name+'</b></h4>';
+							html += '<p>'+this.s_intro+'</p>';
 							html += '<div class="row rating-desc"><div class="col-md-12">';
 
 					        
-					        html += setAttr(entry.attr,entry.attr.length);
+					        html += setAttr(this.attr,this.attr.length);
 					        
 					        html+='</div><br><br>';
-					        html += getDate(entry.s_start, entry.s_end);
+					        html += getDate(this.s_start, this.s_end);
 					        html+='</div><div><br><hr/>';
-					       	html+='<p>'+entry.s_tag+'</p>';
+					       	html+='<p>'+this.s_tag+'</p>';
 					        html +='</div></div></div></div></div></div>';
 						
 
@@ -161,38 +178,14 @@
 					
 					
 						 $('#main').append(html);   
-						 <%}%>
-						 
-						 <%if(search!=null&&search.getSearchCtg().equals("인물")){%>
-							var html = '';
 						
-								html+='<div class="row"><div class="col-md-1"></div><div class="col-md-9">';
-								html+='<div class="well well-sm"><div class="row infoBox">';
-								html+='<div class="col-xs-3 col-md-3 text-center "><a href="../../layout/mainLayout.jsp?f_o_id='+entry.u_id+'"><img src="../../img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive" /></a>';
-								html+='<div><span class="glyphicon glyphicon-heart"></span><span id="heart-num">'+entry.u_like_num+'</span>';
-							    html+='</div></div><div class="col-xs-8 col-md-8 section-box">';
-							    html+='<h4><b>'+entry.u_name +'</b><br></h4><p>'+entry.u_intro +'</p>';
-							    html+='<hr /><div>';
-							    if(entry.m_major!=""){
-							    html+='<h5><b>멘토 활동 분야</b></h5><p>'+entry.m_major+'</p>';}
-							    html+='<h5><b>관심사</b></h5><p>'+entry.u_tag+'</p>';
-							    html+='</div></div></div></div></div></div>';
-							    
-							
-						 
-							    $('#main').append(html);   
-						 
-						 
-						 
-						 
-						 <%}%>
 						 
 						 
 						 
 				});//이치 닫기
 				
 			},
-			error : function() {
+			error : function(){
 				$("#main").empty();
 				 $('#main').append("검색 결과가 없습니다."); 
 				
@@ -200,6 +193,72 @@
 		});
 		
 	};
+	
+ 	function formSubmitP(){
+        
+		// serialize() : 입력된 모든Element(을)를 문자열의 데이터에 serialize 한다.
+		//var data =  $('#searchForm').serialize();
+		  var json = {};
+		 $.each($('#searchForm').serializeArray(), function() {
+		   json[this.name] = this.value;
+		 }); 
+		
+	    //var data = JSON.stringify(jQuery('#searchForm').serializeObject());
+	    // var data =   jQuery('#searchForm').serializeObject();
+		alert(json);
+		$.ajax({
+			url : '/search/doAjax',
+			type : 'post',
+			data :  JSON.stringify(json),
+			dataType : 'json',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			success : function(data) {
+				$("#main").empty();
+				console.log("길이"+data.list.length);
+                var html ="";
+            	
+				$(data.list).each(function(){
+					
+					
+					var html = '';
+					
+					html+='<div class="row"><div class="col-md-1"></div><div class="col-md-9">';
+					html+='<div class="well well-sm"><div class="row infoBox">';
+					html+='<div class="col-xs-3 col-md-3 text-center "><a href="../../layout/mainLayout.jsp?f_o_id='+this.u_id+'"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive" /></a>';
+					html+='<div><span class="glyphicon glyphicon-heart"></span><span id="heart-num">'+this.u_like_num+'</span>';
+				    html+='</div></div><div class="col-xs-8 col-md-8 section-box">';
+				    html+='<h4><b>'+this.u_name +'</b><br></h4><p>'+this.u_intro +'</p>';
+				    html+='<hr /><div>';
+				    if(this.m_major!=null){
+				    html+='<h5><b>멘토 활동 분야</b></h5><p>'+this.m_major+'</p>';}
+				    html+='<h5><b>관심사</b></h5><p>'+this.u_tag+'</p>';
+				    html+='</div></div></div></div></div></div>';
+				    
+				
+			 
+				    $('#main').append(html);   
+						 
+						 
+						 
+				});//이치 닫기
+				
+			},
+			error : function(){
+				$("#main").empty();
+				 $('#main').append("검색 결과가 없습니다."); 
+				
+			}
+		});
+		
+	};
+	
+	
+ 
+	
+	
 	
 	function setAttr(attr, size){
 		var html ="";
@@ -249,36 +308,37 @@
 
 				<form class="form-horizontal" role="form" id="searchForm">
 
-					<%
-						if (search != null) {
-					%>
-					<input type="hidden" value="<%=search.getSearchCtg()%>"
-						name="searchCtg"> <input type="hidden"
-						value="<%=search.getSearchWord()%>" name="searchWord">
-					<%
-						}
-					%>
-					
-					
+                   
+
+                      
+					<input type="hidden" value="${search.searchCtg }" name="searchCtg">
+					<input type="hidden" value="${search.searchWord }" name="searchWord">
+
+
+
 					<div class="row com-filter">
-				 <label class="radio-inline"><input type="radio"
-							value="history" name="com_filter">최신순
-						</label><label class="radio-inline"><input type="radio"
-							value="total_hit" name="com_filter">인기순</label>
-					  <label class="radio-inline"><input type="radio"
-							value="s_last_act" name="com_filter">정확성</label>		
+						<label class="radio-inline"><input type="radio"
+							value="history" name="com_filter">최신순 </label><label
+							class="radio-inline"><input type="radio"
+							value="total_hit" name="com_filter">인기순</label> <label
+							class="radio-inline"><input type="radio"
+							value="s_last_act" name="com_filter">정확성</label>
 					</div>
-					
-					
+
+
 					<div class="row mentor-filter">
-					<div class="sep"><span class="glyphicon glyphicon-user" id="user-icon"></span></div>
+						<div class="sep">
+							<span class="glyphicon glyphicon-user" id="user-icon"></span>
+						</div>
 						<label class="radio-inline"> <input type="radio"
 							value="mentor" name="mentorFilter">멘토
 						</label> <label class="radio-inline"><input type="radio"
 							value="all" name="mentorFilter">전체 </label>
 					</div>
 					<div class="row">
-					<div><span class="glyphicon glyphicon-home"  id="study-icon"></span></div>
+						<div>
+							<span class="glyphicon glyphicon-home" id="study-icon"></span>
+						</div>
 						<span>
 							<h5>
 								거리&nbsp&nbsp<input type="checkbox" data-toggle="toggle"
@@ -286,12 +346,14 @@
 									name="locCheck" class="check_bar">
 							</h5>
 							<div class="form-group col-md-12 tfheader">
-							<div>
-								<input type="text" class="form-control input_bar" id="searchTextField"
-									placeholder="서울시 가산동" autocomplete="on" runat="server" > <input
-									type="hidden" id="lat" value="" name="lat"> <input
-									type="hidden" id="lng" value="" name="lng">
-								<div class="tfclear"></div>
+								<div>
+									<input type="text" class="form-control input_bar"
+										id="searchTextField" placeholder="서울시 가산동" autocomplete="on"
+										runat="server" name="address"> 
+										<input type="hidden" id="lat" value=""
+										name="lat"> <input type="hidden" id="lng" value=""
+										name="lng">
+									<div class="tfclear"></div>
 								</div>
 							</div>
 						</span>
@@ -312,13 +374,13 @@
 							<div class="form-group col-md-12">
 
 								<div class="col-md-5 padding-zero">
-									<input type="text" class="form-control time input_bar" id="stepExample1"
-										placeholder="시작 시간" name="startTime">
+									<input type="text" class="form-control time input_bar"
+										id="stepExample1" placeholder="시작 시간" name="startTime">
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-5 padding-zero">
-									<input type="text" class="form-control time input_bar" id="stepExample2"
-										placeholder="끝나는 시간" name="endTime">
+									<input type="text" class="form-control time input_bar"
+										id="stepExample2" placeholder="끝나는 시간" name="endTime">
 								</div>
 
 							</div> <br>
@@ -369,7 +431,15 @@
 				<div class="row text-center">
 					<div class="controls">
 						<button class="btn btn-default" id="filter_btn"
-							onclick="formSubmit()">검색</button>
+							onclick=
+					 <c:if test="${search.searchCtg eq '스터디' }">
+					  "formSubmitS()"
+					  </c:if>
+					   <c:if test="${search.searchCtg eq '인물' }">
+					  "formSubmitP()"
+					  </c:if>
+					
+					  >검색</button>
 					</div>
 				</div>
 			</div>

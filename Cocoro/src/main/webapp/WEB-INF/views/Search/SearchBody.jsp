@@ -1,9 +1,9 @@
-<%@page import="cocoro.user.model.Users"%>
+<%@page import="cocoro.users.domain.Users"%>
 <%@page import="cocoro.search.service.SearchService"%>
-<%@page import="cocoro.search.dao.SearchDao"%>
-<%@page import="cocoro.studygroup.model.StudyGroup"%>
+<%@page import="cocoro.search.persistence.SearchDAOImpl"%>
+<%@page import="cocoro.study.domain.StudyGroup"%>
 <%@page import="java.util.List"%>
-<%@page import="cocoro.search.model.Search"%>
+<%@page import="cocoro.search.domain.Search"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 
@@ -12,28 +12,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href="../../css/SearchResult/SearchBody.css" rel="stylesheet">
+<link href="/resources/css/SearchResult/SearchBody.css" rel="stylesheet">
 
 <script type="text/javascript">
    
-<%Search search = (Search)request.getAttribute("search");
-if(search != null){
-   SearchService service  = SearchService.getInstance();
-    List<StudyGroup> list =null;
-    List<Users> listU =null;
-    
-    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("스터디")){
-     list = service.searchStudy(search);}
-    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("인물")){
-     
-       listU = service.searchPeople(search);
-       System.out.print(listU);
-    }
+<%
    
+   List<StudyGroup> list = (List)request.getAttribute("list");
+   List<Users> listU = (List)request.getAttribute("listU");
    
-   
-   
-   if(list!=null && search.getSearchCtg().equals("스터디")){%>
+   if(list!=null){%>
    $(function(){
       
       $("#study-icon").css("color","green");
@@ -43,7 +31,7 @@ if(search != null){
       html +='<div class="row"><div class="col-md-1"></div>';
       html +='<div class="col-md-9"><div class="well well-sm"><div class="row infoBox">';
       html +='<div class="col-xs-3 col-md-3 text-center ">';
-      html +='<a href="../../page/preview/previewStudy.jsp?s_id=<%=list.get(i).getS_id()%>"><img src="../../img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" />';
+      html +='<a href="../../page/preview/previewStudy.jsp?s_id=<%=list.get(i).getS_id()%>"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" />';
       html+='</a>';
       html +='<div><a href="doSearchUp.jsp?s_id=<%=list.get(i).getS_id()%>"><span class="glyphicon glyphicon-info-sign"></span></a>';
       html+='<span class="glyphicon glyphicon-home"></span></div></div>';
@@ -66,7 +54,7 @@ if(search != null){
       
 <%}%>
    $("#main").append(html);})
-<%}else if(listU!=null && search.getSearchCtg().equals("인물")){%>
+<%}else if(listU!=null){%>
 
 $(function(){
    
@@ -77,7 +65,7 @@ $(function(){
    html+='<div class="row"><div class="col-md-1"></div><div class="col-md-9">';
    html+='<div class="well well-sm"><div class="row infoBox">';
    html+='<div class="col-xs-3 col-md-3 text-center ">';
-   html+='<a href="../../layout/mainLayout.jsp?f_o_id=<%=listU.get(i).getU_id()%>"><img src="../../img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
+   html+='<a href="../../layout/mainLayout.jsp?f_o_id=<%=listU.get(i).getU_id()%>"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
    html+='<div><span class="glyphicon glyphicon-heart"></span><span id="heart-num"><%=listU.get(i).getU_like_num()%></span>';
     html+='</div></div><div class="col-xs-8 col-md-8 section-box">';
     html+='<h4><b><%=listU.get(i).getU_name()%></b><br></h4><p><%=listU.get(i).getU_intro()%></p>';
@@ -96,7 +84,7 @@ $("#main").append(html);})
 $(function(){
 $("#main").append("검색 결과가 없습니다.");})
 
-<%} }%>
+<%} %>
 
 
    
