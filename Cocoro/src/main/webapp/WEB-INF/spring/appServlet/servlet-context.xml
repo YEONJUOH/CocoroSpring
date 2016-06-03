@@ -22,6 +22,7 @@
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles-defs/tiles2def.xml</beans:value>
+				<beans:value>/WEB-INF/tiles-defs/searchTiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
@@ -50,8 +51,8 @@
 	</beans:bean>
  -->
 	<context:component-scan base-package="cocoro.home.controller" />
-    <context:component-scan base-package="cocoro.search.*" />
+<context:component-scan base-package="cocoro.search.*" />
     <context:component-scan base-package="cocoro.study.*" />
-    <context:component-scan base-package="cocoro.users.*" />
+    <context:component-scan base-package="cocoro.users.*" /> 
 
 </beans:beans>
