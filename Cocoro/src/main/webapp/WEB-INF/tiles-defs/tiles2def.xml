@@ -33,11 +33,16 @@
 	<definition name="afterMain" extends="after_layout">
 		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody_test1.jsp"></put-attribute>
 	</definition>
+	
 <!--  마이페이지 -->	
 	<definition name="mypage" extends="after_layout">
 		<put-attribute name="body" value="/WEB-INF/views/mypage/mypage.jsp"></put-attribute>
 	</definition>
-
+	
+	<!--  친구페이지 -->	
+	<definition name="friendPage" extends="after_layout">
+		<put-attribute name="body" value="/WEB-INF/views/mypage/friendPage.jsp"></put-attribute>
+	</definition>
 
 
 </tiles-definitions>

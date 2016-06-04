@@ -3,12 +3,155 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <title>Faceboot - A Facebook style template for Bootstrap</title>
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="/resources/css/mypage/mypage.css" rel="stylesheet">
+<script type="text/javascript">
+$(function(){
+	//후기
+	$('#commentForm').submit(function(e){
+		event.preventDefault();
+		
+		var formData = new FormData($(this)[0]);
+		var name = $('#name').val();
+		var comment = $('#comment').val();
+		var image = $('#image').val();
+		
+		$.ajax({
+			url: '/users/usersAfter',
+			type: 'post',
+			contentType: false,
+			processData: false,
+			data: formData,
+			success : function(data){
+			},
+		error :	function(){
+			
+			var div = '<div class="panel panel-default">';
+			div += '<div class="panel-body">';
+			div += '<img src="/resources/img/'+image+'" class="img-rounded" width="20px">';
+			div += ''+name+' 님이 글을 남겼습니다.';
+			div += '<div class="clearfix"></div><hr>';
+			if(file != ""){
+			div += '<img src="/resources/img/sorry.jpg" alt="..." class="img-rounde" width="487px" height="380px;">';
+			}
+			div += '<p> '+comment+'</p><hr>';
+			div += '<form><div class="input-group">';
+			div += '<input type="text" class="form-control" placeholder="Add a comment..">';
+			div += '<div class="input-group-btn"><button class="btn btn-default">댓글</button>';
+			div +=	'</div></div></form></div></div>';
+			
+			$('#test').append(div);
+		}
+		})
+	});
+	//팔로우 버튼
+	$('#followForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#followForm').serialize();
+	 	alert(params);
+	 	var name = $('#followName').val();
+	 	var image = $('followImage').val();
+		
+		$.ajax({
+			url: '/users/follow',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+			},
+			error : function(){
+				alert('실패 ');
+				var div = '<div class="col-md-3">';
+				div += '<img src="/resources/img/'+image+'" alt="..." class="img-rounded" width="90px" height="60px;"><br>'; 
+				div += name;
+				div += '</div>';
+				
+				$('#followYouBody').append(div);
+			}
+		})	
+	})
+	
+	//팔로우 취소
+	$('#followForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#followForm').serialize();
+	 	alert(params);
+	 	var name = $('#followName').val();
+	 	var image = $('followImage').val();
+		
+		$.ajax({
+			url: '/users/follow',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+			},
+			error : function(){
+				alert('실패 ');
+			}
+		})	
+	});
+	//팔로우 취소
+	$('#unFollwForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#unFollwForm').serialize();
+		
+		$.ajax({
+			url: '/users/unFollow',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+				alert('성공');
+			},
+			error : function(){
+				alert('실패 ');
+			}
+		})
+	})
+	//쪽지 보내기
+	$('#mSendForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#mSendForm').serialize();
+		
+		$.ajax({
+			url: '/users/unFollow',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+				alert('성공');
+			},
+			error : function(){
+				alert('실패 ');
+			}
+		})
+	})
+	
+	//팔로우 보여주는 페이지의 높이가 316이넘었을때
+	if($('#followYou').height() > 316){
+		$('#followYou').css('height',316);
+		$('#followYou').css('overflow','hidden');
+	}
+	if($('#followMe').height() > 316){
+		$('#followMe').css('height',316);
+		$('#followMe').css('overflow','hidden');
+	}
+})
+</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -25,16 +168,37 @@
 								<div class="fb-profile">
 									<img align="left" class="fb-image-lg" src="/resources/img/img2.jpg"
 										alt="Profile image example" /> 
-										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${users.u_image}" alt="Profile image example" />
+										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/img2.jpg" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
-										<h1>${users.u_name}</h1>
+										<h1>${fUsers.u_name}</h1>
+										<!-- 팔로우하기 -->
+										<div>
+										<c:if test="${follow == null}">
+										<form  method="post" id="followForm">
+											<input type="hidden" name="f_o_id" value="${users.u_id}">
+											<input type="hidden" name="u_id" value="${fUsers.u_id}">
+											<input type="hidden" id="followName" value="${users.u_name}">
+											<input type="hidden" id="followImage" value="${users.u_image}">
+											<button class="btn-primary" type="submit" style="float: left;">팔로우</button>
+										</form>
+										</c:if>
+										<c:if test="${follow != null}">
+										<!-- 팔로우취소 -->
+										<form method="post" id="unFollwForm">
+											<input type="hidden" name="f_o_id" value="${users.u_id}">
+											<input type="hidden" name="u_id" value="${fUsers.u_id}">
+											<button class="btn-primary" type="submit" style="float: left;">팔로우취소</button>
+										</form>
+										</c:if>
+										<button class="btn-danger">좋아요</button>
+										<!--쪽지보내기 -->
+										<button type="button" class="btn btn-success" data-toggle="modal" data-target=".mSend">쪽지</button>
+										</div>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
-											<ul class="nav nav-tabs" role="tablist" style="margin-left: 70%;">
+											<ul class="nav nav-tabs" role="tablist" style="margin-left: 87%;">
 												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
 												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-												<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
 											</ul>
 											<!-- Home탭 메뉴 -->
 											<div class="tab-content">
@@ -45,7 +209,7 @@
 														<div class="panel panel-default">
 															<div class="panel-body">
 																<p class="lead">관심사</p>
-																<p>${users.u_tag}</p>
+																<p>${fUsers.u_tag}</p>
 															</div>
 														</div>
 
@@ -67,37 +231,39 @@
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
-
-														<div class="panel panel-default">
+														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
-																<h4>팔로우중인 친구</h4>
+																<h4>${fUsers.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
-																<div class="list-group">
-																	<img src="img.png" alt="..." class="img-rounded"
-																		width="90px"> <img src="img.png" alt="..."
-																		class="img-rounded" width="90px"> <img
-																		src="img.png" alt="..." class="img-rounded"
-																		width="90px"> <img src="img.png" alt="..."
-																		class="img-rounded" width="90px">
+																<div class="list-group col-md-12">
+																<c:forEach var="followMe" items="${followMe}">
+																	<div class="col-md-3">
+																	<a href="friendPage?u_id"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a>
+																	${followMe.u_name}
+																	</div>
+																</c:forEach>
 																</div>
 															</div>
 														</div>
 
 
-												<!--일단 쪽지함 -->
-														<div class="panel panel-default">
+												<!--나를 팔로우하고있는 사람들 -->
+														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
-																<a href="#" class="pull-right">View all</a>
-																<h4>쪽지함</h4>
+																<a href="#" class="pull-right">더보기</a>
+																<h4>${fUsers.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
-																<div class="clearfix"></div>
-																There a load of new free Bootstrap 3 ready templates at
-																Bootply. All of these templates are free and don't
-																require extensive customization to the Bootstrap
-																baseline.
+																<div class="list-group col-md-12" id="followYouBody">
+																	<c:forEach var="followYou" items="${followYou}">
+																	<div class="col-md-3">
+																	<img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"> 
+																	${followYou.u_name}
+																	</div>
+																	</c:forEach>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -105,32 +271,36 @@
 													<!-- 오른쪽 메뉴 부분  -->
 													<div class="col-sm-7" style="overflow: hidden;">
 														<div class="well">
-															<form class="form">
+															<form action="/users/usersAfter" id="commentForm" enctype="multipart/form-data" method="post">
 																<div class="input-group text-center">
-																	<input type="text" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
-																	<input type="hidden" name="u_id" value="${fUsers.u_id}">
-																	<input type="hidden" name="c_o_id" value="${users.u_id}">
+																	<input type="text" id="comment" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
+																	<button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
 																</div>
+																<div><input type="file" name="file" id="file"></div>
+																<input type="hidden" name="c_o_id" value="${users.u_id}">
+																<input type="hidden" name="u_id" value="${fUsers.u_id}">
+																<input type="hidden" name="u_name" value="${users.u_name}" id="name">
+																<input type="hidden" name="u_name" value="${users.u_image}" id="image">
 															</form>
 														</div>
-
+														<div id="test">
+														</div>
 
 														<!-- 후기 남기는부분 -->
+														<c:forEach var="cList" items="${cList}" >
+															    <c:forEach var="uList" items="${uList}">
+															    <c:if test="${cList.c_o_id == uList.u_id}">
 														<div class="panel panel-default">
 															<div class="panel-body">
-																<img src="img.png" class="img-rounded" width="20px">
-																짱구님이 글을 남겼습니다.
+																<img src="/resources/img/${uList.u_image}" class="img-rounded" width="20px">
+																${uList.u_name} 님이 글을 남겼습니다.
 																<div class="clearfix"></div>
 																<hr>
-																<img src="img.png" alt="..." class="img-rounded"
-																	width="487px" height="380px;">
-
+																<c:if test="${cList.c_img != null}">
+																<img src="/resources/upload/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
+																</c:if>
 																<p>
-																	If you're looking for help with Bootstrap code, the
-																	<code>twitter-bootstrap</code>
-																	tag at <a
-																		href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a>
-																	is a good place to find answers.
+																	${cList.c_comment}
 																</p>
 																<hr>
 																<form>
@@ -142,9 +312,11 @@
 																		</div>
 																	</div>
 																</form>
-
 															</div>
 														</div>
+														</c:if>
+															</c:forEach>
+															</c:forEach>
 													</div>
 												</div>
 												<!-- 두번쨰 메뉴 -->
@@ -155,23 +327,23 @@
 																<h4>정보</h4>
 															</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img2.jpg" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${fUsers.u_image}" alt="Lorem ipsum" /></a>
 																</div>
 														<article class="search-result row">
 															<div class="col-xs-12 col-sm-12 col-md-2"
 																style="margin-top: 20px;">
 																<ul class="meta-search">
 																	<li><i class="glyphicon glyphicon-calendar"></i>
-																		생년월일 : <span>02/15/2014</span></li>
+																		생년월일 : <span>${fUsers.u_birth}</span></li>
 																	<li><i class="glyphicon glyphicon-time"></i> 주소 :
-																		<span> 안양 </span></li>
+																		<span> ${fUsers.u_address} </span></li>
 																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 :
-																		<span>#수영#토익</span></li>
+																		<span>${fUsers.u_tag}</span></li>
 																</ul>
 															</div>
 															<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
 																<h3>자기소개</h3>
-																<p>안녕하세요 저는 짱구입니다.</p>
+																<p>${fUsers.u_intro}</p>
 															</div>
 															<span class="clearfix borda"></span>
 														</article>
@@ -182,37 +354,15 @@
 																<h4>팔로우중인 친구</h4>
 															</div>
 															<div class="search-result row" style="margin-top: 20px;">
-													<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img2.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">주디</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">팔로우끊기</div>
-															</div>
+															<c:forEach var="followMe" items="${followMe}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img2.jpg" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" alt="Lorem ipsum" /></a>
 																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">주디</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">팔로우끊기</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">${followMe.u_name}</div>
+																<div class="col-xs-6 col-sm-6 col-md-3"><button>팔로우끊기</button></div>
 															</div>
-															<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img2.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">주디</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">팔로우끊기</div>
-															</div>
-															<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img2.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">주디</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">팔로우끊기</div>
-															</div>
-																<div class="col-md-12">
-																<h5 class="text-center">모두보기</h5>
-															</div>
+															</c:forEach>				
 															</div>
 													</div>		
 													<!-- 가입중인 스터디 목록 -->
@@ -280,6 +430,24 @@
 				<!-- /main -->
 			</div>
 		</div>
+	</div>
+	
+	
+		<!-- 쪽지 보내기 모달 -->
+	
+	 <div class="modal fade mSend" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="width: 350px;">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      	<h3 class="text-center">메세지보내기</h3>
+	      	<form method="post" id="mSendForm">
+				<textarea rows="10" cols="39" style="width: 100%;" name="message_comment"></textarea>
+				 <input type="hidden" name="message_o_id" value="${users.u_id}">	
+				 <input type="hidden" name="message_u_id" value="${fUsers.u_id}">	
+				 <input type="hidden" id="messageInfo" name="messageInfo" value="insert">
+	             <button type="submit" class="btn-block btn-primary" id="mBtn">메세지 보내기</button>
+	    	</form>
+	    </div>
+	  </div>
 	</div>
 </body>
 </html>
