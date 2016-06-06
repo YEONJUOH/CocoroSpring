@@ -87,7 +87,7 @@ public class StudyGroupDaoImpl implements StudyGroupDao {
 
 	@Override
 	public List<ListRank> listRank(int s_id) {
-		return session.selectOne(namespace+".listRank", s_id);
+		return session.selectList(namespace+".listRank", s_id);
 	}
 	
 	@Override

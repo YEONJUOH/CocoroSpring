@@ -19,80 +19,73 @@
 	href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"
 	rel="stylesheet">
 <!-- js -->
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/carousel.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 <script type="text/javascript">
-var u_name1 = "김토익";
-var u_name2 = "김토플";
-var u_name3 = "김기타";
-var u_name4 = "김면접";
-var u_name5 = "김동현";
+	$(document).ready(
+			function() {
 
-var rank1 = "5";
-var rank2 = "7";
-var rank3 = "8";
-var rank4 = "9";
-var rank5 = "6";
-	
-var chart = AmCharts.makeChart("chartdiv", {
-	  "type": "serial",
-	  "theme": "light",
-	  "marginRight": 70,
-	  "dataProvider": [{
-	    "이름": u_name1,
-	    "실력": rank1,
-	    "color": "#FF0F00"
-	  }, {
-	    "이름": u_name2,
-	    "실력": rank2,
-	    "color": "#FF6600"
-	  }, {
-	    "이름": u_name3,
-	    "실력": rank3,
-	    "color": "#FF9E01"
-	  }, {
-	    "이름": u_name4,
-	    "실력": rank4,
-	    "color": "#FCD202"
-	  }, {
-	    "이름": u_name5,
-	    "실력": rank5,
-	    "color": "#F8FF01"
-	  }],
-	  "valueAxes": [{
-	    "axisAlpha": 0,
-	    "position": "left",
-	    "title": "스터디 참가자 실력"
-	  }],
-	  "startDuration": 1,
-	  "graphs": [{
-	    "balloonText": "<b>[[category]]: [[value]]</b>",
-	    "fillColorsField": "color",
-	    "fillAlphas": 0.9,
-	    "lineAlpha": 0.2,
-	    "type": "column",
-	    "valueField": "실력"
-	  }],
-	  "chartCursor": {
-	    "categoryBalloonEnabled": false,
-	    "cursorAlpha": 0,
-	    "zoomable": false
-	  },
-	  "categoryField": "이름",
-	  "categoryAxis": {
-	    "gridPosition": "start",
-	    "labelRotation": 45
-	  },
-	  "export": {
-	    "enabled": true
-	  }
+				var chartLabels = [];
+				var chartData = [];
 
-	});
+				$.ajax({
+					url : "rankAjax?s_id=${studygroup.s_id}",
+					type : "POST",
+					dataType : "json",
+					success : function(data) {
+						$.each(data, function(inx, obj) {
+							chartLabels.push(data[inx].u_name);
+							chartData.push(data[inx].a_rank);
+
+						});
+						createChart();
+					},
+					error : function() {
+						alert("error");
+					}
+
+				});
+			function createChart(){
+				var ctx = document.getElementById("myChart");
+				var myChart = new Chart(ctx, {
+					type : 'bar',
+					data : {
+						labels : chartLabels,
+						datasets : [ {
+							label : '# of Votes',
+							data : chartData,
+							backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)' ],
+							borderColor : [ 'rgba(255,99,132,1)',
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)' ],
+							borderWidth : 1
+						} ]
+					},
+					options : {
+						scales : {
+							yAxes : [ {
+								ticks : {
+									beginAtZero : true
+								}
+							} ]
+						}
+					}
+				});
+			}
+			});
 </script>
 </head>
 <body>
@@ -100,8 +93,10 @@ var chart = AmCharts.makeChart("chartdiv", {
 		<div class="fb-profile">
 			<img align="left" class="fb-image-lg"
 				src="http://tafebytes.com.au/wp-content/uploads/2012/11/study-group.jpg"
-				alt="Profile image example" /> 
-				<img align="left" class="fb-image-profile thumbnail" src="/resources/img/${leaderInfo.u_image}" alt="Profile image example" />
+				alt="Profile image example" /> <img align="left"
+				class="fb-image-profile thumbnail"
+				src="/resources/img/${leaderInfo.u_image}"
+				alt="Profile image example" />
 			<div class="fb-profile-text">
 				<h3>스터디 리더 : ${leaderInfo.u_name}</h3>
 				<p>${leaderInfo.u_email}</p>
@@ -145,7 +140,7 @@ var chart = AmCharts.makeChart("chartdiv", {
 										aria-hidden="true">
 										<div class="modal-dialog modal-sm">
 											<div class="modal-content">
-												<div id="chartdiv"></div>
+												<canvas id="myChart" width="400" height="400"></canvas>
 											</div>
 										</div>
 									</div>
@@ -240,10 +235,10 @@ var chart = AmCharts.makeChart("chartdiv", {
 									value="${studygroup.s_location_x}"> <input
 									type="hidden" id="s_location_y" name="s_location_y"
 									value="${studygroup.s_location_y}">
-							
-							
+
+
 								<!-- 맵 API -->
-								<p style="margin-top: 4px"></p>
+							<p style="margin-top: 4px"></p>
 
 							<div id="map" style="width: 100%; height: 200px;"></div>
 
@@ -301,25 +296,20 @@ var chart = AmCharts.makeChart("chartdiv", {
 						<p>
 							<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;스터디 시간: </strong>
 							<c:if test="${studygroup.s_t_start<750}">
-								<label>오전&nbsp;${start_hour}시
-								</label>
+								<label>오전&nbsp;${start_hour}시 </label>
 							</c:if>
 							<c:if test="${studygroup.s_t_start>750}">
-								<label>오후&nbsp;${start_hour-12}시
-								</label>
+								<label>오후&nbsp;${start_hour-12}시 </label>
 							</c:if>
 							<c:if test="${studygroup.s_t_start%60!=0}">
-								<label>&nbsp;${start_min}분
-								</label>
+								<label>&nbsp;${start_min}분 </label>
 							</c:if>
 							<label>~</label>
 							<c:if test="${studygroup.s_t_end<750}">
-								<label>오전&nbsp;${end_hour}시
-								</label>
+								<label>오전&nbsp;${end_hour}시 </label>
 							</c:if>
 							<c:if test="${studygroup.s_t_end>750}">
-								<label>오후&nbsp;${end_hour-12}시
-								</label>
+								<label>오후&nbsp;${end_hour-12}시 </label>
 							</c:if>
 							<c:if test="${studygroup.s_t_end%60!=0}">
 								<label>${end_min}분</label>
@@ -407,12 +397,12 @@ var chart = AmCharts.makeChart("chartdiv", {
 								}
 								function fn_enter() {
 									alert("스터디 세부페이지로 이동합니다.")
-								    location.href = "/study/enterStudy?u_id=${users.u_id}&s_id=${studygroup.s_id}"
+									location.href = "/study/enterStudy?u_id=${users.u_id}&s_id=${studygroup.s_id}"
 								};
-								
-							</script></div>
+							</script>
+						</div>
 
-												</div>
+					</div>
 				</div>
 			</div>
 		</div>
