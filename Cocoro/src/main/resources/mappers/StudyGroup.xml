@@ -6,34 +6,49 @@
 
 <mapper namespace="cocoro.mapper.StudyGroupMapper">
 
-	<insert id="createStudy" parameterType="StudyGroup">
+	<insert id="createStudy">
 		insert into study(
 			s_id, s_name, s_intro, s_leader_id, s_max_member, s_fix_member, s_start, s_end, s_attend_check, s_abil_check, s_location_x, s_location_y, s_address, s_online, s_offline, s_mento_check, s_kind_check, s_time_check, s_deposit, s_last_act, s_tag, s_recent_hit, s_total_hit, s_history, s_t_start, s_t_end
 		) values (
-			study_seq.NEXTVAL, #{s_name}, #{s_intro}, #{s_leader_id}, #{s_max_member}, 'F' , #{s_start}, #{s_end}, #{s_attend_check}, #{s_abil_check}, #{s_location_x}, #{s_location_y}, #{s_address}, #{s_online}, #{s_offline}, #{s_mento_check}, #{s_kind_check}, #{s_time_check}, #{s_deposit}, SYSDATE , #{s_tag}, 0, 0, SYSDATE, #{s_t_start}, #{s_t_end}
+			(select nvl(Max(s_id),0) from study)+1, #{s_name}, #{s_intro}, #{s_leader_id}, #{s_max_member}, 'F' , #{s_start}, #{s_end}, #{s_attend_check}, #{s_abil_check}, #{s_location_x}, #{s_location_y}, #{s_address}, #{s_online}, #{s_offline}, #{s_mento_check}, #{s_kind_check}, #{s_time_check}, #{s_deposit}, SYSDATE , #{s_tag}, 0, 0, SYSDATE, #{s_t_start}, #{s_t_end}
 		)
-		
 	</insert>
-<!-- 	
-	<select id="selectS_id" resultType="Integer">
-		select max(s_id) from study
+	
+	
+	<select id="newStudy" parameterType="int" resultType="int">
+		select max(s_id) from study where s_leader_id = #{s_leader_id}
 	</select>
 	
-	<select id="listStudyGroup" resultType="StudyGroup">
-		select * from study
+	<insert id="insertS_leaderActivity" parameterType="java.util.HashMap">
+		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{s_leader_id},#{s_id},SYSDATE,SYSDATE )
+	</insert>
+	
+	<insert id="enterStudy" parameterType="java.util.HashMap">
+		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{u_id},#{s_id},SYSDATE,SYSDATE )
+	</insert>
+	
+	<select id="maxJ_id" parameterType="int" resultType="int">
+		select max(j_id) from studyactivity where u_id = #{s_leader_id}
 	</select>
+	
+	<insert id="insertS_leaderAbilityInfo">
+		insert into abilityInfo values(
+			(select nvl(Max(a_id),0) from abilityInfo)+1,#{j_id},#{rank}
+		)
+	</insert>
 	
 	<select id="selectStudy" parameterType="int" resultType="StudyGroup">
 		select * from study where s_id = #{s_id}
 	</select>
-	
-	<select id="selectStudyMember" parameterType="int" resultType="Users">
-		select * from users where u_id in (select u_id from studyActivity where s_id = #{s_id})
-	</select>
-	
-	<update id="updateHit" parameterType="StudyGroup">
-		update study set s_total_hit = #{s_total_hit} where s_id = #{s_id}
-	</update>
+
+
+	<select id="selectUsers" parameterType="java.util.HashMap" resultType="Users">
+		select *
+		from users u, study s
+		where u.u_id = s.s_leader_id
+		and s.s_id = #{s_id}
+		and u.u_id = #{s_leader_id}
+	</select>	
 	
 	<insert id="applyStudy" parameterType="java.util.HashMap">
 		insert into apply(
@@ -43,13 +58,47 @@
 		)
 	</insert>
 	
-	<select id="selectUsers" parameterType="java.util.HashMap" resultType="Users">
-		select u.u_name, u.u_email
-		from users u, study s
-		where u.u_id = s.s_leader_id
-		and s.s_id = #{s_id}
-		and u.u_id = #{s_leader_id}
+	<select id="check_enterStudy" parameterType="java.util.HashMap" resultType="StudyActivity">
+		select * from studyactivity where u_id = #{u_id} and s_id = #{s_id}
 	</select>
+	
+	<select id="check_applying" parameterType="java.util.HashMap" resultType="Apply">
+		select * from apply where u_id = #{u_id} and s_id = #{s_id}
+	</select> 
+	
+	<update id="updateHit">
+		update study set s_total_hit = s_total_hit +1 where s_id = #{s_id}
+	</update>
+	
+
+	<select id="listRank" parameterType="int" resultType="ListRank">
+		select u.u_name, a.a_rank
+		from users u, studyactivity s, abilityinfo a
+		where u.u_id = s.u_id
+		and a.j_id = s.j_id
+		and s_id = #{s_id}
+	</select>
+
+<!-- 
+	<select id="selectS_id" resultType="Integer">
+		select max(s_id) from study
+	</select>
+	
+	<select id="listStudyGroup" resultType="StudyGroup">
+		select * from study
+	</select>
+	
+	
+	
+	<select id="selectStudyMember" parameterType="int" resultType="Users">
+		select * from users where u_id in (select u_id from studyActivity where s_id = #{s_id})
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	<select id="applyListinfo" parameterType="int" resultType="Applydata" >
 		select a.APPLY_ID as APPLY_ID ,a.S_ID as S_ID,a.U_ID as U_ID ,a.RANK_FOR_APPLY as RANK_FOR_APPLY, u.U_NAME as U_NAME from apply a ,users u where a.s_id = #{s_id} and a.u_id = u.u_id
@@ -68,9 +117,7 @@
 		select * from apply where apply_id = #{apply_id}
 	</select>
 	
-	<insert id="insertActivity" parameterType="Apply">
-		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{u_id},#{s_id},SYSDATE,SYSDATE )
-	</insert>
+	
 	
 	<select id="listCalendarService" parameterType="int" resultType="PlanInfo">
 		select * from planinfo where s_id = #{s_id}
@@ -84,11 +131,7 @@
 		select * from studyactivity where s_id=#{s_id} and u_id =#{u_id}
 	</select>
 	
-	<insert id="insertAbiliy" parameterType="java.util.HashMap">
-		insert into abilityInfo values(
-			(select nvl(Max(a_id),0) from abilityInfo)+1,#{j_id},#{rank}
-		)
-	</insert>
+	
 	
 	 -->
 </mapper>

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>Insert title here</title>
 <!-- js -->
 <script
@@ -118,8 +119,7 @@
 		</div>
 		<div></div>
 	</div>
-
-
+   
 	<!-- 오프라인스터디 위치 설정  -->
 	<div class="panel-body panel-medium" id="container">
 		<div class="contents" id="contents">
@@ -479,7 +479,7 @@
 				</div>
 			</div>
 
-			<form class="form-horizontal" action="createOk.jsp" method="post">
+			<form class="form-horizontal" action="createStudy2" method="post">
 				<fieldset>
 
 					<!-- 스터디 기간 -->
@@ -576,8 +576,20 @@
 					<input type="hidden" id="s_address" name="s_address" value=null>
 					<input type="hidden" id="s_location_x" name="s_location_x" value=0>
 					<input type="hidden" id="s_location_y" name="s_location_y" value=0>
-					
-					
+					<input type="hidden" id="t_start" name="t_start" value="${t_start}">
+					<input type="hidden" id="t_end" name="t_end" value="${t_end}">
+					<input type="hidden" id="s_name" name="s_name" value="${studygroup.s_name}">
+					<input type="hidden" id="s_intro" name="s_intro" value="${studygroup.s_intro}">
+					<input type="hidden" id="s_tag" name="s_tag" value="${studygroup.s_tag}">
+					<input type="hidden" id="s_mento_check" name="s_mento_check" value="${studygroup.s_mento_check}">
+					<input type="hidden" id="s_kind_check" name="s_kind_check" value="${studygroup.s_kind_check}">
+					<input type="hidden" id="s_time_check" name="s_time_check" value="${studygroup.s_time_check}">
+					<input type="hidden" id="s_deposit" name="s_deposit" value="${studygroup.s_deposit}">
+					<input type="hidden" id="deposit_check" name="deposit_check" value="${deposit_check}">
+					<input type="hidden" id="s_max_member" name="s_max_member" value="${studygroup.s_max_member}">
+					<input type="hidden" id="s_t_start" name="s_t_start" value="${studygroup.s_t_start}">
+					<input type="hidden" id="s_t_end" name="s_t_end" value="${studygroup.s_t_end}">
+					<input type="hidden" name="s_leader_id" value="${users.u_id}">
 					
 					<!-- 확인 or 취소 -->
 					<div class="form-group" id="confirm">

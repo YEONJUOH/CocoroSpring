@@ -16,12 +16,14 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	
+
 	<!-- Tiles Setting -->
- <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	<beans:bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles-defs/tiles2def.xml</beans:value>
+				<beans:value>/WEB-INF/tiles-defs/searchTiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
@@ -30,42 +32,49 @@
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles2.TilesView" />
-	   
+
 		<beans:property name="order" value="1" />
 	</beans:bean>
 
-<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order" value="2"></beans:property>
-	</beans:bean> 
-
-<!-- 	제일 마지막으로 해줘야지 null값을 뛰어넘는다.
-	<beans:bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="order" value="2"></beans:property>
 	</beans:bean>
- -->
- 
- 	<!-- 인터셉터 설정 -->
+
+	<!-- 제일 마지막으로 해줘야지 null값을 뛰어넘는다. <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<beans:property name="order" value="2"></beans:property> </beans:bean> -->
+
+	<!-- 인터셉터 설정 -->
 	<beans:bean id="usersInterceptor" class="cocoro.users.controller.UsersInterceptor"></beans:bean>
-	
+
 	<interceptors>
 		<interceptor>
-		<!-- 해당 맵핑이 호출됬을때 인터셉터 실시 -->
-			<mapping path=""/>
-		<!-- 위에 만들어놓은 인터셉터를 주입 -->
-		<beans:ref bean="usersInterceptor"/>
+			<!-- 해당 맵핑이 호출됬을때 인터셉터 실시 -->
+			<mapping path="" />
+			<!-- 위에 만들어놓은 인터셉터를 주입 -->
+			<beans:ref bean="usersInterceptor" />
 		</interceptor>
 	</interceptors>
-	 	
- 	
+
+	<!-- 업로드 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"></beans:property>
+	</beans:bean>
+
+	<!-- 업로드 위치 -->
+	<beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg
+			value="/Users/hi/git/CocoroSpring/Cocoro/src/main/webapp/resources/upload" />
+	</beans:bean>
+
 	<context:component-scan base-package="cocoro.home.controller" />
-    <context:component-scan base-package="cocoro.search.*" />
+   <context:component-scan base-package="cocoro.search.*" />
     <context:component-scan base-package="cocoro.study.*" />
-    <context:component-scan base-package="cocoro.users.*" />
+    <context:component-scan base-package="cocoro.users.*" /> 
 
 </beans:beans>
