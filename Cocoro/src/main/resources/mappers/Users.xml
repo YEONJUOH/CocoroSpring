@@ -119,9 +119,9 @@
    <update id="usersModify" parameterType="Users">
       UPDATE USERS 
       SET
-      u_image = #{u_image},u_intro = #{u_intro},
+      u_image = #{u_image},u_bgimg=#{u_bgimg},u_intro = #{u_intro},
       u_tag = #{u_tag},u_address_check=#{u_address_check},
-      u_address = #{u_address},u_birth_check=#{u_birth_check},
+      u_address = #{u_address},
       u_sns_address=#{u_sns_address},u_mento_check = #{u_mento_check}
       WHERE u_id= #{u_id}
    </update>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.LoginVo;
+import cocoro.users.domain.Mento;
 import cocoro.users.domain.Users;
 import cocoro.users.service.UsersServiceImpl;
 
@@ -34,7 +36,7 @@ import cocoro.users.service.UsersServiceImpl;
 @Controller
 @RequestMapping("/users/*")
 public class UsersController {
-
+	
 	@Resource(name="uploadPath")
 	private String uploadPath;
 	
@@ -50,6 +52,35 @@ public class UsersController {
 		service.insertUsers(users);
 		return "redirect:beforeMain";
 	}
+	//정보수정 
+			@RequestMapping("/usersModify")
+			public void usersModify(Users users, MultipartFile fileBack,MultipartFile fileProfile,Mento mento)throws Exception{
+			
+			String u_address = users.getU_address();
+			u_address = new String(u_address.getBytes("8859_1"),"utf-8");
+			String u_tag = users.getU_tag();
+			u_address = new String(u_tag.getBytes("8859_1"),"utf-8");
+			
+			System.out.println(users.getU_id());
+			System.out.println(users.getU_intro());
+			System.out.println(users.getU_tag());
+			System.out.println(users.getU_address_check());
+			System.out.println(users.getU_sns_address());
+			System.out.println(users.getU_mento_check());
+			
+			//파일 업로드
+				String u_bgimg = uploadFile(fileBack.getOriginalFilename(), fileBack.getBytes());
+				String u_image = uploadFile(fileProfile.getOriginalFilename(), fileProfile.getBytes());
+				System.out.println("넘어온 프로필" + u_image);
+				System.out.println("넘어온 배경 "+ u_bgimg);
+				
+				users.setU_address(u_address);
+				users.setU_tag(u_tag);
+				users.setU_bgimg(u_bgimg);
+				users.setU_image(u_image);
+				
+				service.usersModify(users);
+			}
 	
 	//로그인 후 기본 맵핑
 	@RequestMapping(value = "/afterMain", method = RequestMethod.GET)
@@ -148,10 +179,10 @@ public class UsersController {
 		//후기 남기기
 		@RequestMapping("/usersAfter")
 		public void usersAfter(Comment comment, MultipartFile file)throws Exception{
-		System.out.println(comment.getC_comment());
-		System.out.println(comment.getC_o_id());
-		System.out.println(comment.getU_id());
-		
+		String c_comment = comment.getC_comment();
+		c_comment = new String(c_comment.getBytes("8859_1"),"utf-8");
+		//한글이 깨져서 인코딩을 해줌
+		comment.setC_comment(c_comment);
 		//파일 업로드
 		if(!file.getOriginalFilename().equals("")){
 			String saveName = uploadFile(file.getOriginalFilename(), file.getBytes());
@@ -161,9 +192,9 @@ public class UsersController {
 			comment.setC_img("");
 		}
 		//넘어온 파일이 없다면 null이들어간다.
-		
 		service.usersAfter(comment);
 		}
+		
 		//이미지 업로드시 중복될수 있는 이름 때문에
 		private String uploadFile(String originalName , byte[] fileData)throws Exception{
 			UUID uid = UUID.randomUUID();

@@ -49,6 +49,27 @@ $(function(){
 		}
 		})
 	});
+	//수정
+	$('#modifyForm').submit(function(e){
+		event.preventDefault();
+		
+		var formData = new FormData($(this)[0]);
+
+		$.ajax({
+			url: '/users/usersModify',
+			type: 'post',
+			contentType: false,
+			processData: false,
+			data: formData,
+			success : function(data){
+				alert('성공');
+			},
+		error :	function(){
+			alert('수정완료');
+			location.href = "/users/mypage?u_id=${users.u_id}"
+		}
+		})
+	});
 	
 	//팔로우 보여주는 페이지의 높이가 316이넘었을때
 	if($('#followYou').height() > 316){
@@ -59,6 +80,15 @@ $(function(){
 		$('#followMe').css('height',316);
 		$('#followMe').css('overflow','hidden');
 	}
+	
+	$("input[name=u_mento_check]").change(function() {
+		var check = $(this).val();
+		if(check == "T"){
+			$('#mentoForm').slideDown();
+		}else{
+			$('#mentoForm').slideUp();
+		}
+	})
 })
 </script>
 </head>
@@ -75,18 +105,17 @@ $(function(){
 
 								<!-- 프로필 -->
 								<div class="fb-profile">
-									<img align="left" class="fb-image-lg" src="/resources/img/img2.jpg"
+									<img align="left" class="fb-image-lg" src="/resources/img/${users.u_image}"
 										alt="Profile image example" /> 
-										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/img2.jpg" alt="Profile image example" style="width: 180px; height: 170px;" />
+										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${users.u_bgimg}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
 										<h1>${users.u_name}</h1>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
-											<ul class="nav nav-tabs" role="tablist" style="margin-left: 70%;">
+											<ul class="nav nav-tabs" role="tablist" style="margin-left: 81%;">
 												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
 												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-												<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Modify</a></li>
 											</ul>
 											<!-- Home탭 메뉴 -->
 											<div class="tab-content">
@@ -219,20 +248,20 @@ $(function(){
 																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${users.u_image}" alt="Lorem ipsum" /></a>
 																</div>
 														<article class="search-result row">
-															<div class="col-xs-12 col-sm-12 col-md-2"
-																style="margin-top: 20px;">
+															<div class="col-xs-12 col-sm-12 col-md-2" style="margin-top: 20px;">
 																<ul class="meta-search">
-																	<li><i class="glyphicon glyphicon-calendar"></i>
-																		생년월일 : <span>${users.u_birth}</span></li>
-																	<li><i class="glyphicon glyphicon-time"></i> 주소 :
-																		<span> ${users.u_address} </span></li>
-																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 :
-																		<span>${users.u_tag}</span></li>
+																	<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span>${users.u_birth}</span></li>
+																	<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> ${users.u_address} </span></li>
+																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 : <span>${users.u_tag}</span></li>
 																</ul>
 															</div>
-															<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+															<div class="col-xs-12 col-sm-12 col-md-4 excerpet">
 																<h3>자기소개</h3>
 																<p>${users.u_intro}</p>
+															</div>
+															<div class="col-xs-12 col-sm-12 col-md-3 excerpet">
+																  <p>잔액: 1000</p>
+                          										 <button class="btn btn-info btn-lg" href="#signup" data-toggle="modal" data-target=".u_account">계좌관리</button>
 															</div>
 															<span class="clearfix borda"></span>
 														</article>
@@ -295,31 +324,187 @@ $(function(){
 													</div>								
 												</div>
 												<!-- 세번째 메뉴  -->
-												<div role="tabpanel" class="tab-pane" id="messages">
-												
-												
-												
-												
-												
-												
-												
+									<div role="tabpanel" class="tab-pane" id="messages">
+										<div class="row" style="background-color: #fff;">
+									        <form class="form-horizontal" id ="modifyForm" method="post" enctype="multipart/form-data">
+									        <input type="hidden" name="u_id" value="${users.u_id}">
+									        <div class="col-md-6 text-center" style="margin-top: 40px;">
+									        	<h3>현재 배경</h3>
+									        	<div class="col-md-12 text-center" >
+									        		<img src="/resources/img/${users.u_bgimg}" width="50%;" height="50%;">
+													<input type="file" name="fileBack" style="display: inline-block;">
+									        	</div><br>
+									        	<h3>현재 프로필</h3>
+												<div class="col-md-12">
+									        		<img src="/resources/img/${users.u_image}" width="50%;" height="50%;">
+													<input type="file" name="fileProfile" value="${users.u_image}" style="display: inline-block;">
+									        	</div>									        
+									  		</div>
+									        <div class="col-md-6">
+											 <div class="page-header">
+									    	    <h1>${users.u_name} <small>Modify</small></h1>
+									        </div>
+									        <!-- 자기소개 -->
+									        <div class="form-group">
+									          <label class="col-sm-3 control-label" >자기소개</label>
+									        <div class="col-sm-6">
+									        	  <input type="text" id="u_intro" class="form-control" name="u_intro" placeholder="${users.u_intro}" value="${users.u_intro}">
+									        </div>
+									        </div>
+									        <!-- 관심사 -->
+									          <div class="form-group">
+									              <label class="col-sm-3 control-label">관심사</label>
+									             <div class="col-sm-6">
+									           	  <input type="text" class="form-control" name="u_tag" placeholder="${users.u_tag}" value="${users.u_tag}">
+												  </div>
+									          </div>
+									          <!-- 주소공개 여부 -->
+									        <div class="form-group">
+									            <label class="col-sm-3 control-label" for="inputName">주소공개</label>
+									          <div class="col-sm-6">
+									         	<label class="radio-inline">
+												  <input type="radio" name="u_address_check" id="u_address_check" value="T" checked="checked"> 공개
+												</label>
+												<label class="radio-inline">
+												  <input type="radio" name="u_address_check" id="u_address_check" value="F" > 비공개
+												</label>	
+									          </div>
+									        </div>
+									        <!-- 주소 -->
+											<div class="form-group">
+									          <label class="col-sm-3 control-label">주소</label>
+									        <div class="col-sm-6">
+									       	  <input type="text" class="form-control" name="u_address" placeholder="${users.u_address}" value="${users.u_address}">
+											 </div>
+									        </div>
+									        <!-- 생년월일 -->
+									        <div class="form-group">
+									        	<label class="col-sm-3 control-label">생년월일 공개</label>
+									       	 <div class="col-sm-6">
+												 <h4 class="title">생년월일 : ${users.u_birth}</h4>
+											 </div>
+									        </div>
+									        <!-- SNS -->
+									         <div class="form-group">
+									            <label class="col-sm-3 control-label">SNS</label>
+									          <div class="col-sm-6">
+									          	  <input type="text" class="form-control" name="u_sns_address" placeholder="${users.u_sns_address}" value="${users.u_sns_address}">
+									          </div>
+									        </div>
+									        <!-- 멘토여부 -->
+									         <div class="form-group">
+									            <label class="col-sm-3 control-label">멘토여부</label>
+									          <div class="col-sm-6">
+									          <label class="radio-inline">
+													  <input type="radio" name="u_mento_check" id="u_mento_check" value="T" onclick="mento_check"> 예
+													</label>
+													<label class="radio-inline">
+													  <input type="radio" name="u_mento_check" id="u_mento_check" value="F" onclick="mento_check"> 아니오
+													</label>
+									          </div>
+									        </div>
+									        <!-- 멘토폼 -->
+									         <div class="form-group" id="mentoForm">
+									            <label class="col-sm-3 control-label">멘토분야</label>
+									          <div class="col-sm-6">
+									          	  <input type="text" class="form-control" name="m_major" placeholder="멘토링 분야를 쓰세요">
+									          </div>
+									        </div>
+									        <div class="form-group">
+									          <div class="col-sm-12 text-center">
+									            <button class="btn btn-primary" type="submit">수정</button>
+									          </div>
+									        </div>
+									        </div>
+									        </form>
+											</div>
 												</div>
-												<div role="tabpanel" class="tab-pane" id="settings">...</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<!--/row-->
 						</div>
-						<!-- /col-9 -->
 					</div>
-					<!-- /padding -->
 				</div>
-				<!-- /main -->
 			</div>
 		</div>
 	</div>
+	
+	
+	<!-- 계좌관리 모달 -->
+	<!-- Modal -->
+<div class="modal fade u_account" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="width: 60%; margin-left: 22%; ">
+        <br>
+       <!--  모달메뉴 -->
+        <div class="bs-example bs-example-tabs">
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#signin" data-toggle="tab">계좌관리</a></li>
+            </ul>
+        </div>
+       <!-- 입금폼 -->
+      <div class="modal-body">
+        <div id="myTabContent" class="tab-content">
+          <div class="modal-body">
+        <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="signin">
+           <!-- 입금버튼  -->
+            <form class="form-horizontal" action="../page/mypage/mypageAccountOk.jsp?u_id=${users.u_id}" method="post">
+            <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="u_balance">입금액:</label>
+              <div class="controls">
+                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required="">
+                 <input type="hidden" name="check" value="true"> 
+              </div>
+            </div>
+
+            <!-- 입금버튼 -->
+            <div class="control-group">
+              <label class="control-label" for="signin"></label>
+              <div class="controls">
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="margin-left: 40%;">입금하기</button>
+              </div>
+            </div>
+            </fieldset>
+            </form>
+            
+            <!-- 출금폼 -->
+             <form class="form-horizontal" action="../page/mypage/mypageAccountOk.jsp?u_id=${users.u_id}" method="post">
+            <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="u_balance">출금액:</label>
+              <div class="controls">
+                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="출금액을 적어주세요" class="input-medium" required="">
+                 <input type="hidden" name="check" value="false"> 
+              </div>
+            </div>
+
+            <!-- 출금버튼 -->
+            <div class="control-group">
+              <label class="control-label" for="signin"></label>
+              <div class="controls">
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="margin-left: 40%;">출금하기</button>
+              </div>
+            </div>
+            </fieldset>
+            </form>
+        </div>
+        
+    </div>
+      </div>
+      <div class="modal-footer">
+      <center>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>      
+</div>
+</div>
 </body>
 </html>
 </html>
