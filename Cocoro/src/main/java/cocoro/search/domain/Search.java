@@ -14,6 +14,7 @@ public class Search {
 	private String mentorFilter;
 	private String com_filter;
 
+	
 	private String locCheck;
 
 	private double lat;
@@ -31,7 +32,28 @@ public class Search {
 
 	private String tutorCheck;
 
+	//Ãß°¡
+	private String address;
 	
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setStartT(int startT) {
+		this.startT = startT;
+	}
+
+	public void setEndT(int endT) {
+		this.endT = endT;
+	}
+
 	public String getSearchCtg() {
 		return searchCtg;
 	}
@@ -85,7 +107,7 @@ public class Search {
 		this.lng = lng;
 	}
 
-	public String getStartTime() {
+	public String getStartTime(){
 		return startTime;
 	}
 
@@ -206,7 +228,7 @@ public class Search {
 		return timeCheck;
 	}
 
-	public void setTimeCheck(String timeCheck) {
+	public void setTimeCheck(String timeCheck){
 		this.timeCheck = timeCheck;
 
 	}

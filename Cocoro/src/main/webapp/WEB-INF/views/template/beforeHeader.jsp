@@ -25,7 +25,7 @@ $(function(){
 		event.preventDefault();
 		var params = $('#loginForm').serialize();
 		$.ajax({
-			url: '/users/usersLogin',
+			url: '/rest/usersLogin',
 			type: 'post',
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			data:params,
@@ -35,7 +35,9 @@ $(function(){
 				location.href = "/users/afterMain";
 			},
 			error : function() {
-                alert('로그인 실패');
+				alert('실패');
+				$('#check').empty();
+                $('#check').append('<div style="margin-left:15px; color:#ff00ff">아이디 비밀번호를 확인해주세요</div>');
 			}
 		})
 	})
@@ -57,9 +59,9 @@ $(function(){
 			<div id="navbar" class="collapse navbar-collapse">
 				<form action="" method="post" id="loginForm">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">아이디<br><input type="text" name="u_email" required></a></li>
-					<li><a href="#">비밀번호<br><input type="password" name="u_pwd" required></a></li>
-					<li><button class="btn-primary" id="loginBtn" type="submit">로그인</button></li>
+					<li><a href="#">아이디<br><input type="text" name="u_email" id="email" required></a><div id="check"></div></li>
+					<li><a href="#">비밀번호<br><input type="password" name="u_pwd" id="pwd" required></a></li>
+					<li><button class="btn-primary" id="loginBtn" type="submit" style="width: 100%;">로그인</button></li>
 				</ul>
 				</form>
 			</div>

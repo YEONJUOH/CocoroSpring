@@ -3,6 +3,9 @@ package cocoro.search.persistence;
 import java.util.List;
 
 import cocoro.search.domain.Search;
+import cocoro.search.domain.SearchInfo;
+import cocoro.search.domain.tagSearch;
+import cocoro.search.domain.tagSuggestion;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
 
@@ -11,8 +14,12 @@ public interface SearchDAO {
 	
 	public List<StudyGroup> searchResult(Search search) throws Exception;
 	public List<Users> searchPeople(Search search) throws Exception;
-	public  int getSnum(String str);
-	
+	public  int getSnum(String str) throws Exception;
+	public List<tagSuggestion> tagSuggest(tagSearch tagSearch) throws Exception;
+	public int insertSearchInfo(SearchInfo searchInfo) throws Exception;
+	public int updateSearchInfo(SearchInfo searchInfo) throws Exception;
+	public int recommendSelectS_id(int u_id) throws Exception;
+	public List<StudyGroup> recommendStudy(List<Integer> listInt) throws Exception;
 }
 
 /*package cocoro.search.dao;

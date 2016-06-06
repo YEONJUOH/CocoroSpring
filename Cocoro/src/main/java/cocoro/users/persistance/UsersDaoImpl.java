@@ -9,7 +9,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.Criteria;
+import cocoro.users.domain.Follow;
 import cocoro.users.domain.LoginVo;
+import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 
 //Respositroy 스프링에서 Dao를 인식할 수 있도록 해준다.
@@ -57,6 +60,25 @@ public class UsersDaoImpl implements UsersDao {
 	public void usersFollow(HashMap<String, Integer> follow) throws Exception {
 		sqlsession.insert(namespace +".usersFollow" , follow);
 	}
+	//팔로우끊기 
+	@Override
+	public void usersUnFollow(HashMap<String, Integer> unFollow) throws Exception {
+		sqlsession.delete(namespace+ ".usersUnFollow" , unFollow);
+	}
+	//나를 팔로우 중인 목록
+	@Override
+	public List<Users> usersFollowListMe(Integer u_id) throws Exception {
+		return sqlsession.selectList(namespace+ ".usersFollowListMe", u_id); 
+	}
+	//내가 팔로우 중인 목록
+	@Override
+	public List<Users> usersFollowListYou(Integer f_o_id) throws Exception {
+	    return sqlsession.selectList(namespace+ ".usersFollowListYou", f_o_id); 
+	}
+	//팔로우 체크
+	public Follow usersFollowCheck(HashMap<String, Integer> followCheck)throws Exception{
+		return sqlsession.selectOne(namespace + ".usersFollowCheck", followCheck);
+	}
 	//후기작성
 	@Override
 	public void usersAfter(Comment comment) throws Exception {
@@ -67,5 +89,32 @@ public class UsersDaoImpl implements UsersDao {
 	public List<Comment> usersAfterInfo(Integer u_id) throws Exception {
 		return sqlsession.selectList(namespace + ".usersAfterInfo",u_id);
 	}
+	//후기를 남긴 친구들의 정보
+	@Override
+	public List<Users> usersAfterUsersInfo(Integer u_id) throws Exception {
+		return sqlsession.selectList(namespace +".usersAfterUsersInfo",u_id);
+	}
+	//쪽지 보내기
+	@Override
+	public void sendMessage(Message message) throws Exception {
+		sqlsession.insert(namespace +".sendMessage" , message);
+	}
+	
+	
+	
+	
+	
+	@Override
+	public List<Users> listFollowUsers(int page) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Users> criterFollowUsers(Criteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 }

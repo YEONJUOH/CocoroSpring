@@ -24,6 +24,17 @@ public class Users implements Serializable{
 	private int u_like_num;
 	private String u_sns_address;
 	private int u_goal_ration;	//목표달성률
+	private String u_bgimg; 
+	
+	
+
+	public String getU_bgimg() {
+		return u_bgimg;
+	}
+
+	public void setU_bgimg(String u_bgimg) {
+		this.u_bgimg = u_bgimg;
+	}
 
 	// 추가1
 	private String u_name;

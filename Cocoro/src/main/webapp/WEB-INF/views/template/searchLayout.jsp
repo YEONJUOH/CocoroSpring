@@ -9,6 +9,7 @@
 </head>
 <body>
 <tiles:insertAttribute name="header"/>
+<tiles:insertAttribute name="sidebar"/>
 <tiles:insertAttribute name="body"/>
 </body>
 </html>

@@ -3,7 +3,9 @@ package cocoro.search.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import cocoro.studygroup.model.StudyGroup;
+
+import cocoro.study.domain.StudyGroup;
+
 
 public class Norm {
 
