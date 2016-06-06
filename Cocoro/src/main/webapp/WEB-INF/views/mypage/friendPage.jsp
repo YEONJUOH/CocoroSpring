@@ -54,7 +54,7 @@ $(function(){
 		event.preventDefault();
 		
 		var params = $('#followForm').serialize();
-	 	alert(params);
+		
 	 	var name = $('#followName').val();
 	 	var image = $('followImage').val();
 		
@@ -240,7 +240,7 @@ $(function(){
 																<div class="list-group col-md-12">
 																<c:forEach var="followMe" items="${followMe}">
 																	<div class="col-md-3">
-																	<a href="friendPage?u_id"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a>
+																	<a href="/users/friendPage?u_id=${followMe.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a>
 																	${followMe.u_name}
 																	</div>
 																</c:forEach>
