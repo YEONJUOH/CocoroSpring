@@ -1,8 +1,9 @@
 package cocoro.study.domain;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class StudyActivity {
+public class StudyActivity  implements Serializable {
 
 	private int j_id;
 	private int u_id;

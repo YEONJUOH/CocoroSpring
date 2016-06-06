@@ -9,26 +9,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-// 	StudyDetailService service = StudyDetailService.getInstance();
-// 	int s_id =4;
-// 	request.setAttribute("s_id", s_id);
-// 	List<Applydata> list =  service.applyList(s_id);
-// 	System.out.println(list.size()+"리스트사이즈");
-// 	request.setAttribute("list", list);
-// 	StudyGroup stg = service.selectStudy(s_id);
-// 	System.out.println(stg);
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html> 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href='../js/calender/fullcalendar.css' rel='stylesheet' />
-<link href='../js/calender/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='../js/calender/moment.min.js'></script>
-<script src='../js/calender/jquery.min.js'></script>
-<script src='../js/calender/fullcalendar.min.js'></script>
+<link href='/resources/js/calendar/fullcalendar.css' rel='stylesheet' />
+<link href='/resources/js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='/resources/js/calendar/moment.min.js'></script>
+<script src='/resources/js/calendar/jquery.min.js'></script>
+<script src='/resources/js/calendar/fullcalendar.min.js'></script>
 <script type="text/javascript">//src='../js/calender/ca.js'
 (function($){
 	$(document).ready(function() {
@@ -37,15 +27,14 @@
 				var d = date.getDate();
 				var m = date.getMonth();
 				var y = date.getFullYear();
-<%-- 				var temp = "<%=s_id%>"; --%>
+				var temp = "${s_id}";
 				//로드될때 해당 스터디의 일정을 검색해서 바인딩 시키는 부분
 				$.ajax({
-<%-- 					url:'../test/json-events22.jsp?s_id=<%=s_id%>', --%>
+ 					url:'json-events22?s_id='+temp, 
 					type:'post',
 					dataType:'json',
 					success:function(json){
 						console.log("ajax성공");
-						alert("찍혀야지");
 						for(var i=0; i<json.length;i++){
 							var jsonObj={};
 							jsonObj.id = json[i].plan_id;
@@ -77,16 +66,13 @@
 						                  start: start
 						               };
 						           var full = (start)._d.getFullYear()+"-"+((start)._d.getUTCMonth()+1)+"-"+(start)._d.getDate();
-//									location.href='calenderInsert.jsp?plan_name='+title+"&plan_comment="+content+"&plan_date="+full;
 									$.ajax({
-										url:'insertschedule.jsp?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
+										url:'insertschedule?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
 										type:'get',
 										dataType : 'json',
 										success: function(){
-											alert("꺼죨");
 										},
 										error:function(){
-											alert("안꺼죨");
 										}
 										
 									});//a작스닫기
@@ -123,9 +109,10 @@
 })(jQuery);
 </script>
 <script type="text/javascript">
+	//가입 지원자의 지원을 허가 할때 발생하는 함수
 	function applygogo(apply_id,index){
 		$.ajax({
-			url:'../test/applygogo.jsp?apply_id='+apply_id,
+			url:'applygogo?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
@@ -141,13 +128,14 @@
 			
 		});//a작스닫기
 	}
+	//가입지원자를 거부하였을때 발생하는 함수
 	function rejectgogo(apply_id,index){
 		$.ajax({
-			url:'../test/rejectgogo.jsp?apply_id='+apply_id,
+			url:'rejectgogo?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
-				alert("꺼죨");
+				console.log("ㅎㅎ0거부거부");
 			},
 			error:function(){
 				var item = document.getElementById("btnreject_"+index);
@@ -158,21 +146,30 @@
 			}
 			
 		});//a작스닫기
+	}
+	//스터디룸에 입장하기버튼을 눌렀을때 가는 함수
+	function StudyRoomjoin(){
+		location.href="/StudyDetail/StudyRoom";
 	}
 </script>
 </head>
 <body>
 	<div class="bg-success" style="margin-left: 30px; margin-right: 30px;">
-	  		<div style="float: left;"><img src="ab.PNG" alt="..." class="img-thumbnail"></div>
+	  		<div style="float: left;"><img src="/resources/js/calendar/ab.PNG" alt="..." class="img-thumbnail"></div>
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
 	  		<p style="float: left;"><h3>${study.s_name }</h3></p>
-	  		<button type="button" class="btn btn-danger">스터디룸 입장</button>
+	  		<button type="button" class="btn btn-danger" onclick="javasciprt:StudyRoomjoin()">스터디룸 입장</button>
+	  		
+	  		<button type="button" class="btn btn-default" onclick="#">출석체크</button>
+
+	  		<c:if test="${study.s_leader_id == users.u_id}">
 	  		<button type="button" class="btn btn-default" aria-label="Left Align">
  				 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
 			</button>
 			<button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
  				 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			</button>
+			</c:if>
 			<!-- 가입신청한 사람들을 표시해주기 위한 모달모달 -->
 					<!--    Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
@@ -183,7 +180,7 @@
 									<h2>가입 희망자 </h2>
 								</div>
 								<div class="modal-body">
-<!-- 									<form class="form-horizontal" action="calenderInsert.jsp"method="post"> -->
+									<form class="form-horizontal" action="calenderInsert.jsp"method="post">
 										<table class="table table-hover">
 											<tr>
 												<th>A_ID</th>
@@ -209,13 +206,13 @@
 												</tr>
 											</c:if>
 										</table>
-<!-- 									</form> -->
+									</form>
 								</div>
 							</div>
 						</div>
 					</div>
 			<br />
-			<p>영어를 정복하기 위한 김정복씨와 함께하는 영어 스터디</p>
+			<p>${study.s_intro}</p>
 			<br />
 			</div>
 			<div class="mid" style="height: 500px;width: 100%;border-top:5px solid white;">
@@ -245,7 +242,7 @@
 	</div>
 	
 </body>
-<script src='../js/calender/fullcalendar.min.js'></script>
-<link href='../js/calender/fullcalendar.css' rel='stylesheet' />
-<link href='../js/calender//fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='/resources/js/calendar/fullcalendar.min.js'></script>
+<link href='/resources/js/calendar/fullcalendar.css' rel='stylesheet' />
+<link href='/resources/js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 </html>

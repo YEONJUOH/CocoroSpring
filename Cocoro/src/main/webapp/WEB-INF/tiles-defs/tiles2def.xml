@@ -43,7 +43,15 @@
 	<definition name="friendPage" extends="after_layout">
 		<put-attribute name="body" value="/WEB-INF/views/mypage/friendPage.jsp"></put-attribute>
 	</definition>
-
+<!-- StudyDetail 레이아웃 -->
+	<definition name="studyLayout" template="/WEB-INF/views/template/studyLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/studyHeader.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
+	</definition> 
+	
+	<definition name="studyview" extends="studyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/StudyDetail/studydetail.jsp"></put-attribute>
+	</definition>
 
 </tiles-definitions>
 

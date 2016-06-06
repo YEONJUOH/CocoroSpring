@@ -1,4 +1,4 @@
-package cocoro.study.service;
+package cocoro.study.persistance;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
 
 import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
@@ -14,69 +16,63 @@ import cocoro.study.domain.Applydata;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
-import cocoro.study.persistance.StudyDetailDao;
 import cocoro.users.domain.Users;
 
-@Service
-public class StudyDetailServiceImpl implements StudyDetailService {
+
+@Repository
+public class StudyDetailDaoImpl implements StudyDetailDao {
 
 	@Inject
-	private StudyDetailDao dao;
+	private SqlSession session;
 	
-	@Override
-	public int creatStudy(StudyGroup studygroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	private static String namespace = "cocoro.mapper.StudyDatailMapper";
+
 
 	@Override
 	public int insertSchedule(PlanInfo pi) {
-		return dao.insertSchedule(pi);
+		return session.insert(namespace + ".insertSchedule", pi);
 	}
 
 	@Override
 	public List<Applydata> applyList(int s_id) {
-		return dao.applyList(s_id);
+		return session.selectList(namespace + ".applyList", s_id);
 	}
 
 	@Override
 	public int deleteApply(int apply_id) {
-		return dao.deleteApply(apply_id);
+		return session.delete(namespace + ".deleteApply", apply_id);
 	}
 
 	@Override
 	public Apply selectApply(int apply_id) {
-		return dao.selectApply(apply_id);
+		return session.selectOne(namespace + ".selectApply", apply_id);
 	}
 
 	@Override
 	public int insertActivity(Apply apply) {
-		return dao.insertActivity(apply);
+		return session.insert(namespace + ".insertActivity", apply);
 	}
 
-	//캘린더의 목록을 가지고 오기위한 구문
 	@Override
 	public List<PlanInfo> listCalendarService(int s_id) {
-		return dao.listCalendarService(s_id);
+		return session.selectList(namespace + ".listCalendarService", s_id);
 	}
 
 	@Override
 	public StudyGroup choseStudy(int s_id) {
-		return dao.choseStudy(s_id);
+		return session.selectOne(namespace + ".choseStudy", s_id);
 	}
 
-	//지원한 스터디가 어디인지 확인하기위한 메서드
 	@Override
 	public StudyActivity selectActivity(Apply apply) {
-		return dao.selectActivity(apply);
+		return session.selectOne(namespace+".selectActivity", apply);
 	}
 
-	//스터디 가입 승인시 가입과 동시에 해당 레벨을 어빌 테이블에 입력하는 메서드
 	@Override
 	public int insertAbiliy(Map<String, Integer> map) {
-		// TODO Auto-generated method stub
-		return dao.insertAbiliy(map);
+		return session.insert(namespace + ".insertAbiliy", map);
 	}
+	
 
-
+	
 }

@@ -9,6 +9,12 @@ public class Apply implements Serializable{
 	private int u_id;
 	private int rank_for_apply;
 	
+	@Override
+	public String toString() {
+		return "Apply [apply_id=" + apply_id + ", s_id=" + s_id + ", u_id=" + u_id + ", rank_for_apply="
+				+ rank_for_apply + "]";
+	}
+
 	public Apply(){};
 	
 	public int getApply_id() {
