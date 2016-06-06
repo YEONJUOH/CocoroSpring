@@ -1,6 +1,8 @@
 package cocoro.study.domain;
 
-public class AbilityInfo {
+import java.io.Serializable;
+
+public class AbilityInfo implements Serializable{
 
   private int a_id; 
   private int j_id;

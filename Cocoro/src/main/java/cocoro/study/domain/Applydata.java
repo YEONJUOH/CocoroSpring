@@ -1,6 +1,8 @@
 package cocoro.study.domain;
 
-public class Applydata {
+import java.io.Serializable;
+
+public class Applydata implements Serializable {
 
 	private int apply_id;
 	private int s_id;
