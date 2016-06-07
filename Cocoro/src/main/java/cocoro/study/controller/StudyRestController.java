@@ -21,9 +21,7 @@ public class StudyRestController {
 	
 	@RequestMapping(value="rankAjax",method=RequestMethod.POST)
 	public List<ListRank> rankAjax(@RequestParam("s_id") int s_id) throws Exception {
-		System.out.println("여기오긴했니?1212");
 		List<ListRank> list = service.listRank(s_id);
-		System.out.println(list.toString());
 		return list;
 	}
 

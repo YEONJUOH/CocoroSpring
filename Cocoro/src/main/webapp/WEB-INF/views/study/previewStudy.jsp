@@ -57,7 +57,7 @@
 					data : {
 						labels : chartLabels,
 						datasets : [ {
-							label : '# of Votes',
+							label : '스터디멤버 실력정보',
 							data : chartData,
 							backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
 									'rgba(54, 162, 235, 0.2)',

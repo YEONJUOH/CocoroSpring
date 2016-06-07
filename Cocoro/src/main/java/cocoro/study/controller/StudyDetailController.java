@@ -42,7 +42,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 	public String StudyDetail(HttpServletRequest request,Model model) throws Exception{
 		System.out.println("studydetail 컨트롤러");
 		//스터디 번호 
-		int s_id = 2;
+		int s_id = 7;
 		List<Applydata> list =  service.applyList(s_id);
 		StudyGroup study =  service.choseStudy(s_id);
 		model.addAttribute("list", list);

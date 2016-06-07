@@ -17,9 +17,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 
-	<!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property>-->
-	 <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="cocoroDB"></property><!--윈도우 사용자  -->
+	    <property name="url" value="jdbc:oracle:thin:@172.16.85.147:1521:XE"></property>
+		<property name="username" value="kosta111"></property>
          <property name="password" value="1234"></property>
 	</bean>
 
