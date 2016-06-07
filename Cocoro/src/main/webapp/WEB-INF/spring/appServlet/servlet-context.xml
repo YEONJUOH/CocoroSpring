@@ -77,14 +77,5 @@
     <context:component-scan base-package="cocoro.study.*" />
     <context:component-scan base-package="cocoro.users.*" /> 
     
-<!-- 	     업로드 -->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-			<beans:property name="maxUploadSize" value="10485760"></beans:property>
-		</beans:bean>
-		    
-<!-- 	 업로드 위치 -->
-	 <beans:bean id="uploadPath" class="java.lang.String">
-	 	<beans:constructor-arg value="/Users/hi/git/CocoroSpring/Cocoro/src/main/webapp/resources/upload"/>
-	 </beans:bean>
 
 </beans:beans>
