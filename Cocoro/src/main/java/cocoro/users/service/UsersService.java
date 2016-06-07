@@ -12,9 +12,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.Follow;
+import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 import cocoro.users.persistance.UsersDao;
 
 @Service
@@ -25,6 +27,10 @@ public interface UsersService {
 		public List<Users> usersList()throws Exception;
 		//유저 수정
 		public void usersModify(Users users)throws Exception;
+		//유저 배경 수정
+		public void usersBg(Users users)throws Exception;
+		//유저 프로필 수정
+		public void usersImg(Users users)throws Exception;
 		//유저삭제 
 		public void delUsers(Integer u_id)throws Exception;
 		//한명의 멤버만 가져오기
@@ -49,5 +55,25 @@ public interface UsersService {
 		public Follow usersFollowCheck(HashMap<String, Integer> folloCheck)throws Exception;
 		//쪽지 보내기
 		public void sendMessage(Message message)throws Exception;
+		//좋아요 누르기
+		public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
+		//좋아요 취소 
+		public void usersUnLike(HashMap<String, Integer> usersUnLike)throws Exception;
+		//좋아요 체트
+		public Likes usersLikeCheck(HashMap<String, Integer> usersLikeCheck)throws Exception;
+		//좋아요 할때마다 + 업데이트
+		public void usersLikeUpdate(int u_id)throws Exception;
+		//좋아요 때마다- 업데이트
+		public void usersLikeMinusUpdate(int u_id)throws Exception;
+		//계좌생성
+		public void usersAccount(UsersAccount usersAccount)throws Exception;
+		//해당 회원의 계좌 불러오기
+		public UsersAccount usersAccountInfo(int u_id)throws Exception;
+		//회원들의 계좌번호 불러오기(중복체크) 
+		public List<UsersAccount> usersAccountNumber()throws Exception;
+		//입금
+		public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
+		//출금 
+		public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
 		
 }

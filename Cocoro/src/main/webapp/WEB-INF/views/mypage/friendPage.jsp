@@ -50,13 +50,10 @@ $(function(){
 		})
 	});
 	//팔로우 버튼
-	$('#followForm').submit(function(e){
+	$('#followSend').submit(function(e){
 		event.preventDefault();
 		
-		var params = $('#followForm').serialize();
-		
-	 	var name = $('#followName').val();
-	 	var image = $('followImage').val();
+		var params = $('#followSend').serialize();
 		
 		$.ajax({
 			url: '/users/follow',
@@ -67,39 +64,12 @@ $(function(){
 			success: function(data){
 			},
 			error : function(){
-				alert('실패 ');
-				var div = '<div class="col-md-3">';
-				div += '<img src="/resources/img/'+image+'" alt="..." class="img-rounded" width="90px" height="60px;"><br>'; 
-				div += name;
-				div += '</div>';
-				
-				$('#followYouBody').append(div);
-			}
-		})	
-	})
-	
-	//팔로우 취소
-	$('#followForm').submit(function(e){
-		event.preventDefault();
-		
-		var params = $('#followForm').serialize();
-	 	alert(params);
-	 	var name = $('#followName').val();
-	 	var image = $('followImage').val();
-		
-		$.ajax({
-			url: '/users/follow',
-			type:'post',
-			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			data:params,
-			dataType:'html',
-			success: function(data){
-			},
-			error : function(){
-				alert('실패 ');
+				alert('팔로우 성공');
+				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
 			}
 		})	
 	});
+	
 	//팔로우 취소
 	$('#unFollwForm').submit(function(e){
 		event.preventDefault();
@@ -113,13 +83,54 @@ $(function(){
 			data:params,
 			dataType:'html',
 			success: function(data){
-				alert('성공');
 			},
 			error : function(){
-				alert('실패 ');
-			}
-		})
-	})
+				alert('팔로우 취소');
+				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				}
+		})	
+	});
+	//좋아요 버튼
+	$('#likesForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#likesForm').serialize();
+		
+		$.ajax({
+			url: '/users/usersLikes',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+			},
+			error : function(){
+				alert('좋아요');
+				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				}
+		})	
+	});
+	//싫어요 버튼
+	$('#unLikesForm').submit(function(e){
+		event.preventDefault();
+		
+		var params = $('#unLikesForm').serialize();
+		
+		$.ajax({
+			url: '/users/usersUnLikes',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+			},
+			error : function(){
+				alert('싫어요');
+				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				}
+		})	
+	});
+	
 	//쪽지 보내기
 	$('#mSendForm').submit(function(e){
 		event.preventDefault();
@@ -174,23 +185,36 @@ $(function(){
 										<!-- 팔로우하기 -->
 										<div>
 										<c:if test="${follow == null}">
-										<form  method="post" id="followForm">
-											<input type="hidden" name="f_o_id" value="${users.u_id}">
-											<input type="hidden" name="u_id" value="${fUsers.u_id}">
-											<input type="hidden" id="followName" value="${users.u_name}">
-											<input type="hidden" id="followImage" value="${users.u_image}">
-											<button class="btn-primary" type="submit" style="float: left;">팔로우</button>
+										<form  method="post" id="followSend">
+											<input type="hidden" name="f_o_id" value="${fUsers.u_id}">
+											<input type="hidden" name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우</button>
 										</form>
 										</c:if>
 										<c:if test="${follow != null}">
 										<!-- 팔로우취소 -->
 										<form method="post" id="unFollwForm">
-											<input type="hidden" name="f_o_id" value="${users.u_id}">
-											<input type="hidden" name="u_id" value="${fUsers.u_id}">
-											<button class="btn-primary" type="submit" style="float: left;">팔로우취소</button>
+											<input type="hidden" name="f_o_id" value="${fUsers.u_id}">
+											<input type="hidden" name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우취소</button>
 										</form>
 										</c:if>
-										<button class="btn-danger">좋아요</button>
+										<!-- 좋아요 -->
+										<c:if test="${likes == null}">
+										<form  method="post" id="likesForm">
+											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
+											<input type="hidden" name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" style="float: left;">좋아요</button>
+										</form>
+										</c:if>
+										<c:if test="${likes != null}">
+										<!-- 좋아요취소 -->
+										<form method="post" id="unLikesForm">
+											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
+											<input type="hidden" name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" style="float: left;">좋아요취소</button>
+										</form>
+										</c:if>
 										<!--쪽지보내기 -->
 										<button type="button" class="btn btn-success" data-toggle="modal" data-target=".mSend">쪽지</button>
 										</div>
@@ -203,7 +227,6 @@ $(function(){
 											<!-- Home탭 메뉴 -->
 											<div class="tab-content">
 												<div role="tabpanel" class="tab-pane active" id="home">
-
 													<!-- 기본소개 -->
 													<div class="col-sm-5">
 														<div class="panel panel-default">
@@ -231,18 +254,28 @@ $(function(){
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
-														<div class="panel panel-default" id="followMe">
+														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>${fUsers.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
-																<c:forEach var="followMe" items="${followMe}">
-																	<div class="col-md-3">
-																	<a href="/users/friendPage?u_id=${followMe.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a>
-																	${followMe.u_name}
-																	</div>
+																<c:forEach var="followYou" items="${followYou}">
+																		<c:choose>
+																		<c:when test="${users.u_id == followYou.u_id}">
+																		<div class="col-md-3">
+																			<a href="/users/mypage?u_id=${users.u_id}"><img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a> 
+																			${followYou.u_name}
+																			</div>
+																		</c:when>
+																		<c:otherwise>
+																			<div class="col-md-3">
+																			<a href="/users/friendPage?u_id=${users.u_id}&f_o_id=${followYou.u_id}"><img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a> 
+																			${followYou.u_name}
+																			</div>
+																		</c:otherwise>
+																	</c:choose>
 																</c:forEach>
 																</div>
 															</div>
@@ -250,18 +283,29 @@ $(function(){
 
 
 												<!--나를 팔로우하고있는 사람들 -->
-														<div class="panel panel-default" id="followYou">
+														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
 																<a href="#" class="pull-right">더보기</a>
 																<h4>${fUsers.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12" id="followYouBody">
-																	<c:forEach var="followYou" items="${followYou}">
-																	<div class="col-md-3">
-																	<img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"> 
-																	${followYou.u_name}
-																	</div>
+																<!-- 만약에 팔로우하는 사람이 나라면 마이페이지로 이동 -->
+																	<c:forEach var="followMe" items="${followMe}">
+																	<c:choose>
+																		<c:when test="${users.u_id == followMe.u_id}">
+																		<div class="col-md-3">
+																			<a href="/users/mypage?u_id=${users.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a> 
+																			${followMe.u_name}
+																			</div>
+																		</c:when>
+																		<c:otherwise>
+																			<div class="col-md-3">
+																			<a href="/users/friendPage?u_id=${users.u_id}&f_o_id=${followMe.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px" height="60px;"></a> 
+																			${followMe.u_name}
+																			</div>
+																		</c:otherwise>
+																	</c:choose>
 																	</c:forEach>
 																</div>
 															</div>

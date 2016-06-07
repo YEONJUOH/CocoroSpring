@@ -33,7 +33,9 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.Mento;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 import cocoro.users.service.UsersServiceImpl;
 import users.usersCRUD_Test;
 
@@ -60,6 +62,54 @@ public class UsersRestController {
 		session.setAttribute("users", users);
 		}
 		return users;
+	}
+	
+	//정보수정 
+	@RequestMapping("/usersModify")
+	public @ResponseBody Users usersModify(Users users, Mento mento)throws Exception{
+	
+	System.out.println(users.getU_id());
+	System.out.println(users.getU_intro());
+	System.out.println(users.getU_tag());
+	System.out.println(users.getU_address_check());
+	System.out.println("생일 "  + users.getU_birth_check());
+	System.out.println(users.getU_sns_address());
+	System.out.println(users.getU_mento_check());
+	
+	if(mento.getM_major() != null){
+		System.out.println("멘토할라고?!");
+	}
+	//service.usersModify(users);
+	return null;
+	}
+	
+	//입금
+	@RequestMapping(value = "/inputAccount", method = RequestMethod.POST)
+	public @ResponseBody UsersAccount usersAccountInput(UsersAccount usersAccount)throws Exception{
+		System.out.println("입금");
+		
+		UsersAccount accountCheck = new UsersAccount();
+		
+			service.usersAccountPlus(usersAccount);
+			accountCheck = service.usersAccountInfo(usersAccount.getU_id());
+			
+		return accountCheck;
+	}
+	//출금
+	@RequestMapping(value = "/outputAccount", method = RequestMethod.POST)
+	public @ResponseBody UsersAccount usersAccountOutput(UsersAccount usersAccount)throws Exception{
+		System.out.println("출금");
+		
+	UsersAccount accountCheck = service.usersAccountInfo(usersAccount.getU_id());
+		
+		if(accountCheck.getU_balance() < usersAccount.getU_balance()){
+			return null;
+		}else{
+			 System.out.println("출금성공");
+			 service.usersAccountMinus(usersAccount);
+			 accountCheck = service.usersAccountInfo(usersAccount.getU_id());
+		}
+		return accountCheck;
 	}
 }
 	

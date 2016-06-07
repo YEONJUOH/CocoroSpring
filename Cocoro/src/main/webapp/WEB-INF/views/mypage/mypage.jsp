@@ -16,9 +16,6 @@ $(function(){
 		event.preventDefault();
 		
 		var formData = new FormData($(this)[0]);
-		var name = $('#name').val();
-		var comment = $('#comment').val();
-		var image = $('#image').val();
 
 		$.ajax({
 			url: '/users/usersAfter',
@@ -26,26 +23,30 @@ $(function(){
 			contentType: false,
 			processData: false,
 			data: formData,
+			dataType: 'json',
 			success : function(data){
+				alert('성공');
+				var name = $('#name').val();
+				var image = $('#image').val();
+				
+				var div = '<div class="panel panel-default">';
+				div += '<div class="panel-body">';
+				div += '<img src="/resources/img/'+image+'" class="img-rounded" width="20px">';
+				div += ''+name+' 님이 글을 남겼습니다.';
+				div += '<div class="clearfix"></div><hr>';
+				if(data.c_img != ""){
+				div += '<img src="/resources/img/'+data.c_img+'" alt="..." class="img-rounde" width="487px" height="380px;">';
+				}
+				div += '<p> '+data.c_comment+'</p><hr>';
+				div += '<form><div class="input-group">';
+				div += '<input type="text" class="form-control" placeholder="Add a comment..">';
+				div += '<div class="input-group-btn"><button class="btn btn-default">댓글</button>';
+				div +=	'</div></div></form></div></div>';
+				
+				$('#test').append(div);
 			},
 		error :	function(){
 			alert("실패")
-			
-			var div = '<div class="panel panel-default">';
-			div += '<div class="panel-body">';
-			div += '<img src="/resources/img/'+image+'" class="img-rounded" width="20px">';
-			div += ''+name+' 님이 글을 남겼습니다.';
-			div += '<div class="clearfix"></div><hr>';
-			if(file != ""){
-			div += '<img src="/resources/img/sorry.jpg" alt="..." class="img-rounde" width="487px" height="380px;">';
-			}
-			div += '<p> '+comment+'</p><hr>';
-			div += '<form><div class="input-group">';
-			div += '<input type="text" class="form-control" placeholder="Add a comment..">';
-			div += '<div class="input-group-btn"><button class="btn btn-default">댓글</button>';
-			div +=	'</div></div></form></div></div>';
-			
-			$('#test').append(div);
 		}
 		})
 	});
@@ -53,24 +54,61 @@ $(function(){
 	$('#modifyForm').submit(function(e){
 		event.preventDefault();
 		
-		var formData = new FormData($(this)[0]);
+		var params = $('#modifyForm').serialize();
 
 		$.ajax({
-			url: '/users/usersModify',
+			url: '/rest/usersModify',
 			type: 'post',
-			contentType: false,
-			processData: false,
-			data: formData,
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data: params,
+			dataType : 'json',
 			success : function(data){
 				alert('성공');
 			},
 		error :	function(){
-			alert('수정완료');
-			location.href = "/users/mypage?u_id=${users.u_id}"
+			alert('실패');
 		}
 		})
 	});
 	
+	// 입금
+	$('#inputForm').submit(function(e){
+		event.preventDefault();
+		var params = $('#inputForm').serialize();
+		$.ajax({
+			url: '/rest/inputAccount',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'json',
+			success: function(data){
+				alert('성공');
+				$('#accountMoney').html("잔액 :" + data.u_balance);
+			},
+			error : function(){
+				alert('돈이 부족합니다.');
+			}
+		})	
+	})
+	// 출금
+	$('#outputForm').submit(function(e){
+		event.preventDefault();
+		var params = $('#outputForm').serialize();
+		$.ajax({
+			url: '/rest/outputAccount',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'json',
+			success: function(data){
+				alert('성공');
+				$('#accountMoney').html("잔액 :" + data.u_balance);
+			},
+			error : function(){
+				alert('돈이 부족합니다.');
+			}
+		});
+	});
 	//팔로우 보여주는 페이지의 높이가 316이넘었을때
 	if($('#followYou').height() > 316){
 		$('#followYou').css('height',316);
@@ -80,7 +118,10 @@ $(function(){
 		$('#followMe').css('height',316);
 		$('#followMe').css('overflow','hidden');
 	}
-	
+	if($('#ingStudy').height() > 298){
+		$('#ingStudy').css('height',298);
+		$('#ingStudy').css('overflow','hidden');
+	}
 	$("input[name=u_mento_check]").change(function() {
 		var check = $(this).val();
 		if(check == "T"){
@@ -102,17 +143,16 @@ $(function(){
 					<div class="padding">
 						<div class="col-sm-12">
 							<div class="row">
-
 								<!-- 프로필 -->
 								<div class="fb-profile">
-									<img align="left" class="fb-image-lg" src="/resources/img/${users.u_image}"
+									<img align="left" class="fb-image-lg" src="/resources/img/${users.u_bgimg}"
 										alt="Profile image example" /> 
-										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${users.u_bgimg}" alt="Profile image example" style="width: 180px; height: 170px;" />
+										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${users.u_image}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
 										<h1>${users.u_name}</h1>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
-											<ul class="nav nav-tabs" role="tablist" style="margin-left: 81%;">
+											<ul class="nav nav-tabs" role="tablist" style="margin-left: 70%;">
 												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
 												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
 												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Modify</a></li>
@@ -148,18 +188,18 @@ $(function(){
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
-														<div class="panel panel-default" id="followMe">
+														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>${users.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
-																<c:forEach var="followMe" items="${followMe}">
+																<c:forEach var="followYou" items="${followYou}">
 																	<div class="col-md-3">
 																	<!-- ajax 처리를 위해 유저 값을 들고간다 -->
-																	<a href="/users/friendPage?u_id=${followMe.u_id}&f_o_id=${users.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded"width="90px"></a>
-																	${followMe.u_name}
+																	<a href="/users/friendPage?f_o_id=${followYou.u_id}&u_id=${users.u_id}"><img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px"></a>
+																	${followYou.u_name}
 																	</div>
 																</c:forEach>
 																</div>
@@ -168,17 +208,17 @@ $(function(){
 
 
 												<!--나를 팔로우하고있는 사람들 234px-->
-														<div class="panel panel-default" id="followYou">
+														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
 															    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>${users.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
-																	<c:forEach var="followYou" items="${followYou}">
+																	<c:forEach var="followMe" items="${followMe}">
 																	<div class="col-md-3">
-																	<img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded" width="90px" height="60px;"> 
-																	${followYou.u_name}
+																	<a href="/users/friendPage?f_o_id=${followMe.u_id}&u_id=${users.u_id}"><img src="/resources/img/${followMe.u_image}" alt="..." class="img-rounded" width="90px" height="60px;"></a> 
+																	${followMe.u_name}
 																	</div>
 																	</c:forEach>
 																</div>
@@ -215,7 +255,7 @@ $(function(){
 																<div class="clearfix"></div>
 																<hr>
 																<c:if test="${cList.c_img != null}">
-																<img src="/resources/upload/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
+																<img src="/resources/img/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
 																</c:if>
 																<p>
 																	${cList.c_comment}
@@ -260,8 +300,17 @@ $(function(){
 																<p>${users.u_intro}</p>
 															</div>
 															<div class="col-xs-12 col-sm-12 col-md-3 excerpet">
-																  <p>잔액: 1000</p>
+																  <h3>계좌관리</h3>
+																  <c:choose>
+																  <c:when test="${usersAccount != null}">
+																  <p>계좌번호: ${usersAccount.u_account}</p>
+																  <p id="accountMoney">잔액: ${usersAccount.u_balance}</p>
                           										 <button class="btn btn-info btn-lg" href="#signup" data-toggle="modal" data-target=".u_account">계좌관리</button>
+																 </c:when>	
+																 <c:otherwise>
+																 	<p>계좌가 없습니다</p>
+																 </c:otherwise>	
+																  </c:choose>
 															</div>
 															<span class="clearfix borda"></span>
 														</article>
@@ -283,42 +332,53 @@ $(function(){
 															</c:forEach>				
 															</div>
 													</div>		
-													<!-- 가입중인 스터디 목록 -->
+													<!-- 가입중인 스터디 목록  298px-->
 													<div class="panel panel-default">
 															<div class="panel-heading">
 																<h4>활동중인 스터디</h4>
 															</div>
-															<div class="search-result row" style="margin-top: 20px;">
-													<div class="col-md-6">
+															<div class="search-result row" id="ingStudy" style="margin-top: 20px; height: 100%;">
+													       <div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img.png" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
 															</div>
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img.png" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
 																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">수영을 하자</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
 															</div>
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img.png" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
 																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">웅쨩의하루</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
 															</div>
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="img.png" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
 																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">댄스동아리</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
 															</div>
-																<div class="col-md-12">
-																<h5 class="text-center">모두보기</h5>
+																<div class="col-md-6">
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
+																</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
+															</div>
+																<div class="col-md-6">
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
+																</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
 															</div>
 															</div>
 													</div>								
@@ -326,20 +386,32 @@ $(function(){
 												<!-- 세번째 메뉴  -->
 									<div role="tabpanel" class="tab-pane" id="messages">
 										<div class="row" style="background-color: #fff;">
-									        <form class="form-horizontal" id ="modifyForm" method="post" enctype="multipart/form-data">
 									        <input type="hidden" name="u_id" value="${users.u_id}">
 									        <div class="col-md-6 text-center" style="margin-top: 40px;">
+									       <!-- 배경이미지 변경 -->
+									        <form id="fileBack" method="post" action="/users/usersBg" enctype="multipart/form-data">
 									        	<h3>현재 배경</h3>
 									        	<div class="col-md-12 text-center" >
 									        		<img src="/resources/img/${users.u_bgimg}" width="50%;" height="50%;">
 													<input type="file" name="fileBack" style="display: inline-block;">
+													<input type="hidden" name="u_id" value="${users.u_id}">
 									        	</div><br>
+									        	<button class="btn-primary" type="submit">배경 변경</button>
+									        </form>
+									        <!-- 프로필사진변경 -->
+									         <form id="fileProfile" method="post" action="/users/usersProfile" enctype="multipart/form-data">	
 									        	<h3>현재 프로필</h3>
 												<div class="col-md-12">
 									        		<img src="/resources/img/${users.u_image}" width="50%;" height="50%;">
-													<input type="file" name="fileProfile" value="${users.u_image}" style="display: inline-block;">
-									        	</div>									        
+													<input type="file" name="fileProfile" style="display: inline-block;">
+													<input type="hidden" name="u_id" value="${users.u_id}">
+									        	</div>
+									        		<button class="btn-primary" type="submit">프로필변경</button>
+									        </form>									        
 									  		</div>
+									  		<!-- 수정 -->
+									        <form class="form-horizontal" id ="modifyForm" method="post">
+									        <input type="hidden" name="u_id" value="${users.u_id}">
 									        <div class="col-md-6">
 											 <div class="page-header">
 									    	    <h1>${users.u_name} <small>Modify</small></h1>
@@ -358,9 +430,16 @@ $(function(){
 									           	  <input type="text" class="form-control" name="u_tag" placeholder="${users.u_tag}" value="${users.u_tag}">
 												  </div>
 									          </div>
+									           <!-- 주소 -->
+											<div class="form-group">
+									          <label class="col-sm-3 control-label">주소</label>
+									        <div class="col-sm-6">
+									       	  <input type="text" class="form-control" name="u_address" placeholder="${users.u_address}" value="${users.u_address}">
+											 </div>
+									        </div>
 									          <!-- 주소공개 여부 -->
 									        <div class="form-group">
-									            <label class="col-sm-3 control-label" for="inputName">주소공개</label>
+									            <label class="col-sm-3 control-label" for="inputName">주소공개 여부</label>
 									          <div class="col-sm-6">
 									         	<label class="radio-inline">
 												  <input type="radio" name="u_address_check" id="u_address_check" value="T" checked="checked"> 공개
@@ -370,19 +449,23 @@ $(function(){
 												</label>	
 									          </div>
 									        </div>
-									        <!-- 주소 -->
-											<div class="form-group">
-									          <label class="col-sm-3 control-label">주소</label>
-									        <div class="col-sm-6">
-									       	  <input type="text" class="form-control" name="u_address" placeholder="${users.u_address}" value="${users.u_address}">
-											 </div>
-									        </div>
 									        <!-- 생년월일 -->
 									        <div class="form-group">
-									        	<label class="col-sm-3 control-label">생년월일 공개</label>
+									        	<label class="col-sm-3 control-label">생년월일</label>
 									       	 <div class="col-sm-6">
-												 <h4 class="title">생년월일 : ${users.u_birth}</h4>
+												 <h4 class="title"> ${users.u_birth}</h4>
 											 </div>
+									        </div>
+									        <div class="form-group">
+									            <label class="col-sm-3 control-label" for="inputName">생년월일 공개여부</label>
+									          <div class="col-sm-6">
+									         	<label class="radio-inline">
+												  <input type="radio" name="u_birth_check" id="u_birth_check" value="T" checked="checked"> 공개
+												</label>
+												<label class="radio-inline">
+												  <input type="radio" name="u_birth_check" id="u_birth_check" value="F" > 비공개
+												</label>	
+									          </div>
 									        </div>
 									        <!-- SNS -->
 									         <div class="form-group">
@@ -451,13 +534,13 @@ $(function(){
         <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="signin">
            <!-- 입금버튼  -->
-            <form class="form-horizontal" action="../page/mypage/mypageAccountOk.jsp?u_id=${users.u_id}" method="post">
+            <form class="form-horizontal" id="inputForm" method="post">
             <fieldset>
             <div class="control-group">
               <label class="control-label" for="u_balance">입금액:</label>
               <div class="controls">
                 <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required="">
-                 <input type="hidden" name="check" value="true"> 
+                 <input type="hidden" name="u_id" value="${users.u_id}">
               </div>
             </div>
 
@@ -465,20 +548,20 @@ $(function(){
             <div class="control-group">
               <label class="control-label" for="signin"></label>
               <div class="controls">
-                <button type="submit" id="signin" name="signin" class="btn btn-success" style="margin-left: 40%;">입금하기</button>
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;">입금하기</button>
               </div>
             </div>
             </fieldset>
             </form>
             
             <!-- 출금폼 -->
-             <form class="form-horizontal" action="../page/mypage/mypageAccountOk.jsp?u_id=${users.u_id}" method="post">
+               <form class="form-horizontal" id="outputForm" method="post">
             <fieldset>
             <div class="control-group">
               <label class="control-label" for="u_balance">출금액:</label>
               <div class="controls">
-                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="출금액을 적어주세요" class="input-medium" required="">
-                 <input type="hidden" name="check" value="false"> 
+                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required="">
+                 <input type="hidden" name="u_id" value="${users.u_id}">
               </div>
             </div>
 
@@ -486,7 +569,7 @@ $(function(){
             <div class="control-group">
               <label class="control-label" for="signin"></label>
               <div class="controls">
-                <button type="submit" id="signin" name="signin" class="btn btn-success" style="margin-left: 40%;">출금하기</button>
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;">출금하기</button>
               </div>
             </div>
             </fieldset>

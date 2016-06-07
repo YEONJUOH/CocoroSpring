@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.Criteria;
 import cocoro.users.domain.Follow;
+import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 //Respositroy 스프링에서 Dao를 인식할 수 있도록 해준다.
 @Repository
@@ -39,6 +41,16 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public void usersModify(Users users) throws Exception {
 		sqlsession.update(namespace +".usersModify",users);
+	}
+	//배경 수정
+	@Override
+	public void usersBg(Users users) throws Exception {
+		sqlsession.update(namespace +".usersBg",users);
+	}
+	//프로필 수정
+	@Override
+	public void usersImg(Users users) throws Exception {
+		sqlsession.update(namespace +".usersProfile",users);		
 	}
 	//유저삭제
 	@Override
@@ -100,10 +112,6 @@ public class UsersDaoImpl implements UsersDao {
 		sqlsession.insert(namespace +".sendMessage" , message);
 	}
 	
-	
-	
-	
-	
 	@Override
 	public List<Users> listFollowUsers(int page) throws Exception {
 		// TODO Auto-generated method stub
@@ -114,7 +122,57 @@ public class UsersDaoImpl implements UsersDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	//좋아요 누르기 
+	@Override
+	public void usersLike(HashMap<String, Integer> usersLike) throws Exception {
+		sqlsession.insert(namespace +".usersLike" ,usersLike);
+	}
+	//좋아요 취소
+	@Override
+	public void usersUnLike(HashMap<String, Integer> usersUnLike) throws Exception {
+		sqlsession.delete(namespace +".usersUnLike" ,usersUnLike);
+	}
+	//좋아요 체크
+	@Override
+	public Likes usersLikeCheck(HashMap<String, Integer> usersLikeCheck) throws Exception {
+		return sqlsession.selectOne(namespace + ".usersLikeCheck",usersLikeCheck);
+		
+	}
+	//좋아요 할때마다 + 업데이트
+	@Override
+	public void usersLikeUpdate(int u_id) throws Exception {
+		sqlsession.update(namespace + ".usersLikeUpdate" ,u_id);
+	}
+	//좋아요 할때마다 + 업데이트
+	@Override
+	public void usersLikeMinusUpdate(int u_id) throws Exception {
+		sqlsession.update(namespace + ".usersLikeMinusUpdate" ,u_id);
+	}
+	//계좌생성
+	@Override
+	public void usersAccount(UsersAccount usersAccount) throws Exception {
+		sqlsession.insert(namespace +".usersAccount", usersAccount);
+	}
+	//해당 회원의 계좌 불러오기
+	@Override
+	public UsersAccount usersAccountInfo(int u_id) throws Exception {
+		return sqlsession.selectOne(namespace +".usersAccountInfo" , u_id);
+	}
+	//회원들의 계좌불러오기
+	@Override
+	public List<UsersAccount> usersAccountNumber() throws Exception {
+		return sqlsession.selectList(namespace +".usersAccountNumber");
+	}
+	//입금
+	@Override
+	public void usersAccountPlus(UsersAccount usersAccount) throws Exception {
+		sqlsession.update(namespace +".usersAccountPlus", usersAccount);
+	}
+	//출금
+	@Override
+	public void usersAccountMinus(UsersAccount usersAccount) throws Exception {
+		sqlsession.update(namespace +".usersAccountMinus", usersAccount);
+	}
 	
 	
 }

@@ -33,5 +33,12 @@ public class UsersAccount implements Serializable{
 	public void setU_id(int u_id) {
 		this.u_id = u_id;
 	}
+	
+	@Override
+	public String toString() {
+		return "UsersAccount [u_account_id=" + u_account_id + ", u_account=" + u_account + ", u_balance=" + u_balance
+				+ ", u_id=" + u_id + "]";
+	}
+	
 
 }
