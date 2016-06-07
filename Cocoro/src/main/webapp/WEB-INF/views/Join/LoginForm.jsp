@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
 <!-- <script src="../js/bootstrap.min.js"></script> -->
-<script src="../page/Join/LoginForm.js"></script>
+<script src="/resources/Join/LoginForm.js"></script>
 <style type="text/css">
 .panel-login>.panel-heading a.active{
 	color: #029f5b;
@@ -50,7 +50,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 						<!-- 로그인폼 -->								
-								<form action="../page/Join/LoginOk.jsp" id="loginForm" method="post" style="display: block;">
+								<form action="/users/usersLogin" id="loginForm" method="post" style="display: block;">
 									<div class="form-group">
 										<input type="text" name="u_email" id="u_email" tabindex="1" class="form-control" placeholder="이메일을 입력주세요">
 									</div>

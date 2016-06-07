@@ -101,20 +101,27 @@
    ON f.u_id = u.u_id 
    WHERE u.u_id=#{u_id} and f.f_o_id=#{f_o_id}
    </select>
-   <!-- 회원이 팔로우하고있는 친구들의 정보  불러오기  -->
-   <select id="usersFollowList" parameterType="int"  resultType="Users">
+   <!-- 나를 팔로우하고있는 사람들  -->
+   <select id="usersFollowListMe" parameterType="int"  resultType="Users">
       select * from USERS 
       where u_id in (select f.F_O_ID 
                   from USERS u JOIN FOLLOW f 
                   ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
    </select>
+   <!-- 내가 팔로우하고있는 사람들  -->
+   <select id="usersFollowListYou" parameterType="int"  resultType="Users">
+      select * from USERS 
+      where u_id in (select f.F_O_ID 
+                  from USERS u JOIN FOLLOW f 
+                  ON u.U_ID = f.U_ID WHERE f.f_o_id=#{u_id})
+   </select>
    <!-- 마이페이지 수정 -->
    <update id="usersModify" parameterType="Users">
       UPDATE USERS 
       SET
-      u_image = #{u_image},u_intro = #{u_intro},
+      u_image = #{u_image},u_bgimg=#{u_bgimg},u_intro = #{u_intro},
       u_tag = #{u_tag},u_address_check=#{u_address_check},
-      u_address = #{u_address},u_birth_check=#{u_birth_check},
+      u_address = #{u_address},
       u_sns_address=#{u_sns_address},u_mento_check = #{u_mento_check}
       WHERE u_id= #{u_id}
    </update>
@@ -142,15 +149,15 @@
    <!-- 후기 작성 -->
    <insert id="usersAfter" parameterType="Comment">
    insert into COMMENTS(C_ID,U_ID,C_O_ID,C_COMMENT,C_DATE,C_img) 
-   VALUES(comment_seq.nextval,#{u_id},#{c_o_id},#{c_comment},SYSDATE,'comment_default.jpg')
+   VALUES(comment_seq.nextval,#{u_id},#{c_o_id},#{c_comment},SYSDATE,#{c_img})
    </insert>
    <!-- 후기 불러오기 -->
    <select id="usersAfterInfo" parameterType="int" resultType="Comment">
-   SELECT c.C_O_ID,c.c_comment,c_date
+   SELECT c.C_O_ID,c.c_comment,c.c_date,c.c_img
    FROM USERS u JOIN COMMENTS c 
    ON u.u_id = c.u_id
    WHERE u.u_id=#{u_id}
-   ORDER BY C.C_DATE ASC
+   ORDER BY C.C_DATE DESC
    </select>
    <!-- 후기 남긴애들 정보 불러오기  -->
    <select id="usersAfterUsersInfo" parameterType="int" resultType="Users">
@@ -235,12 +242,42 @@
 			Where u.U_ID = #{u_id})
 	</select>
 	
-	
 	<!-- 해당 쪽지 삭제 -->
 	<delete id="delMessage" parameterType="int">
 	delete from Message
 	WHERE message_id = #{message_id}
 	</delete>
+	
+	<!-- 페이징 -->
+	<select id="listFollowUsers" resultType="Users">
+    <![CDATA[
+     select * from USERS 
+      where u_id in (select f.F_O_ID 
+                  from USERS u JOIN FOLLOW f 
+                  ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
+    ]]>
+   </select>
+   
+   <!-- 페이징 -->
+	<select id="criterFollowUsers" resultType="Users">
+    <![CDATA[
+     select * from USERS 
+      where u_id in (select f.F_O_ID 
+                  from USERS u JOIN FOLLOW f 
+                  ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
+    ]]>
+   </select>
+   
+   <select id="countFollwUsers" resultType="int">
+    <![CDATA[
+    select 
+      count(*) 
+    from USERS 
+      where u_id in (select f.F_O_ID 
+                  from USERS u JOIN FOLLOW f 
+                  ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
+    ]]>
+    </select>
 	
 </mapper>
 

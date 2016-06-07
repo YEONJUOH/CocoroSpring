@@ -1,7 +1,7 @@
 $(function(){
 	
 	 
-
+    console.log("why not");
 	
 			"use strict";
 			var options = {};

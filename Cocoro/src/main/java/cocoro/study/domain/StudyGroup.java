@@ -13,7 +13,7 @@ public class StudyGroup implements Serializable {
    private String s_intro;
    private int s_leader_id;
    
-   private String s_fix_member; // 스터디원 모집을 종료 yes or no (T면 yes, F면 no)
+   private String s_fix_member; // �뒪�꽣�뵒�썝 紐⑥쭛�쓣 醫낅즺 yes or no (T硫� yes, F硫� no)
    private String s_start;
    private String s_end;
 
@@ -24,22 +24,22 @@ public class StudyGroup implements Serializable {
    private String s_online; // T or F
    private String s_offline; // T or F
    private String s_mento_check; // T or F
-   private String s_kind_check; // T or F (스터디의 종류 선택, 폐쇄 or개방. 폐쇄면 T)
+   private String s_kind_check; // T or F (�뒪�꽣�뵒�쓽 醫낅쪟 �꽑�깮, �룓�뇙 or媛쒕갑. �룓�뇙硫� T)
    private String s_time_check; // T or F
-   private int s_deposit; // 0 이상이면 디파짓기능 사용, -1은 사용안함
+   private int s_deposit; // 0 �씠�긽�씠硫� �뵒�뙆吏볤린�뒫 �궗�슜, -1�� �궗�슜�븞�븿
    private String s_last_act;
-   private String s_tag; // 스터디의 관심사
+   private String s_tag; // �뒪�꽣�뵒�쓽 愿��떖�궗
    private int s_recent_hit;
    private int s_total_hit;
    private String s_history;
    
    
-   //추가 및 수정 사항
+   //異붽� 諛� �닔�젙 �궗�빆
    private double s_avg_abil;
    private String s_address;
    private int s_t_start;
    private int s_t_end;
-   private String s_max_member; // 스터디 참여가능 인원수
+   private String s_max_member; // �뒪�꽣�뵒 李몄뿬媛��뒫 �씤�썝�닔
    
    
    
@@ -49,7 +49,7 @@ public class StudyGroup implements Serializable {
 
 //   SimpleDateFormat sdfCurrent = new SimpleDateFormat ("yyyy-MM-dd"); 
    
-   private List<String> attr=new ArrayList<String>();//가지고 있는 속성을 리스트로 표현한 변수 
+   private List<String> attr=new ArrayList<String>();//媛�吏�怨� �엳�뒗 �냽�꽦�쓣 由ъ뒪�듃濡� �몴�쁽�븳 蹂��닔 
 
    public int getS_id() {
       return s_id;
@@ -209,7 +209,7 @@ public class StudyGroup implements Serializable {
    public void setS_mento_check(String s_mento_check) {
       this.s_mento_check = s_mento_check;
       if(s_mento_check.equals("T"))
-      attr.add("튜터링");
+      attr.add("멘토링");
    }
 
    public String getS_kind_check() {

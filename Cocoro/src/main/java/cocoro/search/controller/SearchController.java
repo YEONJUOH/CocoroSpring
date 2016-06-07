@@ -41,11 +41,11 @@ public class SearchController {
 		 List<StudyGroup> list =null;
 		 List<Users> listU =null;
 		 
-	    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ω∫≈Õµ")){
+	    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ïä§ÌÑ∞Îîî")){
 	     list = service.searchStudy(search);
 	    
 	    }
-	    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("¿Œπ∞")){
+	    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ïù∏Î¨º")){
 	     listU = service.searchPeople(search);
 	    }
 	    
@@ -68,16 +68,16 @@ public class SearchController {
 		ResponseEntity<Map<String, Object>> entity = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		 if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ω∫≈Õµ")){
+		 if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ïä§ÌÑ∞Îîî")){
 	    	List<StudyGroup> list = service.searchStudy(search);
 	    	map.put("list", list);
 	    	System.out.println(list.size()); 
 	     
 	     }
-	     if(search.getSearchCtg()!=null && search.getSearchCtg().equals("¿Œπ∞")){
+	     if(search.getSearchCtg()!=null && search.getSearchCtg().equals("Ïù∏Î¨º")){
 	    	List<Users> listU = service.searchPeople(search);
 	    	map.put("list", listU);
-	    	System.out.println("¿Œπ∞"+listU.size()); 
+	    	System.out.println("ÔøΩŒπÔøΩ"+listU.size()); 
 	    
 	     }
 	     

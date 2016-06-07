@@ -1,8 +1,10 @@
-<<<<<<< HEAD
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/remotes/origin/master
 eclipse.preferences.version=1
+encoding//src/main/java/cocoro/home/controller/HomeController.java=UTF-8
 encoding//src/main/java/cocoro/search/domain/Distance.java=UTF-8
 encoding//src/main/java/cocoro/search/service/SearchServiceImpl.java=UTF-8
-=======
-eclipse.preferences.version=1
+encoding//src/main/java/cocoro/study/domain/StudyGroup.java=UTF-8
+encoding//src/main/java/cocoro/users/controller/UsersController.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/template/beforeHeader.jsp=UTF-8
->>>>>>> refs/remotes/origin/master

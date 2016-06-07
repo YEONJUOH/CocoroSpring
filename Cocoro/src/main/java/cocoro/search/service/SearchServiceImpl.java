@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import cocoro.mahout.MongoDB;
 import cocoro.search.domain.ListComparator;
 import cocoro.search.domain.Norm;
 import cocoro.search.domain.Search;
@@ -23,7 +24,10 @@ public class SearchServiceImpl implements SearchService {
 
 	@Inject
 	private SearchDAO dao;
-
+    private MongoDB mongo;
+	
+	
+	
 	@Override
 	public List<StudyGroup> searchStudy(Search search) throws Exception {
 		// TODO Auto-generated method stub
@@ -61,7 +65,7 @@ public class SearchServiceImpl implements SearchService {
 			if (i != 3&&seq.get(i) == seq.get(i+1)){
 				flag++;
 			} else {
-				List<tagSuggestion> tmp = (dao.tagSuggest(new tagSearch("�뒪�꽣�뵒",
+				List<tagSuggestion> tmp = (dao.tagSuggest(new tagSearch("스터디",
 						interest[seq.get(i)], 1, flag)));
 				if(tmp.size()<flag&&i!=3){
 					int tp_next = seq.get(i+1);
@@ -85,25 +89,38 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public void addList(List<tagSuggestion> list, List<tagSuggestion> newList) throws Exception {
 		// TODO Auto-generated method stub
+		for (int j = 0; j < newList.size(); j++) {
+			list.add(newList.get(j));
+		}
 
 	}
 
 	@Override
 	public List<Integer> randomMaker(int tag_nums) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		List<Integer>seq = new ArrayList<Integer>();
+		for (int i = 0; i < 4; i++) {
+			seq.add(randomRange(0, tag_nums - 1));
+			System.out.println("seqNum" + seq.get(i));
+		}
+		
+		return seq;
+		
 	}
 
 	@Override
 	public int randomRange(int n1, int n2) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return (int) (Math.random() * (n2 - n1 + 1)) + n1;
 	}
 
 	@Override
 	public List<StudyGroup> item_recommend(int u_id) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
+		List<StudyGroup> listS= mongo.recommend(u_id);
+		
+		return listS;
 	}
 
 }

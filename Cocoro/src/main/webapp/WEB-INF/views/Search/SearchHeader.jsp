@@ -32,42 +32,9 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Cocoro</a>
-
-				 <%--  <form class="navbar-form navbar-left" role="search"
-					 method="get">
+				<a class="navbar-brand" href="/index">Cocoro</a>
 
 
-	     				<select class="form-control" id="searchCtg" name="searchCtg">
-						<%if(search!=null && search.getSearchCtg().equals("스터디")){ %>
-						<option selected="selected">
-							<%}else{ %>
-						
-						<option>
-							<%} %> 스터디
-						</option>
-						<%if(search!=null && search.getSearchCtg().equals("인물")){ %>
-						<option selected="selected">
-							<%}else{ %>
-						<option>
-							<%} %>
-					         인물
-						</option>
-						
-
-					
-					</select> 
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search"
-							name="searchWord" 
-							<%if(search!=null){ %>
-							
-							value="<%=search.getSearchWord() %>"
-							<%} %>
-							>
-					</div>
-					<button type="submit" class="btn btn-default">검색</button>
-				</form> --%>
  				<form class="navbar-form navbar-left" role="search"
 					 method="get" action="/search/searchMain">
 					 	<select class="form-control" id="searchCtg" name="searchCtg">

@@ -13,22 +13,10 @@
         from study
         where s_name like #{str} or s_intro like #{str}  or s_tag like #{str}
 	</select>
-	
-	<insert id="createStudy" parameterType="StudyGroup">
-		insert into study(
-			s_id, s_name, s_intro, s_leader_id, s_max_member, s_fix_member, s_start, s_end, s_attend_check, s_abil_check, s_location_x, s_location_y, s_address, s_online, s_offline, s_mento_check, s_kind_check, s_time_check, s_deposit, s_last_act, s_tag, s_recent_hit, s_total_hit, s_history, s_t_start, s_t_end
-		) values (
-			#{s_id}, #{s_name}, #{s_intro}, #{s_leader_id}, #{s_max_member}, 'F' , #{s_start}, #{s_end}, #{s_attend_check}, #{s_abil_check}, #{s_location_x}, #{s_location_y}, #{s_address}, #{s_online}, #{s_offline}, #{s_mento_check}, #{s_kind_check}, #{s_time_check}, #{s_deposit}, SYSDATE , #{s_tag}, 0, 0, SYSDATE, #{s_t_start}, #{s_t_end}
-		)
-		
-	</insert>
+
 	
 	<select id="selectS_id" resultType="Integer">
 		select max(s_id) from study
-	</select>
-	
-	<select id="listStudyGroup" resultType="StudyGroup">
-		select * from study
 	</select>
 	
 	<select id="selectStudy" parameterType="int" resultType="StudyGroup">
@@ -51,21 +39,13 @@
 		)
 	</insert>
 	
-	<select id="selectUsers" parameterType="java.util.HashMap" resultType="Users">
-		select u.u_name, u.u_email
-		from users u, study s
-		where u.u_id = s.s_leader_id
-		and s.s_id = #{s_id}
-		and u.u_id = #{s_leader_id}
-	</select>
-	
-	<select id="applyListinfo" parameterType="int" resultType="Applydata" >
+	<select id="applyList" parameterType="int" resultType="Applydata" >
 		select a.APPLY_ID as APPLY_ID ,a.S_ID as S_ID,a.U_ID as U_ID ,a.RANK_FOR_APPLY as RANK_FOR_APPLY, u.U_NAME as U_NAME from apply a ,users u where a.s_id = #{s_id} and a.u_id = u.u_id
 	</select>
 	
 	
 	<insert id="insertSchedule" parameterType="PlanInfo" >
-		insert into PLANINFO  values(#{plan_name},2,to_date(#{plan_date},'yyyy-MM-dd'),#{plan_comment},2)
+		insert into PLANINFO  values(#{plan_name},(select NVL(MAX(plan_id),0) from planInfo)+1,to_date(#{plan_date},'yyyy-MM-dd'),#{plan_comment},#{s_id})
 	</insert>
 	
 	<delete id="deleteApply" parameterType="int">

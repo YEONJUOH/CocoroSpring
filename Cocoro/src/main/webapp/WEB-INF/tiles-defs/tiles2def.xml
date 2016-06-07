@@ -51,7 +51,11 @@
 	
 	<definition name="studyview" extends="studyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/StudyDetail/studydetail.jsp"></put-attribute>
+<<<<<<< HEAD
 	</definition>
+=======
+	</definition>
+>>>>>>> branch 'master' of https://github.com/YEONJUOH/CocoroSpring.git
 
 </tiles-definitions>
 

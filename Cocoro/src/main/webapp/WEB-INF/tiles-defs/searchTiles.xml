@@ -10,13 +10,40 @@
  <definition name="search_layout" template="/WEB-INF/views/template/searchLayout.jsp">
 	<put-attribute name="header" value="/WEB-INF/views/Search/SearchHeader.jsp"></put-attribute>
     </definition>
+    
+<!--메인 template   -->
+	<definition name="before_main" template="/WEB-INF/views/template/before_main.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
+	</definition>
+	
+<!-- 로그인전 메인 레이아웃-->
+	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/b_Header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
+	</definition>
+	
+<!-- 로그인후	메인레이아웃 -->
+	<definition name="after_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/afterHeader.jsp"></put-attribute>
 
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
+	</definition>
 
 <!-- 검색 -->
 <definition name="searchMain" extends="search_layout">
     <put-attribute name="sidebar" value="/WEB-INF/views/Search/sidebar.jsp"></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/views/Search/SearchBody.jsp"></put-attribute>
 	</definition> 
+<!-- 로그인 전 메인 -->
+     <definition name="beforeLayout" extends="before_layout">
+		<put-attribute name="body" value="/WEB-INF/views/Main.jsp"></put-attribute>
+	</definition>
+	
+<!-- 로그인후  -->
+	<definition name="after_Main" extends="after_layout">
+		<put-attribute name="body" value="/WEB-INF/views/Main.jsp"></put-attribute>
+	</definition>
 
 </tiles-definitions>
 
