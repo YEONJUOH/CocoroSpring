@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
+import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 @Repository
 public class StudyGroupDaoImpl implements StudyGroupDao {
@@ -90,19 +92,6 @@ public class StudyGroupDaoImpl implements StudyGroupDao {
 		return session.selectList(namespace+".listRank", s_id);
 	}
 	
-	@Override
-	public Integer selectS_id() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<StudyGroup> listStudyGroup(StudyGroup studygroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 
 	@Override
 	public void updateHit(int s_id) {
@@ -110,13 +99,16 @@ public class StudyGroupDaoImpl implements StudyGroupDao {
 	}
 
 
+	@Override
+	public void updateS_leader_balance(UsersAccount usersaccount) {
+		session.update(namespace+".updateS_leader_balance", usersaccount);
+		
+	}
 
-	
 
 	@Override
-	public List<Users> selectStudyMember(int s_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void createStudyAccount(StudyAccount studyAccount) {
+		session.insert(namespace+".createStudyAccount", studyAccount);
 	}
 
 
