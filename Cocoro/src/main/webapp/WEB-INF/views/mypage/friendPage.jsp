@@ -407,7 +407,7 @@ $(document).on("submit","#cu_commentForm",function(e){
 																<div class="input-group" id="commentUsers">
 																		<div class="col-md-12">
 																		<c:if test="${commentAllList != null}">
-																		<c:forEach var="commentAllList" items="${commentAllList}">
+								         										<c:forEach var="commentAllList" items="${commentAllList}">
 																			<c:if test="${commentAllList.c_id == cList.c_id}">
 																				<c:forEach var="usersList" items="${usersList}">
 																					<c:if test="${usersList.u_id ==  commentAllList.u_id}">
