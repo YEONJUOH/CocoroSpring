@@ -6,9 +6,11 @@ import java.util.Map;
 
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
+import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 public interface StudyGroupService {
 	
@@ -37,5 +39,9 @@ public interface StudyGroupService {
 	public void updateHit(int s_id) throws Exception;
 	
 	public List<ListRank> listRank(int s_id) throws Exception;
+
+	public void updateS_leader_balance(UsersAccount usersaccount);
+
+	public void createStudyAccount(StudyAccount studyAccount);
 	
 }
