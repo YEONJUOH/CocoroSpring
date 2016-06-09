@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
+import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
@@ -37,12 +39,28 @@ public interface UsersService {
 		public Users usersInfo(Integer u_id)throws Exception;
 		//유저 로그인 
 		public Users usersLogin(HashMap<String, String> login)throws Exception;
+		//멘토
+		public void usersMento(Mento mento)throws Exception;
+		//전체멘토 불러오기
+		public List<Mento> usersMentoList()throws Exception;
+		//멘토링 여부
+		public Mento usersMentoCheck(int u_id)throws Exception;
+		//멘토 업데이트
+		public void usersMentoUpdate(Mento mento)throws Exception;
+		//멘토 삭제
+		public void usersMentoDelete(int u_id)throws Exception;
 		//후기 남기기 
 		public void usersAfter(Comment comment)throws Exception;
 		//해당 회원의 후기 불러오기
 		public List<Comment> usersAfterInfo(Integer u_id)throws Exception;
 		//후기를 남긴 친구들의 정보
 		public List<Users> usersAfterUsersInfo(Integer u_id)throws Exception;
+		//후기 댓글
+		public void commentUsers(CommentUsers commentUsers)throws Exception;
+		//댓글 불러오기
+		public List<CommentUsers> commentList(int c_id)throws Exception;
+		//댓글을 남긴 사람들의 정보
+		public List<Users> commentUserList(int c_id)throws Exception;
 		//팔로우 걸기 
 		public void usersFollow(HashMap<String,Integer> follow)throws Exception;
 		//팔로우 취소 
@@ -75,5 +93,6 @@ public interface UsersService {
 		public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
 		//출금 
 		public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
-		
+		//모든 댓글 리스트
+		public List<CommentUsers> commentAllList() throws Exception;
 }

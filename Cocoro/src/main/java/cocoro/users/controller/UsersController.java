@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.apache.catalina.connector.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
@@ -120,6 +122,22 @@ public class UsersController {
 		List<Users> followMe = service.usersFollowListMe(u_id);
 		//내가 팔로우 중인사람
 		List<Users> followYou = service.usersFollowListYou(u_id);
+		//멘토판단
+		Mento mento  = service.usersMentoCheck(u_id);
+		if(mento != null){
+			System.out.println("너는 멘토구나");
+			System.out.println(mento.getM_major());
+			model.addAttribute("mento", mento);
+		}
+		
+		//후기 모든 댓글
+		List<CommentUsers> commentAllList = service.commentAllList();
+		List<Users> usersList = service.usersList();
+		model.addAttribute("usersList",usersList);
+		if(commentAllList != null){
+		model.addAttribute("commentAllList", commentAllList);	
+		System.out.println(commentAllList.toString());
+		}
 		
 		//계좌정보 계좌가 없으면 생성해줘라
 		UsersAccount usersAccount =  service.usersAccountInfo(u_id);
@@ -188,6 +206,15 @@ public class UsersController {
 				model.addAttribute("likes",likes);
 			}else{
 				System.out.println("좋아요관계가 아닙니다");
+			}
+			
+			//후기 모든 댓글
+			List<CommentUsers> commentAllList = service.commentAllList();
+			List<Users> usersList = service.usersList();
+			model.addAttribute("usersList",usersList);
+			if(commentAllList != null){
+			model.addAttribute("commentAllList", commentAllList);	
+			System.out.println(commentAllList.toString());
 			}
 			
 			model.addAttribute("fUsers", fUsers);

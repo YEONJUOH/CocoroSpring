@@ -9,10 +9,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Criteria;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
+import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
@@ -67,6 +69,33 @@ public class UsersDaoImpl implements UsersDao {
 	public Users usersLogin(HashMap<String, String> login) throws Exception {
 		return sqlsession.selectOne(namespace +".usersLogin",login);		
 	}
+	
+	//멘토생성
+	@Override
+	public void usersMento(Mento mento) throws Exception {
+		sqlsession.insert(namespace +".usersMento", mento);
+	}
+	//전체멘토 불러오기
+	@Override
+	public List<Mento> usersMentoList() throws Exception {
+		return sqlsession.selectList(namespace +".usersMentoList");
+	}
+	//멘토링 여부
+	@Override
+	public Mento usersMentoCheck(int u_id) throws Exception {
+		return sqlsession.selectOne(namespace +".usersMentoCheck",u_id);
+	}
+	//멘토 업데이트
+	@Override
+	public void usersMentoUpdate(Mento mento) throws Exception {
+		sqlsession.update(namespace +".usersMentoUpdate", mento);
+	}
+	//멘토 삭제
+	@Override
+	public void usersMentoDelete(int u_id) throws Exception {
+		sqlsession.delete(namespace +".usersMentoDelete" , u_id);
+	}
+	
 	//팔로우하기
 	@Override
 	public void usersFollow(HashMap<String, Integer> follow) throws Exception {
@@ -172,6 +201,26 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public void usersAccountMinus(UsersAccount usersAccount) throws Exception {
 		sqlsession.update(namespace +".usersAccountMinus", usersAccount);
+	}
+	//후기댓글
+	@Override
+	public void commentUsers(CommentUsers commentUsers) throws Exception {
+		sqlsession.insert(namespace +".commentUsers", commentUsers);
+	}
+	//댓글 불러오기
+	@Override
+	public List<CommentUsers> commentList(int c_id) throws Exception {
+		return sqlsession.selectList(namespace +".commentList", c_id);
+	}
+	//댓글단 사람의 정보
+	@Override
+	public List<Users> commentUserList(int c_id) throws Exception {
+		return sqlsession.selectList(namespace + ".commentUserList",c_id);
+	}
+	//모든댓글
+	@Override
+	public List<CommentUsers> commentAllList() throws Exception {
+		return sqlsession.selectList(namespace +".commentAllList");
 	}
 	
 	

@@ -35,7 +35,7 @@ $(function(){
 				div += ''+name+' 님이 글을 남겼습니다.';
 				div += '<div class="clearfix"></div><hr>';
 				if(data.c_img != ""){
-				div += '<img src="/resources/img/'+data.c_img+'" alt="..." class="img-rounde" width="487px" height="380px;">';
+				div += '<img src="/resources/img/'+data.c_img+'" alt="..." class="img-rounde" width="100%" height="380px;">';
 				}
 				div += '<p> '+data.c_comment+'</p><hr>';
 				div += '<form><div class="input-group">';
@@ -70,6 +70,8 @@ $(function(){
 		}
 		})
 	});
+	
+	
 	
 	// 입금
 	$('#inputForm').submit(function(e){
@@ -109,10 +111,12 @@ $(function(){
 			}
 		});
 	});
+	
 	//팔로우 보여주는 페이지의 높이가 316이넘었을때
 	if($('#followYou').height() > 316){
 		$('#followYou').css('height',316);
 		$('#followYou').css('overflow','hidden');
+		$('#more').html("더보기");
 	}
 	if($('#followMe').height() > 316){
 		$('#followMe').css('height',316);
@@ -130,7 +134,46 @@ $(function(){
 			$('#mentoForm').slideUp();
 		}
 	})
+	
 })
+
+$(document).on("submit","#cu_commentForm",function(e){
+	event.preventDefault();
+	
+	var c_id = $(this).parent().parent().find('#c_id').val();
+	var u_id = $(this).parent().parent().find('#u_id').val();
+	var cu_comment = $(this).parent().parent().find('#cu_comment').val();
+	var commentUsers = $(this).parent().parent().find('#commentUsers');
+
+	var name = $('#name').val();
+	var image = $('#image').val();
+	
+	var allData = {"c_id":c_id , "u_id" : u_id, "cu_comment" : cu_comment};
+
+	$.ajax({
+		url: '/rest/commentUsers',
+		type:'post',
+		data: allData,
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType:'json',
+		success: function(data){
+			alert('성공');
+			$.each(data,function(key,val){
+				div =   '<div class="col-md-12">';
+				div += 	'<img src="/resources/img/'+image+'" style="width:7%; height:37px; float: left;">';
+				div +=  '&nbsp&nbsp '+name+' <p>&nbsp&nbsp '+val.cu_comment+'</p></div>';
+				
+				$(commentUsers).append(div);
+			})
+		},
+		error : function(){
+			alert('실패.');
+		}
+	});
+	
+}); 
+	
+	
 </script>
 </head>
 <body>
@@ -149,10 +192,14 @@ $(function(){
 										alt="Profile image example" /> 
 										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${users.u_image}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
-										<h1>${users.u_name}</h1>
+										<h1>${users.u_name}
+										<c:if test="${mento != null}">
+										(멘토)
+										</c:if>
+										</h1>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
-											<ul class="nav nav-tabs" role="tablist" style="margin-left: 70%;">
+											<ul class="nav nav-tabs" role="tablist" style="margin-left: 81%;">
 												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
 												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
 												<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Modify</a></li>
@@ -169,11 +216,18 @@ $(function(){
 																<p>${users.u_tag}</p>
 															</div>
 														</div>
-
+														<c:if test="${mento != null }">
+														<div class="panel panel-default">
+															<div class="panel-body">
+																<p class="lead">진행중인 멘토링</p>
+																<p>${mento.m_major}</p>
+															</div>
+														</div>
+														</c:if>
 														<!--참여중인 스터디 -->
 														<div class="panel panel-default">
 															<div class="panel-heading">
-														<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
+														<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
 																<h4>
 																	<i class="glyphicon glyphicon-search"></i>참여중인 스터디
 																</h4>
@@ -190,7 +244,7 @@ $(function(){
 														<!-- 팔로우 중인친구 -->
 														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
-																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
+																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
 																<h4>${users.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
@@ -210,7 +264,7 @@ $(function(){
 												<!--나를 팔로우하고있는 사람들 234px-->
 														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
-															    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
+															    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
 																<h4>${users.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
@@ -250,6 +304,7 @@ $(function(){
 															    <c:if test="${cList.c_o_id == uList.u_id}">
 														<div class="panel panel-default">
 															<div class="panel-body">
+																<input type="hidden" id="p_c_id" name="p_c_id" value="${cList.c_id}">
 																<img src="/resources/img/${uList.u_image}" class="img-rounded" width="20px">
 																${uList.u_name} 님이 글을 남겼습니다.
 																<div class="clearfix"></div>
@@ -258,18 +313,39 @@ $(function(){
 																<img src="/resources/img/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
 																</c:if>
 																<p>
-																	${cList.c_comment}
+																	${cList.c_comment} ${cList.c_id }번째글 
 																</p>
 																<hr>
-																<form>
+																<form id="cu_commentForm" method="post">
 																	<div class="input-group">
-																		<input type="text" class="form-control"
-																			placeholder="Add a comment..">
+																		<input type="hidden" id="c_id" name="c_id" value="${cList.c_id}">
+																		<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
+																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">
+																		<input type="hidden" value="${users.u_name}" id="name">
+																		<input type="hidden" value="${users.u_image}" id="image">
 																		<div class="input-group-btn">
-																			<button class="btn btn-default">댓글</button>
+																			<button class="btn btn-default" type="submit" id="commentUsersBtn">댓글</button>
 																		</div>
 																	</div>
 																</form>
+																<br>
+																<!-- 후기출력 -->
+																<div class="input-group" id="commentUsers">
+																		<div class="col-md-12">
+																		<c:if test="${commentAllList != null}">
+																		<c:forEach var="commentAllList" items="${commentAllList}">
+																			<c:if test="${commentAllList.c_id == cList.c_id}">
+																				<c:forEach var="usersList" items="${usersList}">
+																					<c:if test="${usersList.u_id ==  commentAllList.u_id}">
+																					<img src="/resources/img/${usersList.u_image}" style="width:7%; height:37px; float: left;">
+																					&nbsp&nbsp${usersList.u_name}  <p>&nbsp&nbsp${commentAllList.cu_comment}</p>
+																					</c:if>
+																				</c:forEach>
+																			</c:if>
+																		</c:forEach>
+																		</c:if>
+																		</div>																				
+																</div>
 															</div>
 														</div>
 														</c:if>
@@ -290,8 +366,22 @@ $(function(){
 														<article class="search-result row">
 															<div class="col-xs-12 col-sm-12 col-md-2" style="margin-top: 20px;">
 																<ul class="meta-search">
-																	<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span>${users.u_birth}</span></li>
-																	<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> ${users.u_address} </span></li>
+																	<c:choose>
+																		<c:when test="${users.u_birth_check == 'F'}">
+																			<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span> 비공개 </span></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span>${users.u_birth}</span></li>
+																		</c:otherwise>
+																	</c:choose>
+																	<c:choose>
+																		<c:when test="${users.u_address_check == 'F'}">
+																			<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> 비공개 </span></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> ${users.u_address} </span></li>
+																		</c:otherwise>
+																	</c:choose>
 																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 : <span>${users.u_tag}</span></li>
 																</ul>
 															</div>
@@ -305,7 +395,7 @@ $(function(){
 																  <c:when test="${usersAccount != null}">
 																  <p>계좌번호: ${usersAccount.u_account}</p>
 																  <p id="accountMoney">잔액: ${usersAccount.u_balance}</p>
-                          										 <button class="btn btn-info btn-lg" href="#signup" data-toggle="modal" data-target=".u_account">계좌관리</button>
+                          										 <button class="btn btn-primary btn-lg" href="#signup" data-toggle="modal" data-target=".u_account">계좌관리</button>
 																 </c:when>	
 																 <c:otherwise>
 																 	<p>계좌가 없습니다</p>
@@ -320,6 +410,29 @@ $(function(){
 															<div class="panel-heading">
 																<h4>팔로우중인 친구</h4>
 															</div>
+															<div class="search-result row" id="followYouDiv" style="margin-top: 20px;">
+															<c:forEach var="followYou" items="${followYou}">
+															<div class="col-md-6">
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" alt="Lorem ipsum" /></a>
+																</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">${followYou.u_name}</div>
+																	<input type="hidden" name="u_id" value="${users.u_id}">
+																	<input type="hidden" name="f_o_id" value="${followYou.u_id}">
+																	<div class="col-xs-6 col-sm-6 col-md-3">
+																	<a href="friendPage?f_o_id=${followYou.u_id}&u_id=${users.u_id}">
+																	<button class="btn-primary">친구페이지로</button>
+																	</a>										
+											       					</div>
+															</div>
+															</c:forEach>				
+															</div>
+													</div>	
+													<!-- 나를 팔로우중인 -->
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<h4>나를 팔로우중인 친구</h4>
+															</div>
 															<div class="search-result row" style="margin-top: 20px;">
 															<c:forEach var="followMe" items="${followMe}">
 															<div class="col-md-6">
@@ -327,7 +440,11 @@ $(function(){
 																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followMe.u_name}</div>
-																<div class="col-xs-6 col-sm-6 col-md-3"><button>팔로우끊기</button></div>
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<a href="friendPage?f_o_id=${followMe.u_id}&u_id=${users.u_id}">
+																<button class="btn-primary">친구페이지로</button>
+																</a>
+																</div>
 															</div>
 															</c:forEach>				
 															</div>
@@ -337,7 +454,7 @@ $(function(){
 															<div class="panel-heading">
 																<h4>활동중인 스터디</h4>
 															</div>
-															<div class="search-result row" id="ingStudy" style="margin-top: 20px; height: 100%;">
+															<div class="search-result row" id="ingStudy" style="margin-top: 20px;">
 													       <div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
 																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
@@ -484,13 +601,21 @@ $(function(){
 													<label class="radio-inline">
 													  <input type="radio" name="u_mento_check" id="u_mento_check" value="F" onclick="mento_check"> 아니오
 													</label>
+													<small style="margin-left: 18%; color:#fd0606;">*필수체크요소입니다</small>
 									          </div>
 									        </div>
 									        <!-- 멘토폼 -->
 									         <div class="form-group" id="mentoForm">
 									            <label class="col-sm-3 control-label">멘토분야</label>
 									          <div class="col-sm-6">
+									          	  <c:choose>
+									          	  <c:when test="${mento != null }">
+									          	  <input type="text" class="form-control" name="m_major" placeholder="현재진행중인 멘토링 : ${mento.m_major}">
+									          	  </c:when>
+									          	  <c:otherwise>
 									          	  <input type="text" class="form-control" name="m_major" placeholder="멘토링 분야를 쓰세요">
+									          	  </c:otherwise>
+									          	  </c:choose>
 									          </div>
 									        </div>
 									        <div class="form-group">

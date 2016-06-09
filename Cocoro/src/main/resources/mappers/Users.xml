@@ -161,7 +161,7 @@
    </insert>
    <!-- 후기 불러오기 -->
    <select id="usersAfterInfo" parameterType="int" resultType="Comment">
-   SELECT c.C_O_ID,c.c_comment,c.c_date,c.c_img
+   SELECT c.c_id,c.C_O_ID,c.c_comment,c.c_date,c.c_img
    FROM USERS u JOIN COMMENTS c 
    ON u.u_id = c.u_id
    WHERE u.u_id=#{u_id}
@@ -175,6 +175,23 @@
    ON u.u_id = c.u_id
    WHERE u.u_id=#{u_id}
    )
+   </select>
+   
+   <!-- 후기 댓글 쓰기-->
+   <insert id="commentUsers" parameterType="commentUsers">
+   	insert into commentUsers(cu_id,c_id,u_id,cu_comment) values(cu_seq.nextVal,#{c_id},#{u_id},#{cu_comment})
+   </insert>
+   <!-- 해당 댓글 불러오기 -->
+   <select id="commentList" parameterType="int" resultType="commentUsers">
+   select * from commentUsers where c_id = #{c_id}
+   </select>
+   <!-- 모든 댓글불러오기 -->
+   <select id="commentAllList" resultType="commentUsers">
+   select * from commentUsers
+   </select>
+   <!-- 댓글단 사람의 정보 -->
+   <select id="commentUserList" parameterType="int" resultType="Users">
+   select * from USERS where u_id In(select u_id from COMMENTUSERS where C_ID=#{c_id})
    </select>
    <!-- 좋아요 누르기 -->
    <insert id="usersLike" parameterType="hashmap">

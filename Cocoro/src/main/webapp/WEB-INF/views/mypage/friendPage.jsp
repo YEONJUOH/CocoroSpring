@@ -13,39 +13,46 @@
 <script type="text/javascript">
 $(function(){
 	//후기
-	$('#commentForm').submit(function(e){
+$('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var formData = new FormData($(this)[0]);
-		var name = $('#name').val();
-		var comment = $('#comment').val();
-		var image = $('#image').val();
-		
+
 		$.ajax({
 			url: '/users/usersAfter',
 			type: 'post',
 			contentType: false,
 			processData: false,
 			data: formData,
+			dataType: 'json',
 			success : function(data){
+				alert('성공');
+				var name = $('#name').val();
+				var image = $('#image').val();
+				
+				var div = '<div class="panel panel-default">';
+				div += '<div class="panel-body">';
+				div += '<img src="/resources/img/'+image+'" class="img-rounded" width="20px">';
+				div += ''+name+' 님이 글을 남겼습니다.';
+				div += '<div class="clearfix"></div><hr>';
+				if(data.c_img != ""){
+				div += '<img src="/resources/img/'+data.c_img+'" alt="..." class="img-rounde" width="100%" height="380px;">';
+				}
+				div += '<p> '+data.c_comment+'</p><hr>';
+				div += '<form id="cu_commentForm" method="post"><div class="input-group">';
+				div += '<input type="hidden" id="c_id" name="c_id" value="'+data.c_id+'">';
+				div += '<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">';
+				div += '<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">';
+				div += '<input type="hidden" value="${users.u_name}" id="name">';
+				div += '<input type="hidden" value="${users.u_image}" id="image">';
+				div += '<div class="input-group-btn">';
+				div += '<button class="btn btn-default" type="submit" id="commentUsersBtn">댓글</button>';
+				div += '</div></div></form><br><div class="input-group" id="commentUsers"></div></div>';
+
+				$('#test').append(div);
 			},
 		error :	function(){
-			
-			var div = '<div class="panel panel-default">';
-			div += '<div class="panel-body">';
-			div += '<img src="/resources/img/'+image+'" class="img-rounded" width="20px">';
-			div += ''+name+' 님이 글을 남겼습니다.';
-			div += '<div class="clearfix"></div><hr>';
-			if(file != ""){
-			div += '<img src="/resources/img/sorry.jpg" alt="..." class="img-rounde" width="487px" height="380px;">';
-			}
-			div += '<p> '+comment+'</p><hr>';
-			div += '<form><div class="input-group">';
-			div += '<input type="text" class="form-control" placeholder="Add a comment..">';
-			div += '<div class="input-group-btn"><button class="btn btn-default">댓글</button>';
-			div +=	'</div></div></form></div></div>';
-			
-			$('#test').append(div);
+			alert("실패")
 		}
 		})
 	});
@@ -162,6 +169,42 @@ $(function(){
 		$('#followMe').css('overflow','hidden');
 	}
 })
+
+$(document).on("submit","#cu_commentForm",function(e){
+	event.preventDefault();
+	
+	var c_id = $(this).parent().parent().find('#c_id').val();
+	var u_id = $(this).parent().parent().find('#u_id').val();
+	var cu_comment = $(this).parent().parent().find('#cu_comment').val();
+	var commentUsers = $(this).parent().parent().find('#commentUsers');
+
+	var name = $('#name').val();
+	var image = $('#image').val();
+	
+	var allData = {"c_id":c_id , "u_id" : u_id, "cu_comment" : cu_comment};
+
+	$.ajax({
+		url: '/rest/commentUsers',
+		type:'post',
+		data: allData,
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType:'json',
+		success: function(data){
+			alert('성공');
+			$.each(data,function(key,val){
+				div =   '<div class="col-md-12">';
+				div += 	'<img src="/resources/img/'+image+'" style="width:7%; height:37px; float: left;">';
+				div +=  '&nbsp&nbsp '+name+' <p>&nbsp&nbsp '+val.cu_comment+'</p></div>';
+				
+				$(commentUsers).append(div);
+			})
+		},
+		error : function(){
+			alert('실패.');
+		}
+	})
+});
+	
 </script>
 </head>
 <body>
@@ -341,21 +384,42 @@ $(function(){
 																<div class="clearfix"></div>
 																<hr>
 																<c:if test="${cList.c_img != null}">
-																<img src="/resources/upload/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
+																<img src="/resources/img/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
 																</c:if>
 																<p>
 																	${cList.c_comment}
 																</p>
 																<hr>
-																<form>
+																<form id="cu_commentForm" method="post">
 																	<div class="input-group">
-																		<input type="text" class="form-control"
-																			placeholder="Add a comment..">
+																		<input type="hidden" id="c_id" name="c_id" value="${cList.c_id}">
+																		<input type="hidden" id="u_id" name="u_id" value="${fUsers.u_id}">
+																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">
+																		<input type="hidden" value="${users.u_name}" id="name">
+																		<input type="hidden" value="${users.u_image}" id="image">
 																		<div class="input-group-btn">
-																			<button class="btn btn-default">댓글</button>
+																			<button class="btn btn-default" type="submit" id="commentUsersBtn">댓글</button>
 																		</div>
 																	</div>
 																</form>
+																<br>
+																<!-- 후기출력 -->
+																<div class="input-group" id="commentUsers">
+																		<div class="col-md-12">
+																		<c:if test="${commentAllList != null}">
+																		<c:forEach var="commentAllList" items="${commentAllList}">
+																			<c:if test="${commentAllList.c_id == cList.c_id}">
+																				<c:forEach var="usersList" items="${usersList}">
+																					<c:if test="${usersList.u_id ==  commentAllList.u_id}">
+																					<img src="/resources/img/${usersList.u_image}" style="width:7%; height:37px; float: left;">
+																					&nbsp&nbsp${usersList.u_name}  <p>&nbsp&nbsp${commentAllList.cu_comment}</p>
+																					</c:if>
+																				</c:forEach>
+																			</c:if>
+																		</c:forEach>
+																		</c:if>
+																		</div>																				
+																</div>
 															</div>
 														</div>
 														</c:if>
@@ -398,13 +462,54 @@ $(function(){
 																<h4>팔로우중인 친구</h4>
 															</div>
 															<div class="search-result row" style="margin-top: 20px;">
+															<c:forEach var="followYou" items="${followYou}">
+															<div class="col-md-6">
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" alt="Lorem ipsum" /></a>
+																</div>
+																<div class="col-xs-6 col-sm-6 col-md-3">${followYou.u_name}</div>
+																<c:choose>
+																	<c:when test="${followYou.u_id == users.u_id}">
+																	<a href="mypage?u_id=${users.u_id}">
+																		<button class="btn-primary">친구페이지로</button>
+																	</a>
+																	</c:when>
+																	<c:otherwise>
+																	<a href="friendPage?f_o_id=${followYou.u_id}&u_id=${users.u_id}">
+																	<button class="btn-primary">친구페이지로</button>
+																	</a>
+																	</c:otherwise>
+																</c:choose>
+															</div>
+															</c:forEach>				
+															</div>
+													</div>		
+														<!-- 나를 팔로우중인 -->
+														<div class="panel panel-default">
+															<div class="panel-heading">
+																<h4>나를 팔로우중인 친구</h4>
+															</div>
+															<div class="search-result row" style="margin-top: 20px;">
 															<c:forEach var="followMe" items="${followMe}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
 																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followMe.u_name}</div>
-																<div class="col-xs-6 col-sm-6 col-md-3"><button>팔로우끊기</button></div>
+																<div class="col-xs-6 col-sm-6 col-md-3">
+																<c:choose>
+																	<c:when test="${followMe.u_id == users.u_id}">
+																	<a href="mypage?u_id=${users.u_id}">
+																		<button class="btn-primary">친구페이지로</button>
+																	</a>
+																	</c:when>
+																	<c:otherwise>
+																	<a href="friendPage?f_o_id=${followMe.u_id}&u_id=${users.u_id}">
+																	<button class="btn-primary">친구페이지로</button>
+																	</a>
+																	</c:otherwise>
+																</c:choose>
+																</div>
 															</div>
 															</c:forEach>				
 															</div>
