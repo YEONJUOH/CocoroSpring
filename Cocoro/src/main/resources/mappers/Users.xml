@@ -238,24 +238,24 @@
    	<!-- 쪽지보내기 -->
 	<insert id="sendMessage" parameterType="Message">
 	insert into message(MESSAGE_ID,MESSAGE_U_ID,MESSAGE_o_id,MESSAGE_date,MESSAGE_comment,MESSAGE_check) 
-	values(message_seq.nextVal,#{message_u_id},#{message_o_id},SYSDATE,#{message_comment},'F')
+	values(message_seq.nextVal,#{message_o_id},#{message_u_id},SYSDATE,#{message_comment},'F')
 	</insert>
 	
 	<!-- 받은쪽지정보  -->
 	<select id="receiveMessage" parameterType="int" resultType="Message">
-	select * from message where MESSAGE_O_ID=#{message_o_id}
+	select * from message where MESSAGE_u_ID=#{message_u_id}
 	</select>
 
 	<!-- 받은 쪽지(보낸사람의 정보)  -->
 	<select id="receiveInfo" parameterType="int" resultType="Users">
 	select * from users 
 	where u_id IN (
-	select message_u_id from message where MESSAGE_O_ID=#{message_o_id})
+	select message_u_id from message where MESSAGE_o_ID=#{message_o_id})
 	</select>
 	
 	<!-- 보낸 쪽지 -->
 	<select id="postMessage" parameterType="int" resultType="Message">
-	select * from message where MESSAGE_U_ID=#{message_u_id}
+	select * from message where MESSAGE_o_ID=#{message_o_id}
 	</select>
     
     <!-- 보낸 쪽지(보낸사람의 정보)  -->

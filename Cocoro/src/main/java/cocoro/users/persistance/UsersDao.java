@@ -72,6 +72,17 @@ public interface UsersDao {
 	
 	//쪽지 보내기
 	public void sendMessage(Message message)throws Exception;
+	//보낸쪽지
+	public Message postMessage(int message_o_id)throws Exception;
+	//보낸쪽지(보낸사람의 정보)
+	public Users postInfo(int u_id)throws Exception;
+	//받은쪽지 정보
+	public Message receiveMessage(int message_o_id)throws Exception;
+	//받은쪽지(보낸사람의 정보)
+	public Users receiveInfo(int message_o_id)throws Exception;
+	
+	
+	
 	//좋아요 누르기
 	public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
 	//좋아요 취소 

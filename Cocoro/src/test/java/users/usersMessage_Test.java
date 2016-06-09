@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cocoro.users.domain.Message;
+import cocoro.users.domain.Users;
 import cocoro.users.persistance.UsersDao;
 
 //Users Login Test

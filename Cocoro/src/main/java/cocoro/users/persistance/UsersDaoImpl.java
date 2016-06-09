@@ -222,6 +222,30 @@ public class UsersDaoImpl implements UsersDao {
 	public List<CommentUsers> commentAllList() throws Exception {
 		return sqlsession.selectList(namespace +".commentAllList");
 	}
+	//보낸쪽지
+	@Override
+	public Message postMessage(int message_o_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	//보낸쪽지(보낸사람 정보)
+	@Override
+	public Users postInfo(int u_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	//받은쪽지
+	@Override
+	public Message receiveMessage(int message_o_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Users receiveInfo(int message_o_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 }
