@@ -1,14 +1,12 @@
 package cocoro.users.persistance;
 
 import java.util.HashMap;
-import java.util.List;import org.omg.PortableInterceptor.INACTIVE;
+import java.util.List;
 
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
-import cocoro.users.domain.Criteria;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
-import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
@@ -109,9 +107,6 @@ public interface UsersDao {
 	//출금 
 	public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
 	
-	//페이징
-	public List<Users> listFollowUsers(int page)throws Exception;
-	public List<Users> criterFollowUsers(Criteria cri)throws Exception;
 	
 
 

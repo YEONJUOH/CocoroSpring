@@ -269,7 +269,7 @@
 	
 	<!-- 쪽지 업데이트 -->
 	<update id="updateMessage" parameterType="hashmap">
-		  update MESSAGE set message_check = 'T'  WHERE message_u_id = #{message_u_id} and message_o_id = #{message_o_id} 
+		 update MESSAGE set message_check = 'T'  WHERE message_u_id = #{message_u_id} and message_o_id = #{message_o_id} 
 	</update>
 	
 	<!--  1대 1대화 내가 받은 쪽지 -->

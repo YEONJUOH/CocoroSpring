@@ -333,7 +333,7 @@ public class UsersController {
 		}
 		// 버튼눌렸을때업데이트
 		@RequestMapping("/updateMessage")
-		public @ResponseBody void updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
+		public @ResponseBody List<Message> updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
 			System.out.println("업데이트 나 : " + message_u_id);
 			System.out.println("업데이트 친구 : " + message_o_id);
 			
@@ -342,6 +342,10 @@ public class UsersController {
 			updateMessage.put("message_o_id", message_o_id);
 			
 			service.updateMessage(updateMessage);
+			//리스트 다시리턴
+			List<Message> oneMyList = service.oneMyMessage(updateMessage);
+			
+			return oneMyList;
 		}
 		
 		//이미지 업로드시 중복될수 있는 이름 때문에

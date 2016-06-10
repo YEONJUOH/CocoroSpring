@@ -137,41 +137,73 @@ $('#commentForm').submit(function(e){
 				}
 		})	
 	});
-	
-	
+
 	//쪽지 버튼이눌렸을때정보들을 가져온다
 	  $(function(){
 		  $("#addClass").click(function () {
+				timer = setInterval(function(){ 
+				  		var f_o_id = $('#f_o_id').val();
+						var u_id = $('#u_id').val();
+						var users_image = $('#users_image').val();
+						var fUsers_image = $('#fUsers_image').val();
+						var users_name = $('#users_name').val();
+						var fUsers_name = $('#fUsers_name').val();
+						
+						var list = {"f_o_id" : f_o_id , "u_id" : u_id};
+						
+						$.ajax({
+							url: '/users/updateMessage',
+							type:'post',
+							contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+							dataType:'json',
+							data: list,
+							success: function(data){
+						        $('.direct-chat-messages').empty();
+								$.each(data,function(key,data){
+									if(data.message_o_id == u_id){
+										var div =  '<div class="direct-chat-msg doted-border">';
+					                     div +=  '<div class="direct-chat-info clearfix">';
+					                     div +=  '<span class="direct-chat-name pull-left">'+users_name+'<small>(나)</small></span></div>';
+					                     div +=  '<img alt="iamgurdeeposahan" src="/resources/img/'+users_image+'" class="direct-chat-img">';
+					                     div +=  '<div class="direct-chat-text">';
+					                     div +=  ''+data.message_comment+'</div>';
+					                     if(data.message_check == 'T'){
+							                 div +=  '<span><small style="float: right;">읽음</small></span>';
+							                 }else{
+							                 div +=  '<span><small style="float: right;">읽지않음</small></span>';
+							                 }
+					                     div += '</div>';
+					                     
+					                     $('.direct-chat-messages').append(div).fadeIn();
+									}else{
+										var div =  '<div class="direct-chat-msg doted-border">';
+					                     div +=  '<div class="direct-chat-info clearfix" style="margin-left: 140px;">';
+					                     div +=  '<span class="direct-chat-name pull-left">'+fUsers_name+'</span></div>';
+					                     div +=  '<img alt="iamgurdeeposahan" src="/resources/img/'+fUsers_image+'" style="float: right;" class="direct-chat-img">';
+					                     div +=  '<div class="direct-chat-text"  style="background-color: #ffc6c6; display: table-cell; width:1%;"> ';
+					                     div +=  ''+data.message_comment+'</div>';
+					                     div += '</div>';
+					                     
+					                     $('.direct-chat-messages').append(div);
+									}
+								})
+							},
+							error : function(){
+								alert('실패');
+							}
+						})
+				},3000);
 			  
-			  event.preventDefault();
-				
-				var f_o_id = $('#f_o_id').val();
-				var u_id = $('#u_id').val();
-				alert(f_o_id+u_id);
-				
-				var list = {"f_o_id" : f_o_id , "u_id" : u_id};
-				
-				$.ajax({
-					url: '/users/updateMessage',
-					type:'post',
-					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-					dataType:'html',
-					data: list,
-					success: function(data){
-						alert('업데이트 성공');
-					},
-					error : function(){
-						alert('실패');
-					}
-				})
 			  $('#qnimate').addClass('popup-box-on');
 		              });
 		            
 		              $("#removeClass").click(function () {
+		            	  clearInterval(timer);
 		            $('#qnimate').removeClass('popup-box-on');
 		              });
 		    })
 	
+	//쪽지 보내기
 	$('#mSendForm').submit(function(e){
 		event.preventDefault();
 		
@@ -187,14 +219,14 @@ $('#commentForm').submit(function(e){
 			data: params,
 			dataType:'html',
 			success: function(data){
-				alert('쪽지보내기 성공');
 
-			var	div =  '<div class="direct-chat-msg doted-border">';
-                div += '<div class="direct-chat-info clearfix">';
-                div += '<span class="direct-chat-name pull-left">'+name+'</span> </div>';
-                div += '<img alt="iamgurdeeposahan" src="/resources/img/'+image+'" class="direct-chat-img">';
-                div += '<div class="direct-chat-text">';
-                div += ''+message_comment+' </div></div>';
+                var div =  '<div class="direct-chat-msg doted-border">';
+                div +=  '<div class="direct-chat-info clearfix">';
+                div +=  '<span class="direct-chat-name pull-left">'+name+'<small>(나)</small></span></div>';
+                div +=  '<img alt="iamgurdeeposahan" src="/resources/img/'+image+'" class="direct-chat-img">';
+                div +=  '<div class="direct-chat-text">';
+                div +=  ''+message_comment+'</div>';
+                div += '</div>';
 	
                 $('.direct-chat-messages').append(div);	
 			},
@@ -249,7 +281,7 @@ $(document).on("submit","#cu_commentForm",function(e){
 		}
 	})
 });
-	
+
 </script>
 </head>
 <body id="body">
@@ -262,10 +294,14 @@ $(document).on("submit","#cu_commentForm",function(e){
 							<div class="row">
 								<!-- 프로필 -->
 								<div class="fb-profile">
+								<!-- 쪽지를 위한 정보 -->
 								<input type="hidden" id="f_o_id" name="f_o_id" value="${fUsers.u_id}">
 								<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
-									<img align="left" class="fb-image-lg" src="/resources/img/${fUsers.u_bgimg}"
-										alt="Profile image example" /> 
+								<input type="hidden" id="users_image" name="users_image" value="${users.u_image}">
+								<input type="hidden" id="fUsers_image" name="fUsers_image" value="${fUsers.u_image}">
+								<input type="hidden" id="fUsers_name" name="fUsers_name" value="${fUsers.u_name}">
+								<input type="hidden" id="users_name" name="users_name" value="${users.u_name}">
+									<img align="left" class="fb-image-lg" src="/resources/img/${fUsers.u_bgimg}" alt="Profile image example" /> 
 										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${fUsers.u_image}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
 										<h1>${fUsers.u_name}</h1>

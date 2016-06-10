@@ -10,10 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
-import cocoro.users.domain.Criteria;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
-import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
@@ -139,17 +137,6 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public void sendMessage(Message message) throws Exception {
 		sqlsession.insert(namespace +".sendMessage" , message);
-	}
-	
-	@Override
-	public List<Users> listFollowUsers(int page) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Users> criterFollowUsers(Criteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	//좋아요 누르기 
 	@Override
