@@ -7,8 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>Insert title here</title>
 <!-- js -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="/resources/js/createStudy/sweetalert.min.js"></script>
@@ -35,7 +34,12 @@
 		});
 		$('#s_abil_check-1').click(function() {
 			$('#s_abil').attr('disabled', 'true');
+		    var s_abil = '';
+		    s_abil += '<input type="hidden" id="sendabil" name="s_abil" value="0">';
+		    $('#s_leader_id').append(s_abil);
 		});
+		
+		
 		/* $('#s_confirm').click(function () {
 		if(offline_value=="F")
 			{
@@ -589,7 +593,7 @@
 					<input type="hidden" id="s_max_member" name="s_max_member" value="${studygroup.s_max_member}">
 					<input type="hidden" id="s_t_start" name="s_t_start" value="${studygroup.s_t_start}">
 					<input type="hidden" id="s_t_end" name="s_t_end" value="${studygroup.s_t_end}">
-					<input type="hidden" name="s_leader_id" value="${users.u_id}">
+					<input type="hidden" id="s_leader_id" name="s_leader_id" value="${users.u_id}">
 					
 					<!-- 확인 or 취소 -->
 					<div class="form-group" id="confirm">

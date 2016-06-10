@@ -1,7 +1,6 @@
 package cocoro.study.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -10,17 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cocoro.study.domain.Apply;
-import cocoro.study.domain.ListRank;
 import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
@@ -127,10 +123,8 @@ public class StudyGroupController {
 			}
 		
 		// 실력 수치 입력
-		if(studygroup.getS_abil_check()==-1)
-		{
-			studygroup.setS_abil_check(s_abil);
-		}
+		System.out.println(s_abil);
+		studygroup.setS_abil_check(s_abil);
 		
 		// 스터디 생성
 		service.createStudy(studygroup);
