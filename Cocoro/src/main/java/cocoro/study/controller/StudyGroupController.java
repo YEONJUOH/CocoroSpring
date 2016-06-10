@@ -123,7 +123,6 @@ public class StudyGroupController {
 			}
 		
 		// 실력 수치 입력
-		System.out.println(s_abil);
 		studygroup.setS_abil_check(s_abil);
 		
 		// 스터디 생성

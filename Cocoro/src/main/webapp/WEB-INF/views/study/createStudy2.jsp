@@ -32,6 +32,7 @@
 		$('#s_abil_check-0').click(function() {
 			$('#s_abil').removeAttr('disabled');
 		});
+		
 		$('#s_abil_check-1').click(function() {
 			$('#s_abil').attr('disabled', 'true');
 		    var s_abil = '';
@@ -39,18 +40,27 @@
 		    $('#s_leader_id').append(s_abil);
 		});
 		
+		// 개방형 스터디인 경우 출석체크와 실력조건 설정은 하지않음으로 고정
+		var kind_check = $('#s_kind_check').val();
+		if(kind_check=="T")    
+		{
+			$('#s_attend_check-0').attr('disabled','true');
+			$('#s_attend_check-1').attr('disabled','true');
+			$('#s_abil_check-0').attr('disabled', 'true');
+			$('#s_abil_check-1').attr('disabled', 'true');
+			$('#s_abil').attr('disabled', 'true');			
+			var s_abil = '';
+			s_abil += '<input type="hidden" id="sendabil" name="s_abil" value="0">';
+			$('#s_leader_id').append(s_abil);
+			var abilcheck = '';
+			abilcheck += '<input type="hidden" id="abilcheck" name="s_abil_check" value="0">';
+			$('#s_leader_id').append(abilcheck);
+			var attend_check = '';
+			attend_check += '<input type="hidden" id="attendcheck" name="s_attend_check" value="F">';
+			$('#s_leader_id').append(attend_check);
+			
+		}
 		
-		/* $('#s_confirm').click(function () {
-		if(offline_value=="F")
-			{
-				$('#s_showAddress').attr('required','true');
-			}
-		else if(offline_value=="T")
-			{
-				$('#s_showAddress').attr('required','true');
-			}
-		System.out.println(offline_value);
-		});  오프라인 컨트롤 */
 	});
 </script>
 <script type="text/javascript">
@@ -533,10 +543,10 @@
 						<div class="col-md-4">
 							<label class="radio-inline" for="s_attend_check-0"> <input
 								type="radio" name="s_attend_check" id="s_attend_check-0"
-								value="T" checked="checked"> 사용함
+								value="T"> 사용함
 							</label> <label class="radio-inline" for="s_attend_check-1"> <input
 								type="radio" name="s_attend_check" id="s_attend_check-1"
-								value="F"> 사용안함
+								value="F" checked="checked"> 사용안함
 							</label>
 						</div>
 					</div>
@@ -549,11 +559,11 @@
 							설정</label>
 						<div class="col-md-2">
 							<label class="radio-inline" for="s_abil_check-0"> 
-								<input type="radio" name="s_abil_check" id="s_abil_check-0" value="-1" checked="checked"> 
+								<input type="radio" name="s_abil_check" id="s_abil_check-0" value="-1"> 
 								사용함
 							</label> 
 							<label class="radio-inline" for="s_abil_check-1"> 
-								<input type="radio" name="s_abil_check" id="s_abil_check-1" value="0">
+								<input type="radio" name="s_abil_check" id="s_abil_check-1" value="0" checked="checked">
 								사용안함
 							</label>
 						</div>
@@ -593,6 +603,7 @@
 					<input type="hidden" id="s_max_member" name="s_max_member" value="${studygroup.s_max_member}">
 					<input type="hidden" id="s_t_start" name="s_t_start" value="${studygroup.s_t_start}">
 					<input type="hidden" id="s_t_end" name="s_t_end" value="${studygroup.s_t_end}">
+					
 					<input type="hidden" id="s_leader_id" name="s_leader_id" value="${users.u_id}">
 					
 					<!-- 확인 or 취소 -->
