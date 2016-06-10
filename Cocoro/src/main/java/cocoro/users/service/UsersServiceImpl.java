@@ -206,5 +206,42 @@ public class UsersServiceImpl implements UsersService {
 	public List<CommentUsers> commentAllList() throws Exception {
 		return dao.commentAllList();
 	}
+	//보낸쪽지
+	@Override
+	public List<Message> postMessage(int message_o_id) throws Exception {
+		return dao.postMessage(message_o_id);
+	}
+	//보낸쪽지 (받는 사람의 정보)
+	@Override
+	public List<Users> postInfo(int u_id) throws Exception {
+		return dao.postInfo(u_id);
+	}
+	//받은쪽지
+	@Override
+	public List<Message> receiveMessage(int message_u_id) throws Exception {
+		return dao.receiveMessage(message_u_id);
+	}
+	//받은쪽지(보낸사람의 정보)
+	@Override
+	public List<Users> receiveInfo(int message_u_id) throws Exception {
+		return dao.receiveInfo(message_u_id);
+	}
+	//1대1 받은 쪽지
+	@Override
+	public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage) throws Exception {
+		return dao.oneMyMessage(oneMyMessage);
+	}
+	//1대1 보낸쪽지 
+	@Override
+	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage) throws Exception {
+		return dao.oneYouMessage(oneYouMessage);
+	}
+	//메세지 업데이트
+	@Override
+	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
+		 dao.updateMessage(updateMessage);
+	}
+	
+	
 	
 }

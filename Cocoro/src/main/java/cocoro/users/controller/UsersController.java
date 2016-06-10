@@ -33,6 +33,7 @@ import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Mento;
+import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
 import cocoro.users.service.UsersServiceImpl;
@@ -217,6 +218,21 @@ public class UsersController {
 			System.out.println(commentAllList.toString());
 			}
 			
+			//쪽지
+			HashMap<String, Integer> oneMyMessage = new HashMap<String, Integer>();
+			oneMyMessage.put("message_u_id", u_id);
+			oneMyMessage.put("message_o_id", f_o_id);
+			//내가 보낸메세지
+			
+			List<Message> oneMyList = service.oneMyMessage(oneMyMessage);
+			
+			for(Message MyList : oneMyList){
+				System.out.println("받는사람 " + MyList.getMessage_u_id() + "받은 메세지 :" + MyList.getMessage_comment());
+			}
+			
+			System.out.println("받은 메세지 수:"+oneMyList.size());
+		
+			model.addAttribute("oneMyList" ,oneMyList);
 			model.addAttribute("fUsers", fUsers);
 			model.addAttribute("cList", cList);
 			model.addAttribute("uList", uList);
@@ -300,6 +316,32 @@ public class UsersController {
 		service.usersAfter(comment);
 		
 		return comment;
+		}
+		
+		//쪽지 보내기 
+		@RequestMapping("/mSendMessage")
+		public @ResponseBody Message mSendMessage(Message message,@RequestParam("message_comment")String message_comment)throws Exception{
+			
+			System.out.println("내아디 : " + message.getMessage_o_id());
+			System.out.println("친구아디 : " +  message.getMessage_u_id());
+			System.out.println("코멘트 : " +  message_comment);
+			message.setMessage_Comment(message_comment);
+			
+			service.sendMessage(message);
+			
+			return message;
+		}
+		// 버튼눌렸을때업데이트
+		@RequestMapping("/updateMessage")
+		public @ResponseBody void updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
+			System.out.println("업데이트 나 : " + message_u_id);
+			System.out.println("업데이트 친구 : " + message_o_id);
+			
+			HashMap<String, Integer> updateMessage = new HashMap<String, Integer>();
+			updateMessage.put("message_u_id", message_u_id);
+			updateMessage.put("message_o_id", message_o_id);
+			
+			service.updateMessage(updateMessage);
 		}
 		
 		//이미지 업로드시 중복될수 있는 이름 때문에

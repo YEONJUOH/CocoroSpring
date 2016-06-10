@@ -222,28 +222,40 @@ public class UsersDaoImpl implements UsersDao {
 	public List<CommentUsers> commentAllList() throws Exception {
 		return sqlsession.selectList(namespace +".commentAllList");
 	}
-	//보낸쪽지
-	@Override
-	public Message postMessage(int message_o_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	//보낸쪽지(보낸사람 정보)
-	@Override
-	public Users postInfo(int u_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	//받은쪽지
 	@Override
-	public Message receiveMessage(int message_o_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Message> receiveMessage(int message_u_id) throws Exception {
+		return sqlsession.selectList(namespace + ".receiveMessage",message_u_id);
 	}
+	//받은쪽지(보낸사람의 정보)
 	@Override
-	public Users receiveInfo(int message_o_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Users> receiveInfo(int message_u_id) throws Exception {
+		return sqlsession.selectList(namespace + ".receiveInfo",message_u_id);
+	}
+	//보낸쪽지
+	@Override
+	public List<Message> postMessage(int message_o_id) throws Exception {
+		return sqlsession.selectList(namespace + ".postMessage" , message_o_id);
+	}
+	//보낸쪽지(받는사람의 정보)
+	@Override
+	public List<Users> postInfo(int u_id) throws Exception {
+		return sqlsession.selectList(namespace +".postInfo" , u_id);
+	}
+	//1대1 내가 받은 메세지
+	@Override
+	public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage) throws Exception {
+		return sqlsession.selectList(namespace +".oneMyMessage", oneMyMessage);
+	}
+	//1댑 내가 보낸 메세지
+	@Override
+	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage) throws Exception {
+		return sqlsession.selectList(namespace +".oneYouMessage",oneYouMessage);
+	}
+	//메세지 업데이트
+	@Override
+	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
+		sqlsession.update(namespace + ".updateMessage", updateMessage);
 	}
 	
 	

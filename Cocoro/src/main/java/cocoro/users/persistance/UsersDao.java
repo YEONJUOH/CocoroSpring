@@ -73,15 +73,19 @@ public interface UsersDao {
 	//쪽지 보내기
 	public void sendMessage(Message message)throws Exception;
 	//보낸쪽지
-	public Message postMessage(int message_o_id)throws Exception;
+	public List<Message> postMessage(int message_o_id)throws Exception;
 	//보낸쪽지(보낸사람의 정보)
-	public Users postInfo(int u_id)throws Exception;
+	public List<Users> postInfo(int u_id)throws Exception;
 	//받은쪽지 정보
-	public Message receiveMessage(int message_o_id)throws Exception;
+	public List<Message> receiveMessage(int message_o_id)throws Exception;
 	//받은쪽지(보낸사람의 정보)
-	public Users receiveInfo(int message_o_id)throws Exception;
-	
-	
+	public List<Users> receiveInfo(int message_o_id)throws Exception;
+	//1대1 내가 받은 쪽지 
+	public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage)throws Exception;
+	//1대1 내가 보낸 쪽지 
+	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage)throws Exception;
+	//메세지 업데이트 
+	public void updateMessage(HashMap<String, Integer> updateMessage)throws Exception;
 	
 	//좋아요 누르기
 	public void usersLike(HashMap<String, Integer> usersLike)throws Exception;

@@ -73,6 +73,18 @@ public interface UsersService {
 		public Follow usersFollowCheck(HashMap<String, Integer> folloCheck)throws Exception;
 		//쪽지 보내기
 		public void sendMessage(Message message)throws Exception;
+		//보낸쪽지
+		public List<Message> postMessage(int message_o_id)throws Exception;
+		//보낸쪽지(보낸사람의 정보)
+		public List<Users> postInfo(int u_id)throws Exception;
+		//받은쪽지 정보
+		public List<Message> receiveMessage(int message_u_id)throws Exception;
+		//받은쪽지(보낸사람의 정보)
+		public List<Users> receiveInfo(int message_u_id)throws Exception;
+		//1대1 내가 받은 쪽지 
+		public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage)throws Exception;
+		//1대1 내가 보낸 쪽지 
+		public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage)throws Exception;
 		//좋아요 누르기
 		public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
 		//좋아요 취소 
@@ -95,4 +107,7 @@ public interface UsersService {
 		public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
 		//모든 댓글 리스트
 		public List<CommentUsers> commentAllList() throws Exception;
+		//메세지 업데이트 
+		public void updateMessage(HashMap<String, Integer> updateMessage)throws Exception;
+		
 }

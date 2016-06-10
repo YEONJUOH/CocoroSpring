@@ -238,7 +238,7 @@
    	<!-- 쪽지보내기 -->
 	<insert id="sendMessage" parameterType="Message">
 	insert into message(MESSAGE_ID,MESSAGE_U_ID,MESSAGE_o_id,MESSAGE_date,MESSAGE_comment,MESSAGE_check) 
-	values(message_seq.nextVal,#{message_o_id},#{message_u_id},SYSDATE,#{message_comment},'F')
+	values(message_seq.nextVal,#{message_u_id},#{message_o_id},SYSDATE,#{message_comment},'F')
 	</insert>
 	
 	<!-- 받은쪽지정보  -->
@@ -250,7 +250,7 @@
 	<select id="receiveInfo" parameterType="int" resultType="Users">
 	select * from users 
 	where u_id IN (
-	select message_u_id from message where MESSAGE_o_ID=#{message_o_id})
+	select message_o_id from message where MESSAGE_u_ID=#{message_u_id})
 	</select>
 	
 	<!-- 보낸 쪽지 -->
@@ -258,19 +258,33 @@
 	select * from message where MESSAGE_o_ID=#{message_o_id}
 	</select>
     
-    <!-- 보낸 쪽지(보낸사람의 정보)  -->
+    <!-- 보낸 쪽지(받는사람의 정보)  -->
 	<select id="postInfo" parameterType="int" resultType="Users">
 		  select * from users where u_id IN(
-			select m.MESSAGE_O_ID
+			select m.MESSAGE_u_ID
 			from Message m Join Users u
-			ON m.MESSAGE_U_ID = u.U_ID
+			ON m.MESSAGE_o_ID = u.U_ID
 			Where u.U_ID = #{u_id})
+	</select>
+	
+	<!-- 쪽지 업데이트 -->
+	<update id="updateMessage" parameterType="hashmap">
+		  update MESSAGE set message_check = 'T'  WHERE message_u_id = #{message_u_id} and message_o_id = #{message_o_id} 
+	</update>
+	
+	<!--  1대 1대화 내가 받은 쪽지 -->
+	<select id="oneMyMessage" parameterType="hashmap" resultType="Message">
+	select * from message where message_u_id =#{message_u_id}  and message_o_id=#{message_o_id}  or  message_u_id =#{message_o_id}  and message_o_id=#{message_u_id}   ORDER BY MESSAGE_DATE ASC
+	</select>
+	
+	<!--  1대 1대화 내가 보낸 쪽지 -->
+	<select id="oneYouMessage" parameterType="hashmap" resultType="Message">
+	select * from message where message_u_id = #{message_o_id} and message_o_id=#{message_u_id} ORDER BY  MESSAGE_DATE ASC
 	</select>
 	
 	<!-- 해당 쪽지 삭제 -->
 	<delete id="delMessage" parameterType="int">
-	delete from Message
-	WHERE message_id = #{message_id}
+	delete from Message WHERE message_id = #{message_id}
 	</delete>
 	
 	<!-- 페이징 -->

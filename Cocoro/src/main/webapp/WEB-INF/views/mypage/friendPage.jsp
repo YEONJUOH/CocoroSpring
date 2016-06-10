@@ -138,26 +138,71 @@ $('#commentForm').submit(function(e){
 		})	
 	});
 	
-	//쪽지 보내기
+	
+	//쪽지 버튼이눌렸을때정보들을 가져온다
+	  $(function(){
+		  $("#addClass").click(function () {
+			  
+			  event.preventDefault();
+				
+				var f_o_id = $('#f_o_id').val();
+				var u_id = $('#u_id').val();
+				alert(f_o_id+u_id);
+				
+				var list = {"f_o_id" : f_o_id , "u_id" : u_id};
+				
+				$.ajax({
+					url: '/users/updateMessage',
+					type:'post',
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+					dataType:'html',
+					data: list,
+					success: function(data){
+						alert('업데이트 성공');
+					},
+					error : function(){
+						alert('실패');
+					}
+				})
+			  $('#qnimate').addClass('popup-box-on');
+		              });
+		            
+		              $("#removeClass").click(function () {
+		            $('#qnimate').removeClass('popup-box-on');
+		              });
+		    })
+	
 	$('#mSendForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#mSendForm').serialize();
+		var name = $('#name').val();
+		var image = $('#image').val();
+		var message_comment = $('#message_comment').val();
 		
 		$.ajax({
-			url: '/users/unFollow',
+			url: '/users/mSendMessage',
 			type:'post',
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			data:params,
+			data: params,
 			dataType:'html',
 			success: function(data){
-				alert('성공');
+				alert('쪽지보내기 성공');
+
+			var	div =  '<div class="direct-chat-msg doted-border">';
+                div += '<div class="direct-chat-info clearfix">';
+                div += '<span class="direct-chat-name pull-left">'+name+'</span> </div>';
+                div += '<img alt="iamgurdeeposahan" src="/resources/img/'+image+'" class="direct-chat-img">';
+                div += '<div class="direct-chat-text">';
+                div += ''+message_comment+' </div></div>';
+	
+                $('.direct-chat-messages').append(div);	
 			},
 			error : function(){
 				alert('실패 ');
 			}
 		})
-	})
+	});
 	
 	//팔로우 보여주는 페이지의 높이가 316이넘었을때
 	if($('#followYou').height() > 316){
@@ -207,30 +252,29 @@ $(document).on("submit","#cu_commentForm",function(e){
 	
 </script>
 </head>
-<body>
+<body id="body">
 	<div class="wrapper">
-		<!-- /container -->
 		<div class="box">
 			<div>
-				<!-- main right col -->
 				<div class="column col-sm-12 col-xs-12" id="main">
 					<div class="padding">
 						<div class="col-sm-12">
 							<div class="row">
-
 								<!-- 프로필 -->
 								<div class="fb-profile">
-									<img align="left" class="fb-image-lg" src="/resources/img/img2.jpg"
+								<input type="hidden" id="f_o_id" name="f_o_id" value="${fUsers.u_id}">
+								<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
+									<img align="left" class="fb-image-lg" src="/resources/img/${fUsers.u_bgimg}"
 										alt="Profile image example" /> 
-										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/img2.jpg" alt="Profile image example" style="width: 180px; height: 170px;" />
+										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${fUsers.u_image}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
 										<h1>${fUsers.u_name}</h1>
 										<!-- 팔로우하기 -->
 										<div>
 										<c:if test="${follow == null}">
 										<form  method="post" id="followSend">
-											<input type="hidden" name="f_o_id" value="${fUsers.u_id}">
-											<input type="hidden" name="u_id" value="${users.u_id}">
+											<input type="hidden" id="f_o_id" name="f_o_id" value="${fUsers.u_id}">
+											<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
 											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우</button>
 										</form>
 										</c:if>
@@ -259,7 +303,7 @@ $(document).on("submit","#cu_commentForm",function(e){
 										</form>
 										</c:if>
 										<!--쪽지보내기 -->
-										<button type="button" class="btn btn-success" data-toggle="modal" data-target=".mSend">쪽지</button>
+										<button class="btn-primary" id="addClass" style="float: left;">쪽지</button>
 										</div>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
@@ -554,17 +598,6 @@ $(document).on("submit","#cu_commentForm",function(e){
 															</div>
 													</div>								
 												</div>
-												<!-- 세번째 메뉴  -->
-												<div role="tabpanel" class="tab-pane" id="messages">
-												
-												
-												
-												
-												
-												
-												
-												</div>
-												<div role="tabpanel" class="tab-pane" id="settings">...</div>
 											</div>
 										</div>
 									</div>
@@ -581,23 +614,75 @@ $(document).on("submit","#cu_commentForm",function(e){
 		</div>
 	</div>
 	
-	
-		<!-- 쪽지 보내기 모달 -->
-	
-	 <div class="modal fade mSend" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="width: 350px;">
-	  <div class="modal-dialog modal-sm">
-	    <div class="modal-content">
-	      	<h3 class="text-center">메세지보내기</h3>
-	      	<form method="post" id="mSendForm">
-				<textarea rows="10" cols="39" style="width: 100%;" name="message_comment"></textarea>
-				 <input type="hidden" name="message_o_id" value="${users.u_id}">	
-				 <input type="hidden" name="message_u_id" value="${fUsers.u_id}">	
-				 <input type="hidden" id="messageInfo" name="messageInfo" value="insert">
-	             <button type="submit" class="btn-block btn-primary" id="mBtn">메세지 보내기</button>
+<!--  쪽지  -->	
+<link href="/resources/css/mypage/chat.css" rel="stylesheet">	
+<div class="popup-box chat-popup" id="qnimate">
+    		  <div class="popup-head">
+				<div class="popup-head-left pull-left"><img src="/resources/img/${fUsers.u_image}" alt="iamgurdeeposahan"> ${fUsers.u_name}</div>
+					  <div class="popup-head-right pull-right">
+						<div class="btn-group">
+						</div>						
+						<button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button">X</button>
+                      </div>
+			  </div>
+			<div class="popup-messages">
+			<div class="direct-chat-messages">           
+			<c:if test="${oneMyList == null}">
+				메세지함이 비었습니다.
+			</c:if>					
+				<c:if test="${oneMyList != null}">
+				<c:forEach var="oneMyList" items="${oneMyList}">
+				<!--내말-->
+				<c:choose>
+					<c:when test="${oneMyList.message_o_id == users.u_id}">
+                    <div class="direct-chat-msg doted-border">
+                      <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-left">${users.u_name}<small>(나)</small></span>
+                      </div>
+                      <img alt="iamgurdeeposahan" src="/resources/img/${users.u_image}" class="direct-chat-img"><!-- /.direct-chat-img -->
+                      <div class="direct-chat-text">
+                      	${oneMyList.message_comment}
+                      </div>
+	                      <c:choose>
+		                      <c:when test="${oneMyList.message_check == 'T'}">
+		                     <span><small style="float: right;">읽음</small></span>
+		                     </c:when>
+		                     <c:otherwise>
+		                     <span><small style="float: right;">읽지않음</small></span>
+		                     </c:otherwise>
+                    	 </c:choose>
+                    </div>
+                    </c:when>
+                    
+                	<c:otherwise>
+                    <div class="direct-chat-msg doted-border">
+                      <div class="direct-chat-info clearfix" style="margin-left: 140px;">
+                        <span class="direct-chat-name pull-left">${fUsers.u_name}</span>
+                      </div>
+                      <img alt="iamgurdeeposahan" src="/resources/img/${fUsers.u_image}"  style="float: right;"class="direct-chat-img">
+                      <div class="direct-chat-text" style="background-color: #ffc6c6; display: table-cell; width:1%;">
+                     	${oneMyList.message_comment}
+                      </div>
+                    </div>
+                    </c:otherwise>
+                    </c:choose>
+                    </c:forEach>
+                 </c:if>   
+             </div>
+			</div>
+			<div class="popup-messages-footer">
+			 <div class="btn-footer">
+			 	<form method="post" id="mSendForm">
+			     <input type="text" id ="message_comment" class="form-control" name="message_comment" width="100%;">
+				 <input type="hidden"  name="message_o_id" value="${users.u_id}">	
+				 <input type="hidden" name="message_u_id" value="${fUsers.u_id}">
+				 <input type="hidden" id ="name"  name="name" value="${users.u_name}">
+				 <input type="hidden" id ="image" name="image" value="${users.u_image}">
+				<button class="bg_none pull-right" type="submit" >보내기</button>
 	    	</form>
-	    </div>
+			</div>
+			</div>
 	  </div>
-	</div>
 </body>
 </html>
 </html>

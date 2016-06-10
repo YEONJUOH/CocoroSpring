@@ -30,11 +30,11 @@ public class Message implements Serializable{
 	public void setMessage_o_id(int message_o_id) {
 		this.message_o_id = message_o_id;
 	}
-	public String getMessage_Comment() {
+	public String getMessage_comment() {
 		return message_comment;
 	}
-	public void setMessage_Comment(String message_Comment) {
-		this.message_comment = message_Comment;
+	public void setMessage_Comment(String message_comment) {
+		this.message_comment = message_comment;
 	}
 	public Timestamp getMessage_date() {
 		return message_date;
