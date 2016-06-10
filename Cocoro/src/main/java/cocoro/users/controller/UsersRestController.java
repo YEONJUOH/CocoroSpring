@@ -34,9 +34,12 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
+import cocoro.users.domain.HeaderMessageVo;
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
@@ -61,28 +64,55 @@ public class UsersRestController {
 		login.put("u_pwd", u_pwd);
 		
 		Users users = service.usersLogin(login);
-		
+		List<Message> receiveList = null;
 		if(users != null){
 		model.addAttribute("users",users);
 		session.setAttribute("users", users);
-		
-		//내가 받은 모든메세지
-		List<Message> receiveList = service.headerMessage(users.getU_id());
-		if(receiveList != null){
-			for(Message mL : receiveList){
-				System.out.println(mL.getMessage_comment());
-			}
-			model.addAttribute("receiveList" , receiveList);
-		}
-	}
+		service.usersLoginTime(users.getU_id());
+	  }
 		return users;
+	}
+	
+	/*
+	 if(hList.getMessage_o_id() == hUlist.getU_id()){
+				System.out.println("보낸사람이름 : " + hUlist.getU_name());
+				System.out.println("보낸내용 :" + hList.getMessage_comment());
+				
+			}
+	 */
+	
+	// 헤더 메세지 
+	@RequestMapping(value = "/headerMessage" , method=RequestMethod.POST)
+	public @ResponseBody List<Object> headerMessage(@RequestParam("u_id")int u_id,HeaderMessageVo headerMessageVo)throws Exception{
+		List<Message> headerList = service.headerMessage(u_id);
+		List<Users> headerUList = new ArrayList<Users>();
+		
+		List<Object> ob = new ArrayList<Object>();
+		
+		for(Message hList : headerList){
+			Users hUlist = service.usersInfo(hList.getMessage_o_id());
+			headerMessageVo = new HeaderMessageVo();
+			
+			 if(hList.getMessage_o_id() == hUlist.getU_id()){
+					
+					headerMessageVo.setMessage_comment(hList.getMessage_comment());
+					headerMessageVo.setMessage_date(hList.getMessage_date());
+					headerMessageVo.setMessage_o_id(hList.getMessage_o_id());
+					headerMessageVo.setMessage_u_id(hList.getMessage_u_id());
+					headerMessageVo.setU_id(hUlist.getU_id());
+					headerMessageVo.setU_image(hUlist.getU_image());
+					headerMessageVo.setU_name(hUlist.getU_name());
+					
+					ob.add(headerMessageVo);
+				}
+		}
+		return ob;
 	}
 	//후기 댓글 
 	@RequestMapping(value = "/commentUsers" , method=RequestMethod.POST)
 	public @ResponseBody List<CommentUsers> commentUsers(@RequestParam("u_id")int u_id,@RequestParam("c_id")int c_id,
 			@RequestParam("cu_comment")String cu_comment)throws Exception{
 		//후기댓글 생성
-		System.out.println("댓글 넘어옴");
 		CommentUsers commentUsers = new CommentUsers();
 		commentUsers.setC_id(c_id);
 		commentUsers.setU_id(u_id);
@@ -101,29 +131,24 @@ public class UsersRestController {
 	
 	//멘토를 하겠다고함
 	if(!mento.getM_major().equals("")){
-		System.out.println("멘토할라고?!");
 		
 		String m_major = mento.getM_major();
-		System.out.println("어떤멘토 ?"  + m_major);
 		int u_id = users.getU_id();
 		
 		Mento mentoCheck = service.usersMentoCheck(users.getU_id());
 		//멘토여부판단 null이 아니면 이미 멘토라는뜻 업데이트를 해준다
 		if(mentoCheck != null){
-			System.out.println("이미멘토니까 업데이트해");
 			mentoCheck.setM_major(m_major);
 			mentoCheck.setU_id(u_id);
 			service.usersMentoUpdate(mentoCheck);
 		}else{
 			//멘토생성
-			System.out.println("새로운 친구구낭");
 			mento.setM_major(m_major);
 			mento.setU_id(u_id);
 			service.usersMento(mento);
 		}
 	}else{
 		//멘토를 안하겠다고함 그런데 이미 멘토면 삭제를 해야함
-		System.out.println("멘토취소 ?");
 		Mento mentoCheck = service.usersMentoCheck(users.getU_id());
 		if(mentoCheck != null){
 			service.usersMentoDelete(users.getU_id());
@@ -140,8 +165,6 @@ public class UsersRestController {
 	//입금
 	@RequestMapping(value = "/inputAccount", method = RequestMethod.POST)
 	public @ResponseBody UsersAccount usersAccountInput(UsersAccount usersAccount)throws Exception{
-		System.out.println("입금");
-		
 		UsersAccount accountCheck = new UsersAccount();
 		
 			service.usersAccountPlus(usersAccount);
@@ -152,14 +175,11 @@ public class UsersRestController {
 	//출금
 	@RequestMapping(value = "/outputAccount", method = RequestMethod.POST)
 	public @ResponseBody UsersAccount usersAccountOutput(UsersAccount usersAccount)throws Exception{
-		System.out.println("출금");
-		
 	UsersAccount accountCheck = service.usersAccountInfo(usersAccount.getU_id());
 		
 		if(accountCheck.getU_balance() < usersAccount.getU_balance()){
 			return null;
 		}else{
-			 System.out.println("출금성공");
 			 service.usersAccountMinus(usersAccount);
 			 accountCheck = service.usersAccountInfo(usersAccount.getU_id());
 		}
@@ -170,12 +190,9 @@ public class UsersRestController {
 			@RequestMapping(value="/follow",method = RequestMethod.POST)
 			public List<Users> follow(@RequestParam("u_id")int u_id,@RequestParam("f_o_id")int f_o_id)throws Exception{
 				HashMap<String, Integer> follow = new HashMap<String, Integer>();
-				System.out.println("내아이디"+ u_id);
-				System.out.println("친구아이디"+ f_o_id);
 				follow.put("f_o_id", u_id);
 				follow.put("u_id", f_o_id);
 				
-				System.out.println("팔로우 컨트롤러");
 				service.usersFollow(follow);
 				
 				List<Users> followList = service.usersFollowListYou(u_id);
@@ -202,5 +219,14 @@ public class UsersRestController {
 						List<Users> followList = service.usersFollowListYou(u_id);
 						return followList;
 					}
+	 //친구 자동검색
+	@RequestMapping("/autoSearch")
+	public @ResponseBody List<Users> autoSearch(@RequestParam("searchKey")String searchKey)throws Exception{
+		System.out.println(searchKey);
+		
+		List<Users> usersList = service.autoSearch(searchKey);
+		
+		return usersList;
+	}
 }
 	

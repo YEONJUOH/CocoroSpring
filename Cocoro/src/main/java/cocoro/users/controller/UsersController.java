@@ -110,6 +110,13 @@ public class UsersController {
 	return "afterMain";
 	}
 	
+	//로그아웃 
+	@RequestMapping("/logout")
+	public String logout(HttpSession session)throws Exception {
+	session.invalidate();
+	return "redirect:/";
+	}
+	
 	//마이페이지 
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(@RequestParam("u_id")Integer u_id, Model model)throws Exception {
@@ -126,8 +133,6 @@ public class UsersController {
 		//멘토판단
 		Mento mento  = service.usersMentoCheck(u_id);
 		if(mento != null){
-			System.out.println("너는 멘토구나");
-			System.out.println(mento.getM_major());
 			model.addAttribute("mento", mento);
 		}
 		
@@ -137,7 +142,6 @@ public class UsersController {
 		model.addAttribute("usersList",usersList);
 		if(commentAllList != null){
 		model.addAttribute("commentAllList", commentAllList);	
-		System.out.println(commentAllList.toString());
 		}
 		
 		//계좌정보 계좌가 없으면 생성해줘라
@@ -146,7 +150,6 @@ public class UsersController {
 			//랜덤으로 계좌번호를 생성
 			Random random = new Random();
 	        int account = random.nextInt(9999)+1;
-	        System.out.println("생성된 계좌번호" + account);
 	        //계좌생성
 	        UsersAccount createAccount = new UsersAccount();
 	        createAccount.setU_account(account);
@@ -156,14 +159,9 @@ public class UsersController {
 	        usersAccount = service.usersAccountInfo(u_id);
 			
 			model.addAttribute("usersAccount",usersAccount);
-			System.out.println("계좌생성");
 		}
 		
 		model.addAttribute("usersAccount", usersAccount);
-		
-		System.out.println("나를 팔로우하고있는 사람 :" + followMe.size());
-		System.out.println("내가 팔로우하고있는 사람 :" + followYou.size());
-		
 		model.addAttribute("cList", cList);
 		model.addAttribute("uList", uList);
 		model.addAttribute("followMe", followMe);
@@ -194,7 +192,6 @@ public class UsersController {
 			
 			if(follow != null){
 				model.addAttribute("follow",follow);
-				System.out.println("이미 팔로워에요");
 			}
 			//좋아요 체크
 			HashMap<String, Integer> likes = new HashMap<String, Integer>();
@@ -203,7 +200,6 @@ public class UsersController {
 			Likes likeCheck =  service.usersLikeCheck(likes);
 			
 			if(likeCheck != null){
-				System.out.println("좋아요관계입니다");
 				model.addAttribute("likes",likes);
 			}else{
 				System.out.println("좋아요관계가 아닙니다");
@@ -215,7 +211,6 @@ public class UsersController {
 			model.addAttribute("usersList",usersList);
 			if(commentAllList != null){
 			model.addAttribute("commentAllList", commentAllList);	
-			System.out.println(commentAllList.toString());
 			}
 			
 			//쪽지
@@ -230,8 +225,6 @@ public class UsersController {
 				System.out.println("받는사람 " + MyList.getMessage_u_id() + "받은 메세지 :" + MyList.getMessage_comment());
 			}
 			
-			System.out.println("받은 메세지 수:"+oneMyList.size());
-		
 			model.addAttribute("oneMyList" ,oneMyList);
 			model.addAttribute("fUsers", fUsers);
 			model.addAttribute("cList", cList);
@@ -251,7 +244,6 @@ public class UsersController {
 			follow.put("f_o_id", u_id);
 			follow.put("u_id", f_o_id);
 			
-			System.out.println("팔로우 컨트롤러");
 			service.usersFollow(follow);
 		}
 		//팔로우취소  
@@ -260,9 +252,6 @@ public class UsersController {
 					HashMap<String, Integer> unFollow = new HashMap<String, Integer>();
 					unFollow.put("f_o_id", u_id);
 					unFollow.put("u_id", f_o_id);
-					
-					System.out.println("내아이디"+ u_id);
-					System.out.println("친구아이디"+f_o_id);
 					
 					Follow follow = service.usersFollowCheck(unFollow);
 					
@@ -277,9 +266,6 @@ public class UsersController {
 					HashMap<String, Integer> usersLikes = new HashMap<String, Integer>();
 					usersLikes.put("l_o_id", u_id);
 					usersLikes.put("u_id", l_o_id);
-					
-					System.out.println("내아이디"+ u_id);
-					System.out.println("친구아이디"+l_o_id);
 					// 좋아요 수 + 
 					service.usersLikeUpdate(l_o_id);
 					service.usersLike(usersLikes);
@@ -322,11 +308,7 @@ public class UsersController {
 		@RequestMapping("/mSendMessage")
 		public @ResponseBody Message mSendMessage(Message message,@RequestParam("message_comment")String message_comment)throws Exception{
 			
-			System.out.println("내아디 : " + message.getMessage_o_id());
-			System.out.println("친구아디 : " +  message.getMessage_u_id());
-			System.out.println("코멘트 : " +  message_comment);
 			message.setMessage_Comment(message_comment);
-			
 			service.sendMessage(message);
 			
 			return message;
@@ -334,8 +316,6 @@ public class UsersController {
 		// 버튼눌렸을때업데이트
 		@RequestMapping("/updateMessage")
 		public @ResponseBody List<Message> updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
-			System.out.println("업데이트 나 : " + message_u_id);
-			System.out.println("업데이트 친구 : " + message_o_id);
 			
 			HashMap<String, Integer> updateMessage = new HashMap<String, Integer>();
 			updateMessage.put("message_u_id", message_u_id);

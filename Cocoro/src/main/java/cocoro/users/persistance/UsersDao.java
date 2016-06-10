@@ -29,6 +29,10 @@ public interface UsersDao {
 	public Users usersInfo(Integer u_id)throws Exception;
 	//로그인
 	public Users usersLogin(HashMap<String, String> login)throws Exception;
+	//최근 시간 업데이트 
+	public void usersLoginTime(int u_id)throws Exception;
+	//친구 자동검색 
+	public List<Users> autoSearch(String autoSearch)throws Exception;
 	
 	//멘토
 	public void usersMento(Mento mento)throws Exception;

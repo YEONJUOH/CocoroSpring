@@ -246,6 +246,16 @@ public class UsersServiceImpl implements UsersService {
 	public List<Message> headerMessage(int message_u_id) throws Exception {
 		return dao.headerMessage(message_u_id);
 	}
+	//유저 최근시간으로 업데이트
+	@Override
+	public void usersLoginTime(int u_id) throws Exception {
+		dao.usersLoginTime(u_id);
+	}
+	//친구검색 
+	@Override
+	public List<Users> autoSearch(String autoSearch) throws Exception {
+		return dao.autoSearch(autoSearch);
+	}
 	
 	
 	

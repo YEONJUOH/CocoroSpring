@@ -68,6 +68,8 @@ public class UsersDaoImpl implements UsersDao {
 		return sqlsession.selectOne(namespace +".usersLogin",login);		
 	}
 	
+	
+	
 	//멘토생성
 	@Override
 	public void usersMento(Mento mento) throws Exception {
@@ -248,6 +250,16 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public List<Message> headerMessage(int message_u_id)throws Exception {
 		return sqlsession.selectList(namespace + ".headerMessage", message_u_id);
+	}
+	//최근시간으로 로그인시 업데이트
+	@Override
+	public void usersLoginTime(int u_id) throws Exception {
+		sqlsession.update(namespace + ".usersLoginTime", u_id);
+	}
+	//자동검색
+	@Override
+	public List<Users> autoSearch(String autoSearch) throws Exception {
+		return sqlsession.selectList(namespace + ".autoSearch",autoSearch);
 	}
 	
 	

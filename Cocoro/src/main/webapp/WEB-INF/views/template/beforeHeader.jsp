@@ -48,20 +48,27 @@ $(function(){
 	<!-- 네비게이션바 -->
 	<div class="header_nav">
 		<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container" style="width: 100%;">
+		<div class="container" style="width: 100%; background-color: #3b5999">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar">
 					</span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="beforeMain"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="beforeMain" style="color: #fff"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
+			<!--  검색 -->
+				<ul class="nav navbar-nav navbar-left" style="margin-left: 5%; margin-top: 2%">
+					<li><a href="#"><input type="text" class="form-control" style="width: 100%; height:28px; margin-left:10px; display: inline"></a></li>
+					<li><select class="form-control" style="margin-top:12px;"><option>인물</option><option>스터디</select></li>
+				</ul>
+			<!-- 로그인 -->	
 				<form action="" method="post" id="loginForm">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">아이디<br><input type="text" name="u_email" id="email" required></a><div id="check"></div></li>
-					<li><a href="#">비밀번호<br><input type="password" name="u_pwd" id="pwd" required></a></li>
-					<li><button class="btn-primary" id="loginBtn" type="submit" style="width: 100%;">로그인</button></li>
+					<li><a href="#"  style="color: #fff">아이디<br><input type="text" class="form-control" name="u_email" id="email" required></a><div id="check"></div></li>
+					<li><a href="#"  style="color: #fff">비밀번호<br><input type="password" class="form-control" name="u_pwd" id="pwd" required></a></li>
+					<li><button class="btn-success" id="loginBtn" type="submit" style="width: 100%;">로그인</button></li>
+					<li><button class="btn-danger" id="loginBtn" type="submit" style="width: 100%; margin-left: 4px">가입</button></li>
 				</ul>
 				</form>
 			</div>

@@ -39,6 +39,11 @@ public interface UsersService {
 		public Users usersInfo(Integer u_id)throws Exception;
 		//유저 로그인 
 		public Users usersLogin(HashMap<String, String> login)throws Exception;
+		//유저 최근시간 업데이트 
+		public void usersLoginTime(int u_id)throws Exception;
+		//친구 자동검색 
+		public List<Users> autoSearch(String autoSearch)throws Exception;
+		
 		
 		//멘토
 		public void usersMento(Mento mento)throws Exception;
