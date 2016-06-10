@@ -11,20 +11,52 @@
 <script src="/resources/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- carousel -->
 <!-- css -->
-<link
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
-	rel="stylesheet"
-	integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg=="
-	crossorigin="anonymous">
-<link href="/resources/css/createStudy/createStudy.css" rel="stylesheet"
-	type="text/css" />
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
+<link href="/resources/css/createStudy/createStudy.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <!-- js -->
 <script src="/resources/js/createStudy/createStudy.js"></script>
 <script src="/resources/js/carousel.js"></script>
+<script type="text/javascript">
+// 개방형 스터디의 경우 디파짓 기능 사용못함
+$(document).ready(function() {
+		$('#s_kind_check-0').click(function() {
+			$('#s_deposit-0').attr('disabled','true');
+			$('#s_deposit-1').attr('disabled','true');
+			$('#s_deposit_set').attr('disabled', 'true');
+			var deposit_hidden = '';
+			deposit_hidden += '<input type="hidden" id="deposit_hidden" name="deposit_check" value=-1>';
+			$('#leader_id_hidden').append(deposit_hidden);
+		});
+		
+		$('#s_kind_check-1').click(function() {
+			$('#s_deposit-0').removeAttr('disabled');
+			$('#s_deposit-1').removeAttr('disabled');
+			$('#s_deposit_set').removeAttr('disabled');
+			$('#deposit_hidden').remove();
+		});
+		
+		$('#s_time_check-1').click(function () {
+			$('#t_start').attr('disabled','true');
+			$('#t_end').attr('disabled','true');
+			var t_start_hidden = '';
+			t_start_hidden += '<input type="hidden" id="t_start_hidden" name="t_start" value="00:00am">';
+			$('#leader_id_hidden').append(t_start_hidden);
+			var t_end_hidden = '';
+			t_end_hidden += '<input type="hidden" id="t_end_hidden" name="t_end" value="00:00am">';
+			$('#leader_id_hidden').append(t_end_hidden);
+		});
+		
+		$('#s_time_check-0').click(function () {
+			$('#t_start').removeAttr('disabled');
+			$('#t_end').removeAttr('disabled');
+			$('#t_start_hidden').remove();
+			$('#t_end_hidden').remove();
+		});
+});
+
+</script>
 </head>
 <body>
 
@@ -109,17 +141,19 @@
 						<div class="col-md-4">
 							<div class="radio">
 								<label for="s_kind_check-0"> <input type="radio"
-									name="s_kind_check" id="s_kind_check-0" value="T"
-									checked="checked"> 개방형
+									name="s_kind_check" id="s_kind_check-0" value="T"> 개방형
 								</label>
 							</div>
 							<div class="radio">
 								<label for="s_kind_check-1"> <input type="radio"
-									name="s_kind_check" id="s_kind_check-1" value="F"> 폐쇄형
+									name="s_kind_check" id="s_kind_check-1" value="F" checked="checked"> 폐쇄형
 								</label>
 							</div>
 						</div>
 					</div>
+					<span class="help-block" style="margin-left: 520px;">
+						개방형 스터디는 디파짓 기능, 출석체크 기능, 실력조건 기능을 사용할 수 없습니다.
+					</span>
 					<br>
 
 
@@ -140,12 +174,11 @@
 						<label class="col-md-4 control-label" for="s_time_check">스터디
 							시간 설정</label>
 						<div class="col-md-4">
-							<label class="radio-inline" for="s_time_check-0"> <input
-								type="radio" name="s_time_check" id="s_time_check-0" value="T"
-								checked="checked"> 사용함
-							</label> <label class="radio-inline" for="s_time_check-1"> <input
-								type="radio" name="s_time_check" id="s_time_check-1" value="F">
-								사용안함
+							<label class="radio-inline" for="s_time_check-0"> 
+								<input type="radio" name="s_time_check" id="s_time_check-0" value="T"  checked="checked"> 사용함
+							</label> 
+							<label class="radio-inline" for="s_time_check-1"> 
+								<input type="radio" name="s_time_check" id="s_time_check-1" value="F"> 사용안함
 							</label>
 
 						</div>
@@ -283,11 +316,9 @@
 							기능</label>
 						<div class="col-md-4">
 							<label class="radio-inline" for="s_deposit-0"> <input
-								type="radio" name="deposit_check" id="s_deposit-0" value=0
-								checked="checked"> 사용함
+								type="radio" name="deposit_check" id="s_deposit-0" value=0 checked="checked"> 사용함
 							</label> <label class="radio-inline" for="s_deposit-1"> <input
-								type="radio" name="deposit_check" id="s_deposit-1" value=-1>
-								사용안함
+								type="radio" name="deposit_check" id="s_deposit-1" value=-1> 사용안함
 							</label>
 						</div>
 						<div class="col-md-4">
@@ -302,7 +333,7 @@
 					<br> <br>
 
 					<!-- 히든인풋 -->
-					<input type="hidden" name="s_leader_id" value="${users.u_id}">
+					<input type="hidden" id="leader_id_hidden" name="s_leader_id" value="${users.u_id}">
 					<!-- 계속 버튼  -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="s_next"></label>
