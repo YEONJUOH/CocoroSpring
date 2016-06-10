@@ -245,6 +245,11 @@
 	<select id="receiveMessage" parameterType="int" resultType="Message">
 	select * from message where MESSAGE_u_ID=#{message_u_id}
 	</select>
+	
+	<!-- 헤더 쪽지 정보  -->
+	<select id="headerMessage" parameterType="int" resultType="Message">
+	select * from MESSAGE where message_u_id = #{message_u_id} and message_check = 'F' order by message_date desc
+	</select>
 
 	<!-- 받은 쪽지(보낸사람의 정보)  -->
 	<select id="receiveInfo" parameterType="int" resultType="Users">

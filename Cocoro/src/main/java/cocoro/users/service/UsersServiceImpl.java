@@ -241,6 +241,12 @@ public class UsersServiceImpl implements UsersService {
 	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
 		 dao.updateMessage(updateMessage);
 	}
+	//헤더 쪽지
+	@Override
+	public List<Message> headerMessage(int message_u_id) throws Exception {
+		return dao.headerMessage(message_u_id);
+	}
+	
 	
 	
 	

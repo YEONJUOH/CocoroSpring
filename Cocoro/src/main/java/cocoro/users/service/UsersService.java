@@ -39,6 +39,7 @@ public interface UsersService {
 		public Users usersInfo(Integer u_id)throws Exception;
 		//유저 로그인 
 		public Users usersLogin(HashMap<String, String> login)throws Exception;
+		
 		//멘토
 		public void usersMento(Mento mento)throws Exception;
 		//전체멘토 불러오기
@@ -49,6 +50,7 @@ public interface UsersService {
 		public void usersMentoUpdate(Mento mento)throws Exception;
 		//멘토 삭제
 		public void usersMentoDelete(int u_id)throws Exception;
+		
 		//후기 남기기 
 		public void usersAfter(Comment comment)throws Exception;
 		//해당 회원의 후기 불러오기
@@ -61,6 +63,7 @@ public interface UsersService {
 		public List<CommentUsers> commentList(int c_id)throws Exception;
 		//댓글을 남긴 사람들의 정보
 		public List<Users> commentUserList(int c_id)throws Exception;
+		
 		//팔로우 걸기 
 		public void usersFollow(HashMap<String,Integer> follow)throws Exception;
 		//팔로우 취소 
@@ -71,6 +74,7 @@ public interface UsersService {
 		public List<Users> usersFollowListYou(Integer f_o_id)throws Exception;
 		//팔로우 체크
 		public Follow usersFollowCheck(HashMap<String, Integer> folloCheck)throws Exception;
+		
 		//쪽지 보내기
 		public void sendMessage(Message message)throws Exception;
 		//보낸쪽지
@@ -85,6 +89,9 @@ public interface UsersService {
 		public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage)throws Exception;
 		//1대1 내가 보낸 쪽지 
 		public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage)throws Exception;
+		//헤더 메세지 
+		public List<Message> headerMessage(int message_u_id)throws Exception;
+		
 		//좋아요 누르기
 		public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
 		//좋아요 취소 
@@ -95,6 +102,7 @@ public interface UsersService {
 		public void usersLikeUpdate(int u_id)throws Exception;
 		//좋아요 때마다- 업데이트
 		public void usersLikeMinusUpdate(int u_id)throws Exception;
+		
 		//계좌생성
 		public void usersAccount(UsersAccount usersAccount)throws Exception;
 		//해당 회원의 계좌 불러오기
@@ -105,9 +113,12 @@ public interface UsersService {
 		public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
 		//출금 
 		public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
+		
 		//모든 댓글 리스트
 		public List<CommentUsers> commentAllList() throws Exception;
+		
 		//메세지 업데이트 
 		public void updateMessage(HashMap<String, Integer> updateMessage)throws Exception;
+		
 		
 }

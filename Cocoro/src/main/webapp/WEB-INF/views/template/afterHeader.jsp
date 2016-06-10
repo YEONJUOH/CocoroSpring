@@ -6,6 +6,7 @@
 	String realPath = request.getContextPath();
 	System.out.print(realPath);
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,8 +25,8 @@ display: inline-block;
 	<!-- 네비게이션바 -->
 	<div class="header_nav">
 		<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container" style="width: 100%;">
-			<div class="navbar-header">
+		<div class="container" style="width: 100%; background-color: #3b5998">
+			<div class="navbar-header" style="margin-left:0px; margin-right: 0px;"> 
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
 					aria-controls="navbar">
@@ -33,30 +34,47 @@ display: inline-block;
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="beforeMain"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="/users/afterMain" style="color: #fff;"><b>Cocoro</b></a>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse">
+			<div id="navbar" class="collapse navbar-collapse" style="background-color: #3b5998">
+				<!--  검색 -->
+				<ul class="nav navbar-nav navbar-left" style="float: left; ">
+					<li><a href="#"><input type="text" class="form-control" style="width: 100%; height:28px; margin-left:10px; display: inline"></a></li>
+					<li><select class="form-control" style="margin-top:12px;"><option>인물</option><option>스터디</select></li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right" style="float: right;">
-					<li><a href="#">Study</a></li>
+					<li><a href="#" style="color: #fff;">Study</a></li>
 					<!-- 메세지 보기 -->
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						Message<span class="badge">42</span></a>
-					 <ul class="dropdown-menu extended inbox" id="messageBox">
-                            <div class="notify-arrow notify-arrow-green"></div>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
+						Message<span class="badge">0</span></a>
+					 <ul class="dropdown-menu extended inbox" style=" margin-top: 11px;" id="messageBox">
                             <li>
-                                <p class="green">You have 5 new messages</p>
+                                <p class="green">${users.u_name}의 쪽지함</p>
                             </li>
                             <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
-                                    </span>
+                             <c:choose>
+                             	<c:when test="${receiveList != null}">
+                             	<c:forEach var="receiveList" items="${receiveList}">
+	                                <a href="index.html#">
+	                                    <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
+	                                    <span class="subject">
+	                                    <span class="from">${receiveList.message_o_id}</span>
+	                                    <span class="time">Just now</span>
+	                                    </span>
+	                                    <span class="message">
+	                                       ${receiveList.message_comment}
+	                                    </span>
+	                                </a>	
+                                </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                  <a href="#">
                                     <span class="message">
-                                        Hi mate, how is everything?
+                                    쪽지함이 비었어요 ㅠ ..
                                     </span>
                                 </a>
+                                </c:otherwise>
+                             </c:choose> 
                             </li>
 
                         </ul>
@@ -67,7 +85,7 @@ display: inline-block;
 					   
 					   <!-- 마이페이지 -->
 					   	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 20px;">
+						<img src="/resources/img/${users.u_image}" class="img-circle" style="width: 35px; height: 30px;">
 						<ul class="dropdown-menu" role="menu">
 							<li>
 							<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 200px;">

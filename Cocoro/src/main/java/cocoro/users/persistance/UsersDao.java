@@ -84,6 +84,8 @@ public interface UsersDao {
 	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage)throws Exception;
 	//메세지 업데이트 
 	public void updateMessage(HashMap<String, Integer> updateMessage)throws Exception;
+	//헤더 메세지 
+	public List<Message> headerMessage(int message_u_id)throws Exception;
 	
 	//좋아요 누르기
 	public void usersLike(HashMap<String, Integer> usersLike)throws Exception;

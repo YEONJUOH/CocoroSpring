@@ -497,7 +497,7 @@
             <div class="control-group">
               <label class="control-label" for="u_balance">입금액:</label>
               <div class="controls">
-                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required="">
+                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required>
                  <input type="hidden" name="u_id" value="${users.u_id}">
               </div>
             </div>
@@ -506,7 +506,7 @@
             <div class="control-group">
               <label class="control-label" for="signin"></label>
               <div class="controls">
-                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;">입금하기</button>
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;"  required>입금하기</button>
               </div>
             </div>
             </fieldset>
@@ -518,7 +518,7 @@
             <div class="control-group">
               <label class="control-label" for="u_balance">출금액:</label>
               <div class="controls">
-                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required="">
+                <input id="u_balance" name="u_balance" type="text" class="form-control" placeholder="입금액을 적어주세요" class="input-medium" required>
                  <input type="hidden" name="u_id" value="${users.u_id}">
               </div>
             </div>
@@ -527,7 +527,7 @@
             <div class="control-group">
               <label class="control-label" for="signin"></label>
               <div class="controls">
-                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;">출금하기</button>
+                <button type="submit" id="signin" name="signin" class="btn btn-success" style="width: 40%; height: 50%;"  required>출금하기</button>
               </div>
             </div>
             </fieldset>

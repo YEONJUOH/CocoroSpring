@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Faceboot - A Facebook style template for Bootstrap</title>
+<title>Cocoro</title>
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
@@ -435,7 +435,7 @@
 			<div class="popup-messages-footer">
 			 <div class="btn-footer">
 			 	<form method="post" id="mSendForm">
-			     <input type="text" id ="message_comment" class="form-control" name="message_comment" width="100%;">
+			     <input type="text" id ="message_comment" class="form-control" name="message_comment" width="100%;"  required>
 				 <input type="hidden"  name="message_o_id" value="${users.u_id}">	
 				 <input type="hidden" name="message_u_id" value="${fUsers.u_id}">
 				 <input type="hidden" id ="name"  name="name" value="${users.u_name}">

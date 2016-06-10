@@ -1,6 +1,7 @@
 package cocoro.users.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +38,7 @@ import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Mento;
+import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
 import cocoro.users.service.UsersServiceImpl;
@@ -63,7 +65,16 @@ public class UsersRestController {
 		if(users != null){
 		model.addAttribute("users",users);
 		session.setAttribute("users", users);
+		
+		//내가 받은 모든메세지
+		List<Message> receiveList = service.headerMessage(users.getU_id());
+		if(receiveList != null){
+			for(Message mL : receiveList){
+				System.out.println(mL.getMessage_comment());
+			}
+			model.addAttribute("receiveList" , receiveList);
 		}
+	}
 		return users;
 	}
 	//후기 댓글 

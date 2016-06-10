@@ -244,6 +244,11 @@ public class UsersDaoImpl implements UsersDao {
 	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
 		sqlsession.update(namespace + ".updateMessage", updateMessage);
 	}
+	//헤더 메세지
+	@Override
+	public List<Message> headerMessage(int message_u_id)throws Exception {
+		return sqlsession.selectList(namespace + ".headerMessage", message_u_id);
+	}
 	
 	
 	
