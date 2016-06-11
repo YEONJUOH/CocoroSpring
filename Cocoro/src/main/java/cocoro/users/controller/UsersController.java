@@ -292,7 +292,7 @@ public class UsersController {
 		@RequestMapping("/usersAfter")
 		public @ResponseBody Comment usersAfter(Comment comment, MultipartFile file)throws Exception{
 		String c_comment = comment.getC_comment();
-		c_comment = new String(c_comment.getBytes("8859_1"),"utf-8");
+		//c_comment = new String(c_comment.getBytes("8859_1"),"utf-8");
 		//한글이 깨져서 인코딩을 해줌
 		comment.setC_comment(c_comment);
 		//파일 업로드
@@ -343,3 +343,4 @@ public class UsersController {
 			return saveName;
 		}
 }
+

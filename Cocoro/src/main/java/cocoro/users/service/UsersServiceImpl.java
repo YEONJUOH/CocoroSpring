@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
+import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
@@ -158,4 +160,104 @@ public class UsersServiceImpl implements UsersService {
 	public void usersAccountMinus(UsersAccount usersAccount) throws Exception {
 		dao.usersAccountMinus(usersAccount);
 	}
+	//멘토생성
+	@Override
+	public void usersMento(Mento mento) throws Exception {
+		dao.usersMento(mento);
+	}
+	//전체멘토 불러오기
+	@Override
+	public List<Mento> usersMentoList() throws Exception {
+		return dao.usersMentoList();
+	}
+	//멘토링 여부
+	@Override
+	public Mento usersMentoCheck(int u_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.usersMentoCheck(u_id);
+	}
+	//멘토 업데이트
+	@Override
+	public void usersMentoUpdate(Mento mento) throws Exception {
+		dao.usersMentoUpdate(mento);
+	}
+	//멘토 삭제
+	@Override
+	public void usersMentoDelete(int u_id) throws Exception {
+		dao.usersMentoDelete(u_id);
+	}
+	//후기 댓글 남기기
+	@Override
+	public void commentUsers(CommentUsers commentUsers) throws Exception {
+		dao.commentUsers(commentUsers);
+	}
+	//후기 댓글정보
+	@Override
+	public List<CommentUsers> commentList(int c_id) throws Exception {
+		return dao.commentList(c_id);
+	}
+	//댓글단 사람의 정보
+	@Override
+	public List<Users> commentUserList(int c_id) throws Exception {
+		return dao.commentUserList(c_id);
+	}
+	//모든댓글
+	@Override
+	public List<CommentUsers> commentAllList() throws Exception {
+		return dao.commentAllList();
+	}
+	//보낸쪽지
+	@Override
+	public List<Message> postMessage(int message_o_id) throws Exception {
+		return dao.postMessage(message_o_id);
+	}
+	//보낸쪽지 (받는 사람의 정보)
+	@Override
+	public List<Users> postInfo(int u_id) throws Exception {
+		return dao.postInfo(u_id);
+	}
+	//받은쪽지
+	@Override
+	public List<Message> receiveMessage(int message_u_id) throws Exception {
+		return dao.receiveMessage(message_u_id);
+	}
+	//받은쪽지(보낸사람의 정보)
+	@Override
+	public List<Users> receiveInfo(int message_u_id) throws Exception {
+		return dao.receiveInfo(message_u_id);
+	}
+	//1대1 받은 쪽지
+	@Override
+	public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage) throws Exception {
+		return dao.oneMyMessage(oneMyMessage);
+	}
+	//1대1 보낸쪽지 
+	@Override
+	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage) throws Exception {
+		return dao.oneYouMessage(oneYouMessage);
+	}
+	//메세지 업데이트
+	@Override
+	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
+		 dao.updateMessage(updateMessage);
+	}
+	//헤더 쪽지
+	@Override
+	public List<Message> headerMessage(int message_u_id) throws Exception {
+		return dao.headerMessage(message_u_id);
+	}
+	//유저 최근시간으로 업데이트
+	@Override
+	public void usersLoginTime(int u_id) throws Exception {
+		dao.usersLoginTime(u_id);
+	}
+	//친구검색 
+	@Override
+	public List<Users> autoSearch(String autoSearch) throws Exception {
+		return dao.autoSearch(autoSearch);
+	}
+	
+	
+	
+	
 }

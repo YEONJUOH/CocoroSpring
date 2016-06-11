@@ -39,7 +39,7 @@ ul.top-menu > li > .logout {
     position: fixed;
     left: 0;
     right: 0;
-    z-index: 1002;
+    z-index: 102;
 }
 
 .black-bg {

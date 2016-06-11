@@ -1,13 +1,15 @@
 package cocoro.users.persistance;
 
 import java.util.HashMap;
-import java.util.List;import org.omg.PortableInterceptor.INACTIVE;
+import java.util.List;
 
 import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
+
 import cocoro.users.domain.Likes;
+
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
@@ -30,9 +32,6 @@ public interface UsersDao {
 	public Users usersInfo(Integer u_id)throws Exception;
 	//로그인
 	public Users usersLogin(HashMap<String, String> login)throws Exception;
-	
-	//멘토
-	
 	//최근 시간 업데이트 
 	public void usersLoginTime(int u_id)throws Exception;
 	//친구 자동검색 
@@ -48,6 +47,9 @@ public interface UsersDao {
 	public void usersMentoUpdate(Mento mento)throws Exception;
 	//멘토 삭제
 	public void usersMentoDelete(int u_id)throws Exception;
+	
+	
+
 	
 	//팔로우 걸기
 	public void usersFollow(HashMap<String,Integer> follow)throws Exception;
@@ -116,27 +118,9 @@ public interface UsersDao {
 	public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
 	//출금 
 	public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
-	//좋아요 누르기
-	public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
-	//좋아요 취소 
-	public void usersUnLike(HashMap<String, Integer> usersUnLike)throws Exception;
-	//좋아요 체트
-	public Likes usersLikeCheck(HashMap<String, Integer> usersLikeCheck)throws Exception;
-	//좋아요 할때마다 + 업데이트
-	public void usersLikeUpdate(int u_id)throws Exception;
-	//좋아요 때마다- 업데이트
-	public void usersLikeMinusUpdate(int u_id)throws Exception;
-	
-	//계좌생성
-	public void usersAccount(UsersAccount usersAccount)throws Exception;
-	//해당 회원의 계좌 불러오기
-	public UsersAccount usersAccountInfo(int u_id)throws Exception;
-	//회원들의 계좌번호 불러오기(중복체크) 
-	public List<UsersAccount> usersAccountNumber()throws Exception;
-	//입금
-	public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
-	//출금 
-	public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
+
+
+
 	
 	
 

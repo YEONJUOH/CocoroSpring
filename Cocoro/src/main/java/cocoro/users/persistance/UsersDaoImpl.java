@@ -12,7 +12,9 @@ import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
+
 import cocoro.users.domain.Likes;
+
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
@@ -140,17 +142,10 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public void sendMessage(Message message) throws Exception {
 		sqlsession.insert(namespace +".sendMessage" , message);
+
 	}
 	
-	@Override
-	public void usersLoginTime(int u_id) throws Exception {
-		sqlsession.update(namespace + ".usersLoginTime", u_id);
-	}
-	//자동검색
-	@Override
-	public List<Users> autoSearch(String autoSearch) throws Exception {
-		return sqlsession.selectList(namespace + ".autoSearch",autoSearch);
-	}
+
 	//좋아요 누르기 
 	@Override
 	public void usersLike(HashMap<String, Integer> usersLike) throws Exception {
@@ -202,6 +197,77 @@ public class UsersDaoImpl implements UsersDao {
 	public void usersAccountMinus(UsersAccount usersAccount) throws Exception {
 		sqlsession.update(namespace +".usersAccountMinus", usersAccount);
 	}
+	//후기댓글
+	@Override
+	public void commentUsers(CommentUsers commentUsers) throws Exception {
+		sqlsession.insert(namespace +".commentUsers", commentUsers);
+	}
+	//댓글 불러오기
+	@Override
+	public List<CommentUsers> commentList(int c_id) throws Exception {
+		return sqlsession.selectList(namespace +".commentList", c_id);
+	}
+	//댓글단 사람의 정보
+	@Override
+	public List<Users> commentUserList(int c_id) throws Exception {
+		return sqlsession.selectList(namespace + ".commentUserList",c_id);
+	}
+	//모든댓글
+	@Override
+	public List<CommentUsers> commentAllList() throws Exception {
+		return sqlsession.selectList(namespace +".commentAllList");
+	}
+	//받은쪽지
+	@Override
+	public List<Message> receiveMessage(int message_u_id) throws Exception {
+		return sqlsession.selectList(namespace + ".receiveMessage",message_u_id);
+	}
+	//받은쪽지(보낸사람의 정보)
+	@Override
+	public List<Users> receiveInfo(int message_u_id) throws Exception {
+		return sqlsession.selectList(namespace + ".receiveInfo",message_u_id);
+	}
+	//보낸쪽지
+	@Override
+	public List<Message> postMessage(int message_o_id) throws Exception {
+		return sqlsession.selectList(namespace + ".postMessage" , message_o_id);
+	}
+	//보낸쪽지(받는사람의 정보)
+	@Override
+	public List<Users> postInfo(int u_id) throws Exception {
+		return sqlsession.selectList(namespace +".postInfo" , u_id);
+	}
+	//1대1 내가 받은 메세지
+	@Override
+	public List<Message> oneMyMessage(HashMap<String, Integer> oneMyMessage) throws Exception {
+		return sqlsession.selectList(namespace +".oneMyMessage", oneMyMessage);
+	}
+	//1댑 내가 보낸 메세지
+	@Override
+	public List<Message> oneYouMessage(HashMap<String, Integer> oneYouMessage) throws Exception {
+		return sqlsession.selectList(namespace +".oneYouMessage",oneYouMessage);
+	}
+	//메세지 업데이트
+	@Override
+	public void updateMessage(HashMap<String, Integer> updateMessage) throws Exception {
+		sqlsession.update(namespace + ".updateMessage", updateMessage);
+	}
+	//헤더 메세지
+	@Override
+	public List<Message> headerMessage(int message_u_id)throws Exception {
+		return sqlsession.selectList(namespace + ".headerMessage", message_u_id);
+	}
+	//최근시간으로 로그인시 업데이트
+	@Override
+	public void usersLoginTime(int u_id) throws Exception {
+		sqlsession.update(namespace + ".usersLoginTime", u_id);
+	}
+	//자동검색
+	@Override
+	public List<Users> autoSearch(String autoSearch) throws Exception {
+		return sqlsession.selectList(namespace + ".autoSearch",autoSearch);
+	}
+	
 	
 	
 }

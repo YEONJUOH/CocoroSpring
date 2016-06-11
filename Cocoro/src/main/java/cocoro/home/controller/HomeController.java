@@ -35,16 +35,16 @@ public class HomeController {
 	
 	
 	//濡쒓렇�씤�쟾 湲곕낯 留듯븨
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "beforeMain";
-	}
+	}*/
 	@RequestMapping(value = "/beforeMain", method = RequestMethod.GET)
 	public String home(){
 		return "beforeMain";
 	}
 	
-	@RequestMapping(value="/index", method = RequestMethod.GET)
+	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String Main(Model model,HttpSession session){
 		
 		List<tagSuggestion> list = null;
@@ -52,7 +52,7 @@ public class HomeController {
 		Users users = (Users)session.getAttribute("users");
 		
 		String salut ="Cocoro에 오신걸 환영합니다";
-		String nextPage="beforeLayout";
+		String nextPage="beforeMain";
 		
 		if(users!=null){
 			
@@ -62,7 +62,7 @@ public class HomeController {
 				listS = service.item_recommend(users.getU_id());
 				
 			    salut = users.getU_name()+"님 환영합니다";
-			    nextPage ="after_Main";
+			    nextPage ="afterMain";
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
+import cocoro.study.domain.Attend;
+import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.study.persistance.StudyDetailDao;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
+import cocoro.study.domain.Attend;
 
 @Service
 public class StudyDetailServiceImpl implements StudyDetailService {
@@ -23,11 +27,6 @@ public class StudyDetailServiceImpl implements StudyDetailService {
 	@Inject
 	private StudyDetailDao dao;
 	
-	@Override
-	public int creatStudy(StudyGroup studygroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int insertSchedule(PlanInfo pi) {
@@ -76,6 +75,69 @@ public class StudyDetailServiceImpl implements StudyDetailService {
 	public int insertAbiliy(Map<String, Integer> map) {
 		// TODO Auto-generated method stub
 		return dao.insertAbiliy(map);
+	}
+
+	@Override
+	public int updateStudyActivity(Map<String, Integer> map) {
+		return dao.updateStudyActivity(map);
+		
+	}
+
+	@Override
+	public PlanInfo selectPlan(PlanInfo pi) {
+		return dao.selectPlan(pi);
+	}
+
+	@Override
+	public int attendinsert(Map<String, Integer> map) {
+		return dao.attendinsert(map);
+	}
+
+	@Override
+	public Attend attendcheck(Map<String, Integer> map2) {
+		return dao.attendcheck(map2);
+	}
+
+	@Override
+	public UsersAccount selectAccount(int u_id) {
+		return dao.selectAccount(u_id);
+	}
+
+	@Override
+	public void updateStudyaccount(Map<String, Integer> map2) {
+		dao.updateStudyaccount(map2);
+		
+	}
+
+	@Override
+	public void usersAccountdown(Map<String, Integer> map3) {
+		dao.usersAccountdown(map3);
+		
+	}
+
+	@Override
+	public int insertpenalty(Penalty pen) {
+		return dao.insertpenalty(pen);
+	}
+
+	@Override
+	public Penalty selectpenalty(Penalty pen) {
+		return dao.selectpenalty(pen);
+	}
+
+	@Override
+	public List<Penalty> listpenalty(int s_id) {
+		return dao.listpenalty(s_id);
+	}
+
+	@Override
+	public List<PlanInfo> afterplan(PlanInfo pi) {
+		return dao.afterplan(pi);
+	}
+
+	@Override
+	public List<PlanInfo> beforeplan(PlanInfo pi) {
+		return dao.beforeplan(pi);
 	}
 
 

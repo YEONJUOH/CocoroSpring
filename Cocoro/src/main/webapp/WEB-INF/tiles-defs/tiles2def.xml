@@ -6,10 +6,10 @@
 
 <tiles-definitions>
 <!-- 로그인전 메인 레이아웃-->
-<!-- 	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/beforeHeader.jsp"></put-attribute>
-		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
-	</definition>  -->
+		
+	</definition> 
 
 
 <!-- 로그인후	 -->
@@ -26,12 +26,12 @@
 
 <!-- 로그인전  -->
 	<definition name="beforeMain" extends="before_layout">
-		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/Join/JoinForm.jsp"></put-attribute>
 	</definition>
 
 <!-- 로그인후  -->
 	<definition name="afterMain" extends="after_layout">
-		<put-attribute name="body" value="/WEB-INF/views/template/beforeBody_test1.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/Main.jsp"></put-attribute>
 	</definition>
 	
 <!--  마이페이지 -->	

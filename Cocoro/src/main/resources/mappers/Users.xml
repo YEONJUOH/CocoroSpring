@@ -161,7 +161,7 @@
    </insert>
    <!-- 후기 불러오기 -->
    <select id="usersAfterInfo" parameterType="int" resultType="Comment">
-   SELECT c.C_O_ID,c.c_comment,c.c_date,c.c_img
+   SELECT c.c_id,c.C_O_ID,c.c_comment,c.c_date,c.c_img
    FROM USERS u JOIN COMMENTS c 
    ON u.u_id = c.u_id
    WHERE u.u_id=#{u_id}
@@ -175,6 +175,23 @@
    ON u.u_id = c.u_id
    WHERE u.u_id=#{u_id}
    )
+   </select>
+   
+   <!-- 후기 댓글 쓰기-->
+   <insert id="commentUsers" parameterType="commentUsers">
+   	insert into commentUsers(cu_id,c_id,u_id,cu_comment) values(cu_seq.nextVal,#{c_id},#{u_id},#{cu_comment})
+   </insert>
+   <!-- 해당 댓글 불러오기 -->
+   <select id="commentList" parameterType="int" resultType="commentUsers">
+   select * from commentUsers where c_id = #{c_id}
+   </select>
+   <!-- 모든 댓글불러오기 -->
+   <select id="commentAllList" resultType="commentUsers">
+   select * from commentUsers
+   </select>
+   <!-- 댓글단 사람의 정보 -->
+   <select id="commentUserList" parameterType="int" resultType="Users">
+   select * from USERS where u_id In(select u_id from COMMENTUSERS where C_ID=#{c_id})
    </select>
    <!-- 좋아요 누르기 -->
    <insert id="usersLike" parameterType="hashmap">
@@ -226,34 +243,53 @@
 	
 	<!-- 받은쪽지정보  -->
 	<select id="receiveMessage" parameterType="int" resultType="Message">
-	select * from message where MESSAGE_O_ID=#{message_o_id}
+	select * from message where MESSAGE_u_ID=#{message_u_id}
+	</select>
+	
+	<!-- 헤더 쪽지 정보  -->
+	<select id="headerMessage" parameterType="int" resultType="Message">
+	select * from MESSAGE where message_u_id = #{message_u_id} and message_check = 'F' order by message_date desc
 	</select>
 
 	<!-- 받은 쪽지(보낸사람의 정보)  -->
 	<select id="receiveInfo" parameterType="int" resultType="Users">
 	select * from users 
 	where u_id IN (
-	select message_u_id from message where MESSAGE_O_ID=#{message_o_id})
+	select message_o_id from message where MESSAGE_u_ID=#{message_u_id})
 	</select>
 	
 	<!-- 보낸 쪽지 -->
 	<select id="postMessage" parameterType="int" resultType="Message">
-	select * from message where MESSAGE_U_ID=#{message_u_id}
+	select * from message where MESSAGE_o_ID=#{message_o_id}
 	</select>
     
-    <!-- 보낸 쪽지(보낸사람의 정보)  -->
+    <!-- 보낸 쪽지(받는사람의 정보)  -->
 	<select id="postInfo" parameterType="int" resultType="Users">
 		  select * from users where u_id IN(
-			select m.MESSAGE_O_ID
+			select m.MESSAGE_u_ID
 			from Message m Join Users u
-			ON m.MESSAGE_U_ID = u.U_ID
+			ON m.MESSAGE_o_ID = u.U_ID
 			Where u.U_ID = #{u_id})
+	</select>
+	
+	<!-- 쪽지 업데이트 -->
+	<update id="updateMessage" parameterType="hashmap">
+		 update MESSAGE set message_check = 'T'  WHERE message_u_id = #{message_u_id} and message_o_id = #{message_o_id} 
+	</update>
+	
+	<!--  1대 1대화 내가 받은 쪽지 -->
+	<select id="oneMyMessage" parameterType="hashmap" resultType="Message">
+	select * from message where message_u_id =#{message_u_id}  and message_o_id=#{message_o_id}  or  message_u_id =#{message_o_id}  and message_o_id=#{message_u_id}   ORDER BY MESSAGE_DATE ASC
+	</select>
+	
+	<!--  1대 1대화 내가 보낸 쪽지 -->
+	<select id="oneYouMessage" parameterType="hashmap" resultType="Message">
+	select * from message where message_u_id = #{message_o_id} and message_o_id=#{message_u_id} ORDER BY  MESSAGE_DATE ASC
 	</select>
 	
 	<!-- 해당 쪽지 삭제 -->
 	<delete id="delMessage" parameterType="int">
-	delete from Message
-	WHERE message_id = #{message_id}
+	delete from Message WHERE message_id = #{message_id}
 	</delete>
 	
 	<!-- 페이징 -->

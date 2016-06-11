@@ -82,26 +82,6 @@ public interface UsersService {
 		
 		//쪽지 보내기
 		public void sendMessage(Message message)throws Exception;
-		//좋아요 누르기
-		public void usersLike(HashMap<String, Integer> usersLike)throws Exception;
-		//좋아요 취소 
-		public void usersUnLike(HashMap<String, Integer> usersUnLike)throws Exception;
-		//좋아요 체트
-		public Likes usersLikeCheck(HashMap<String, Integer> usersLikeCheck)throws Exception;
-		//좋아요 할때마다 + 업데이트
-		public void usersLikeUpdate(int u_id)throws Exception;
-		//좋아요 때마다- 업데이트
-		public void usersLikeMinusUpdate(int u_id)throws Exception;
-		//계좌생성
-		public void usersAccount(UsersAccount usersAccount)throws Exception;
-		//해당 회원의 계좌 불러오기
-		public UsersAccount usersAccountInfo(int u_id)throws Exception;
-		//회원들의 계좌번호 불러오기(중복체크) 
-		public List<UsersAccount> usersAccountNumber()throws Exception;
-		//입금
-		public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
-		//출금 
-		public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
 		//보낸쪽지
 		public List<Message> postMessage(int message_o_id)throws Exception;
 		//보낸쪽지(보낸사람의 정보)

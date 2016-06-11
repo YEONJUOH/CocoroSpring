@@ -8,7 +8,7 @@
 
 <!-- 검색 template -->
  <definition name="search_layout" template="/WEB-INF/views/template/searchLayout.jsp">
-	<put-attribute name="header" value="/WEB-INF/views/Search/SearchHeader.jsp"></put-attribute>
+	<put-attribute name="header" value="/WEB-INF/views/template/afterHeader.jsp"></put-attribute>
     </definition>
     
 <!--메인 template   -->
@@ -18,10 +18,10 @@
 	</definition>
 	
 <!-- 로그인전 메인 레이아웃-->
-	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+<!-- 	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/b_Header.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
-	</definition>
+	</definition> -->
 	
 <!-- 로그인후	메인레이아웃 -->
 <!-- 	<definition name="after_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
@@ -42,7 +42,7 @@
 	
 <!-- 로그인후  -->
 	<definition name="after_Main" extends="after_layout">
-		<put-attribute name="body" value="/WEB-INF/views/Main.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/Main.jsp"></put-attribute>                                                    
 	</definition>
 
 </tiles-definitions>

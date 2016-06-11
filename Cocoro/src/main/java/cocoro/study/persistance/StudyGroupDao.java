@@ -6,9 +6,11 @@ import java.util.Map;
 
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
+import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 
 
@@ -19,16 +21,10 @@ public interface StudyGroupDao {
 
 	public void insertS_leaderActivity(Map<String, Object> map);
 	
-	public Integer selectS_id();
-	
-	public List<StudyGroup> listStudyGroup(StudyGroup studygroup);
-	
 	public StudyGroup selectStudy(int s_id);
 	
 	public void updateHit(int s_id);
 	
-	public List<Users> selectStudyMember(int s_id);
-
 	public int maxJ_id(int s_leader_id);
 
 	public void insertS_leaderAbilityInfo(Map<String, Object> map2);
@@ -44,5 +40,9 @@ public interface StudyGroupDao {
 	public Apply check_applying(Map<String, Object> map6);
 
 	public List<ListRank> listRank(int s_id);
+
+	public void updateS_leader_balance(UsersAccount usersaccount);
+
+	public void createStudyAccount(StudyAccount studyAccount);
 
 }

@@ -22,7 +22,7 @@ $(function(){
 			};
 			
 			$("#password").pwstrength(options);
-			alert("ih");
+			
 		});
 		
 		$(function(){

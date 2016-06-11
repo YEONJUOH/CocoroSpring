@@ -6,6 +6,7 @@
 <%@page import="cocoro.search.domain.Search"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,6 +21,7 @@
    
    List<StudyGroup> list = (List)request.getAttribute("list");
    List<Users> listU = (List)request.getAttribute("listU");
+   Users users = (Users)session.getAttribute("users");
    
    if(list!=null){%>
    $(function(){
@@ -33,7 +35,8 @@
       html +='<div class="col-xs-3 col-md-3 text-center ">';
       html +='<a href="../../page/preview/previewStudy.jsp?s_id=<%=list.get(i).getS_id()%>"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" />';
       html+='</a>';
-      html +='<div><a href="doSearchUp.jsp?s_id=<%=list.get(i).getS_id()%>"><span class="glyphicon glyphicon-info-sign"></span></a>';
+     
+      html +='<div><a href="/study/previewStudy?s_id=<%=list.get(i).getS_id()%>"><span class="glyphicon glyphicon-info-sign"></span></a>';
       html+='<span class="glyphicon glyphicon-home"></span></div></div>';
       html +='<div class="col-xs-8 col-md-8 section-box"><h4><b>';
       
@@ -65,8 +68,12 @@ $(function(){
    html+='<div class="row"><div class="col-md-1"></div><div class="col-md-9">';
    html+='<div class="well well-sm"><div class="row infoBox">';
    html+='<div class="col-xs-3 col-md-3 text-center ">';
-   html+='<a href="../../layout/mainLayout.jsp?f_o_id=<%=listU.get(i).getU_id()%>"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
-   html+='<div><span class="glyphicon glyphicon-heart"></span><span id="heart-num"><%=listU.get(i).getU_like_num()%></span>';
+   <% if(users.getU_id()!= listU.get(i).getU_id()){ %>
+   html+='<a href="/users/friendPage?u_id=${users.u_id}&f_o_id=<%=listU.get(i).getU_id()%>"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
+   <%}else{%>
+   html+='<a href="/users/mypage?u_id=${users.u_id}"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
+   <%}%>
+    html+='<div><span class="glyphicon glyphicon-heart"></span><span id="heart-num"><%=listU.get(i).getU_like_num()%></span>';
     html+='</div></div><div class="col-xs-8 col-md-8 section-box">';
     html+='<h4><b><%=listU.get(i).getU_name()%></b><br></h4><p><%=listU.get(i).getU_intro()%></p>';
     html+='<hr /><div>';

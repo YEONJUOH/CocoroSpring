@@ -96,7 +96,7 @@
 				alt="Profile image example" /> <img align="left"
 				class="fb-image-profile thumbnail"
 				src="/resources/img/${leaderInfo.u_image}"
-				alt="Profile image example" />
+				alt="Profile image example" style="width: 180px; height: 170px;"/>
 			<div class="fb-profile-text">
 				<h3>스터디 리더 : ${leaderInfo.u_name}</h3>
 				<p>${leaderInfo.u_email}</p>

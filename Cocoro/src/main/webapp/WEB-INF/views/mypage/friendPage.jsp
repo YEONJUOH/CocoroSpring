@@ -219,7 +219,9 @@
 																<form id="cu_commentForm" method="post">
 																	<div class="input-group">
 																		<input type="hidden" id="c_id" name="c_id" value="${cList.c_id}">
+
 																		<input type="hidden" id="u_id" name="u_id" value="${fUsers.u_id}">
+
 																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" style="position: static; "placeholder="댓글을 달아보세요.">
 																		<input type="hidden" value="${users.u_name}" id="name">
 																		<input type="hidden" value="${users.u_image}" id="image">
