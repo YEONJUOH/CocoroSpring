@@ -9,6 +9,7 @@
 <title>Cocoro</title>
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body id="body">
 	<div class="wrapper">
@@ -166,7 +167,7 @@
 														<div class="well">
 															<form action="/users/usersAfter" id="commentForm" enctype="multipart/form-data" method="post">
 																<div class="input-group text-center">
-																	<input type="text" id="comment" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
+																	<input type="text" id="comment" name="c_comment" class="form-control input-lg" style="position: static;" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
 																	<button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
 																</div>
 																<div><input type="file" name="file" id="file"></div>
@@ -200,7 +201,7 @@
 																	<div class="input-group">
 																		<input type="hidden" id="c_id" name="c_id" value="${cList.c_id}">
 																		<input type="hidden" id="u_id" name="u_id" value="${fUsers.u_id}">
-																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">
+																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" style="position: static; "placeholder="댓글을 달아보세요.">
 																		<input type="hidden" value="${users.u_name}" id="name">
 																		<input type="hidden" value="${users.u_image}" id="image">
 																		<div class="input-group-btn">

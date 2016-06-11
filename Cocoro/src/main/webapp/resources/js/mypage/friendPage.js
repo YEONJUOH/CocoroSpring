@@ -29,7 +29,7 @@ $('#commentForm').submit(function(e){
 				div += '<form id="cu_commentForm" method="post"><div class="input-group">';
 				div += '<input type="hidden" id="c_id" name="c_id" value="'+data.c_id+'">';
 				div += '<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">';
-				div += '<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">';
+				div += '<input type="text" id="cu_comment" class="form-control" name="cu_comment"style="position: static;" placeholder="댓글을 달아보세요.">';
 				div += '<input type="hidden" value="${users.u_name}" id="name">';
 				div += '<input type="hidden" value="${users.u_image}" id="image">';
 				div += '<div class="input-group-btn">';

@@ -9,6 +9,11 @@
 <title>Faceboot - A Facebook style template for Bootstrap</title>
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style type="text/css">
+.form-control{
+	position: inherit;
+}
+</style>
 </head>
 <body>
 	<div class="wrapper">
@@ -94,7 +99,7 @@
 																<c:forEach var="followYou" items="${followYou}">
 																	<div class="col-md-3">
 																	<!-- ajax 처리를 위해 유저 값을 들고간다 -->
-																	<a href="/users/friendPage?f_o_id=${followYou.u_id}&u_id=${users.u_id}"><img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded"width="90px"></a>
+																	<a href="/users/friendPage?f_o_id=${followYou.u_id}&u_id=${users.u_id}"><img src="/resources/img/${followYou.u_image}" alt="..." class="img-rounded" width="90px" height="60px;"></a>
 																	${followYou.u_name}
 																	</div>
 																</c:forEach>

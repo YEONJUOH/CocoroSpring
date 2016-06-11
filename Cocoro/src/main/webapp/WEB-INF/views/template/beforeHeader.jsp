@@ -37,7 +37,7 @@ $(function(){
 			error : function() {
 				alert('실패');
 				$('#check').empty();
-                $('#check').append('<div style="margin-left:15px; color:#ff00ff">아이디 비밀번호를 확인해주세요</div>');
+                $('#check').append('<div style="margin-left:15px; color:#fff">아이디 비밀번호를 확인해주세요</div>');
 			}
 		})
 	})
