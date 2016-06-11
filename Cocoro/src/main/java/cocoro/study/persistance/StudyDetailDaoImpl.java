@@ -13,10 +13,13 @@ import org.springframework.stereotype.Repository;
 import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
+import cocoro.study.domain.Attend;
+import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 
 @Repository
@@ -55,7 +58,13 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 
 	@Override
 	public List<PlanInfo> listCalendarService(int s_id) {
-		return session.selectList(namespace + ".listCalendarService", s_id);
+		List callist = session.selectList(namespace + ".listCalendarService", s_id);
+		for (int i = 0; i < callist.size(); i++) {
+			String date = ((PlanInfo)callist.get(i)).getPlan_date();
+			String cut = date.substring(0, 10);
+			((PlanInfo)callist.get(i)).setPlan_date(cut);
+		}
+		return callist;
 	}
 
 	@Override
@@ -71,6 +80,67 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 	@Override
 	public int insertAbiliy(Map<String, Integer> map) {
 		return session.insert(namespace + ".insertAbiliy", map);
+	}
+
+	@Override
+	public int updateStudyActivity(Map<String, Integer> map) {
+		return session.update(namespace+".updateStudyActivity", map);
+	}
+
+	@Override
+	public PlanInfo selectPlan(PlanInfo pi) {
+		return session.selectOne(namespace+".selectPlan", pi);
+	}
+
+	@Override
+	public int attendinsert(Map<String, Integer> map) {
+		return session.insert(namespace+".attendinsert", map);
+	}
+
+	@Override
+	public Attend attendcheck(Map<String, Integer> map2) {
+		return session.selectOne(namespace+".attendcheck", map2);
+	}
+
+	@Override
+	public UsersAccount selectAccount(int u_id) {
+		return session.selectOne(namespace+".selectAccount",u_id);
+	}
+
+	@Override
+	public void updateStudyaccount(Map<String, Integer> map2) {
+		session.update(namespace+".updateStudyaccount", map2);
+		
+	}
+
+	@Override
+	public void usersAccountdown(Map<String, Integer> map3) {
+		session.update(namespace+".usersAccountdown", map3);
+	}
+
+	@Override
+	public int insertpenalty(Penalty pen) {
+		return session.insert(namespace+".insertpenalty", pen);
+	}
+
+	@Override
+	public Penalty selectpenalty(Penalty pen) {
+		return session.selectOne(namespace+".selectpenalty", pen);
+	}
+
+	@Override
+	public List<Penalty> listpenalty(int s_id) {
+		return session.selectList(namespace+".listpenalty", s_id);
+	}
+
+	@Override
+	public List<PlanInfo> afterplan(PlanInfo pi) {
+		return session.selectList(namespace+".afterplan", pi);
+	}
+
+	@Override
+	public List<PlanInfo> beforeplan(PlanInfo pi) {
+		return session.selectList(namespace+".beforeplan", pi);
 	}
 	
 

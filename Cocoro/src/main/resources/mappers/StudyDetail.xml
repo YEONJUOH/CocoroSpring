@@ -57,7 +57,7 @@
 	</select>
 	
 	<insert id="insertActivity" parameterType="Apply">
-		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{u_id},#{s_id},SYSDATE,SYSDATE )
+		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{u_id},#{s_id},SYSDATE,null )
 	</insert>
 	
 	<select id="listCalendarService" parameterType="int" resultType="PlanInfo">
@@ -77,6 +77,45 @@
 			(select nvl(Max(a_id),0) from abilityInfo)+1,#{j_id},#{rank}
 		)
 	</insert>
+	<update id="updateStudyActivity" parameterType="java.util.HashMap">
+		update studyactivity 
+		set s_last_login = sysdate
+		where u_id = #{u_id} and s_id = #{s_id}
+	</update>
+	<select id="selectPlan" resultType="PlanInfo">
+		select * from planinfo where s_id = #{s_id}and plan_date = #{plan_date}
+	</select>
+	<insert id="attendinsert">
+		insert into attend values((select NVL(MAX(atd_id),0) from attend)+1,#{j_id},#{plan_id},'T' )
+	</insert>
+	<select id="attendcheck" resultType="Attend">
+		select * from attend where j_id = #{j_id} and plan_id = #{plan_id}
+	</select>
+	<select id="selectAccount" resultType="UsersAccount">
+		select * from usersaccount where u_id = #{u_id}
+	</select>
+	<update id="updateStudyaccount" parameterType="java.util.HashMap">
+		update studyaccount set s_balance = s_balance + #{s_deposit}    where s_id=#{s_id}
+	</update>
+	<update id="usersAccountdown" parameterType="java.util.HashMap">
+		update usersaccount set u_balance = u_balance - #{s_deposit}    where u_id=#{u_id}
+	</update>
+	
+	<insert id="insertpenalty" >
+		insert into penalty values(#{s_id},(select NVL(MAX(p_id),0) from penalty)+1,#{p_name},#{p_price})
+	</insert>
+	<select id="selectpenalty" resultType="Penalty">
+		select * from penalty where s_id = #{s_id} and p_name = #{p_name} and p_price = #{p_price}
+	</select>
+	<select id="listpenalty"  parameterType="int" resultType="Penalty">
+		select * from penalty where s_id = #{s_id}
+	</select>
+	<select id="afterplan" resultType="PlanInfo">
+		select * from planinfo where s_id = #{s_id} and plan_date <![CDATA[>]]> #{plan_date}
+	</select>
+	<select id="beforeplan" resultType="PlanInfo">
+		select * from planinfo where s_id = #{s_id}and plan_date <![CDATA[<]]> #{plan_date}
+	</select>
 </mapper>
 
 

@@ -7,10 +7,14 @@ import java.util.Map;
 import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
+import cocoro.study.domain.Attend;
+import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
+import cocoro.study.domain.Attend;
 
 public interface StudyDetailDao {
 	
@@ -23,4 +27,16 @@ public interface StudyDetailDao {
 	public StudyGroup choseStudy(int s_id);
 	public StudyActivity selectActivity(Apply apply);
 	public int insertAbiliy(Map<String, Integer> map);
+	public int updateStudyActivity(Map<String, Integer> map);
+	public PlanInfo selectPlan(PlanInfo pi);
+	public int attendinsert(Map<String, Integer> map);
+	public Attend attendcheck(Map<String, Integer> map2);
+	public UsersAccount selectAccount(int u_id);
+	public void updateStudyaccount(Map<String, Integer> map2);
+	public void usersAccountdown(Map<String, Integer> map3);
+	public int insertpenalty(Penalty pen);
+	public Penalty selectpenalty(Penalty pen);
+	public List<Penalty> listpenalty(int s_id);
+	public List<PlanInfo> afterplan(PlanInfo pi);
+	public List<PlanInfo> beforeplan(PlanInfo pi);
 }
