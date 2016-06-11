@@ -48,6 +48,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#followSend').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/follow',
@@ -59,7 +61,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('팔로우 성공');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 			}
 		})	
 	});
@@ -69,6 +71,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#unFollwForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/unFollow',
@@ -80,7 +84,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('팔로우 취소');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});
@@ -89,6 +93,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#likesForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/usersLikes',
@@ -100,7 +106,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('좋아요');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});
@@ -109,6 +115,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#unLikesForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/usersUnLikes',
@@ -120,7 +128,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('싫어요');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});

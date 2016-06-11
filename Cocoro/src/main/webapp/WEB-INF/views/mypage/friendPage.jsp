@@ -35,9 +35,9 @@
 										<div>
 										<c:if test="${follow == null}">
 										<form  method="post" id="followSend">
-											<input type="hidden" id="f_o_id" name="f_o_id" value="${fUsers.u_id}">
-											<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우</button>
+											<input type="hidden" id="f_o_id"  name="f_o_id" value="${fUsers.u_id}">
+											<input type="hidden" id="u_id"  name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;"><i class="glyphicon glyphicon-thumbs-up"></i></button>
 										</form>
 										</c:if>
 										<c:if test="${follow != null}">
@@ -45,7 +45,7 @@
 										<form method="post" id="unFollwForm">
 											<input type="hidden" name="f_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우취소</button>
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;"><i class="glyphicon glyphicon-thumbs-down"></i></button>
 										</form>
 										</c:if>
 										<!-- 좋아요 -->
@@ -53,7 +53,7 @@
 										<form  method="post" id="likesForm">
 											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" style="float: left;">좋아요</button>
+											<button class="btn-primary" type="submit" style="float: left;"><i class="glyphicon glyphicon-heart-empty"></i></button>
 										</form>
 										</c:if>
 										<c:if test="${likes != null}">
@@ -61,11 +61,11 @@
 										<form method="post" id="unLikesForm">
 											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" style="float: left;">좋아요취소</button>
+											<button class="btn-primary" type="submit" style="float: left;"><i class="glyphicon glyphicon-heart"></i></button>
 										</form>
 										</c:if>
 										<!--쪽지보내기 -->
-										<button class="btn-primary" id="addClass" style="float: left;">쪽지</button>
+										<button class="btn-primary" id="addClass" style="float: left;"><i class="glyphicon glyphicon-comment"></i></button>
 										</div>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->

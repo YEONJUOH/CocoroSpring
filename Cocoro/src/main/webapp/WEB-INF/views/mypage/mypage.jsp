@@ -46,14 +46,14 @@
 													<div class="col-sm-5">
 														<div class="panel panel-default">
 															<div class="panel-body">
-																<p class="lead">관심사</p>
+																<p class="lead"><i class="glyphicon glyphicon-heart"></i>&nbsp 관심사</p>
 																<p>${users.u_tag}</p>
 															</div>
 														</div>
 														<c:if test="${mento != null }">
 														<div class="panel panel-default">
 															<div class="panel-body">
-																<p class="lead">진행중인 멘토링</p>
+																<p class="lead"><i class="glyphicon glyphicon-pencil"></i>&nbsp진행중인 멘토링</p>
 																<p>${mento.m_major}</p>
 															</div>
 														</div>
@@ -63,23 +63,31 @@
 															<div class="panel-heading">
 														<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
 																<h4>
-																	<i class="glyphicon glyphicon-search"></i>참여중인 스터디
+																	<i class="glyphicon glyphicon-search"></i>&nbsp 참여중인 스터디
 																</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group">
-																	<a href="" class="list-group-item">취준생들의 쉼터</a>
-																	<h5 class="pull-right">2016-5-31</h5>
+																	<a href="" class="list-group-item">취준생들의 쉼터 <h5 class="pull-right">2016-5-31</h5></a>
 																	<a href="" class="list-group-item">신토익 스터디</a> <a
 																		href="" class="list-group-item">경복궁관람</a>
 																</div>
+															</div>
+																<div class="panel-heading">
+																<h4>
+																   목표달성률 : ${users.u_goal_ration}% 
+														               <div class="progress">
+														                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="background-color:#ffb819; width: ${users.u_goal_ration}%">
+														               </div>
+														               </div>
+																</h4>
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
 														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
-																<h4>${users.u_name}님이 팔로우중인 사람들</h4>
+																<h4><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp ${users.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
@@ -99,7 +107,7 @@
 														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
 															    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right" id="more"></a>
-																<h4>${users.u_name}님을 팔로우중인 사람들</h4>
+																<h4><i class="glyphicon glyphicon-eye-open"></i>&nbsp ${users.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
@@ -210,13 +218,14 @@
 																	</c:choose>
 																	<c:choose>
 																		<c:when test="${users.u_address_check == 'F'}">
-																			<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> 비공개 </span></li>
+																			<li><i class="glyphicon glyphicon-home"></i> 주소 : <span> 비공개 </span></li>
 																		</c:when>
 																		<c:otherwise>
-																			<li><i class="glyphicon glyphicon-time"></i> 주소 : <span> ${users.u_address} </span></li>
+																			<li><i class="glyphicon glyphicon-home"></i> 주소 : <span> ${users.u_address} </span></li>
 																		</c:otherwise>
 																	</c:choose>
 																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 : <span>${users.u_tag}</span></li>
+																	<li><i class="glyphicon glyphicon-send"></i> SNS : <span>${users.u_sns_address}</span></li>
 																</ul>
 															</div>
 															<div class="col-xs-12 col-sm-12 col-md-4 excerpet">
@@ -242,7 +251,7 @@
 												<!-- 친구 목록 -->
 												<div class="panel panel-default">
 															<div class="panel-heading">
-																<h4>팔로우중인 친구</h4>
+																<h4><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp 팔로우중인 친구</h4>
 															</div>
 															<div class="search-result row" id="followYouDiv" style="margin-top: 20px;">
 															<c:forEach var="followYou" items="${followYou}">
@@ -265,7 +274,7 @@
 													<!-- 나를 팔로우중인 -->
 														<div class="panel panel-default">
 															<div class="panel-heading">
-																<h4>나를 팔로우중인 친구</h4>
+																<h4><i class="glyphicon glyphicon-eye-open"></i>&nbsp 나를 팔로우중인 친구</h4>
 															</div>
 															<div class="search-result row" style="margin-top: 20px;">
 															<c:forEach var="followMe" items="${followMe}">
@@ -286,7 +295,7 @@
 													<!-- 가입중인 스터디 목록  298px-->
 													<div class="panel panel-default">
 															<div class="panel-heading">
-																<h4>활동중인 스터디</h4>
+																<h4><i class="glyphicon glyphicon-pencil"></i>&nbsp 활동중인 스터디</h4>
 															</div>
 															<div class="search-result row" id="ingStudy" style="margin-top: 20px;">
 													       <div class="col-md-6">
