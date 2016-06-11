@@ -73,9 +73,12 @@
 															</div>
 															<div class="panel-body">
 																<div class="list-group">
+<<<<<<< HEAD
 																	<a href="" class="list-group-item">취준생들의 쉼터 <h5 class="pull-right">2016-5-31</h5></a>
 																	<a href="" class="list-group-item">신토익 스터디</a> <a
 																		href="" class="list-group-item">경복궁관람</a>
+=======
+>>>>>>> branch 'master' of https://github.com/YEONJUOH/CocoroSpring.git
 																	<c:if test="${studyList != null }">
 																	<c:forEach var="studyList" items="${studyList}">
 																		<a href="/StudyDetail/studydetail?s_id=${studyList.s_id}" class="list-group-item">${studyList.s_name} <h5 class="pull-right">${studyList.s_last_login}</h5></a>
@@ -168,7 +171,7 @@
 																<img src="/resources/img/${cList.c_img}" alt="..." class="img-rounde" width="100%" height="380px;"><br><br>
 																</c:if>
 																<p>
-																	${cList.c_comment} ${cList.c_id }번째글 
+																	${cList.c_comment} 
 																</p>
 																<hr>
 																<form id="cu_commentForm" method="post">

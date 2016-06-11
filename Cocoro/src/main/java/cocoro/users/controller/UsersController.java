@@ -160,15 +160,20 @@ public class UsersController {
 			
 			model.addAttribute("usersAccount",usersAccount);
 		}
+		//내가 가입한 스터디의 리스트
+		List<UsersJoinStudy> studyList = service.studyList(u_id);
+		if(studyList != null){
+			model.addAttribute("studyList", studyList);
+		}
 		
 		model.addAttribute("usersAccount", usersAccount);
 		model.addAttribute("cList", cList);
 		model.addAttribute("uList", uList);
 		model.addAttribute("followMe", followMe);
 		model.addAttribute("followYou", followYou);
-		
+		model.addAttribute("studyList", studyList);
 	return "mypage";
-	}
+	} 
 	//친구페이지 
 		@RequestMapping(value = "/friendPage", method = {RequestMethod.POST,RequestMethod.GET})
 		public String friednPage(@RequestParam("u_id")Integer u_id,@RequestParam("f_o_id")Integer f_o_id,Model model)throws Exception {
@@ -230,6 +235,14 @@ public class UsersController {
 			for(Message MyList : oneMyList){
 				System.out.println("받는사람 " + MyList.getMessage_u_id() + "받은 메세지 :" + MyList.getMessage_comment());
 			}
+			//내가 가입한 스터디의 리스트
+			List<UsersJoinStudy> studyList = service.studyList(f_o_id);
+			if(studyList != null ){
+				model.addAttribute("studyList", studyList);
+			}else{
+				model.addAttribute("studyList", null);
+			}
+			System.out.println(studyList.toString());
 			
 			model.addAttribute("oneMyList" ,oneMyList);
 			model.addAttribute("fUsers", fUsers);
@@ -304,6 +317,7 @@ public class UsersController {
 			comment.setC_img("");
 		}
 		System.out.println(file.getOriginalFilename());
+		System.out.println("후기 : " + comment.getC_comment());
 		//넘어온 파일이 없다면 null이들어간다.
 		service.usersAfter(comment);
 		
@@ -343,4 +357,3 @@ public class UsersController {
 			return saveName;
 		}
 }
-

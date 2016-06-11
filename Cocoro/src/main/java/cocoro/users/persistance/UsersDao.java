@@ -7,13 +7,11 @@ import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
-
-import cocoro.users.domain.Likes;
-
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 
 public interface UsersDao {
 	//인설트
@@ -47,9 +45,6 @@ public interface UsersDao {
 	public void usersMentoUpdate(Mento mento)throws Exception;
 	//멘토 삭제
 	public void usersMentoDelete(int u_id)throws Exception;
-	
-	
-
 	
 	//팔로우 걸기
 	public void usersFollow(HashMap<String,Integer> follow)throws Exception;
@@ -118,9 +113,9 @@ public interface UsersDao {
 	public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
 	//출금 
 	public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
-
-
-
+	
+	//내가 가입한 스터디 뽑아오기 
+	public List<UsersJoinStudy> UsersJoinStudy(int u_id)throws Exception;
 	
 	
 

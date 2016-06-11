@@ -278,7 +278,7 @@
 			<div class="mid" style="height: 450px;width: 100%;border-top:10px solid white;">
 				<div style="height: 440px;float: left;">
 					<div>
-						<c:if test="${beforedate != null }">
+						<c:if test="${beforedate != '[]' }">
 							<c:forEach var="o" begin="0" end="${beforedate.size()-1}" step="1" >
 							<h3>이전 계획</h3>
 								<ul>
@@ -288,7 +288,7 @@
 								</ul>															
 							</c:forEach>
 						</c:if>
-						<c:if test="${afterdate != null }">
+						<c:if test="${afterdate != '[]' }">
 							<h3> 예정 계획</h3>
 							<c:forEach  var="o" begin="0" end="${afterdate.size()-1}" step="1">
 								<ul>

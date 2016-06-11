@@ -12,13 +12,11 @@ import cocoro.users.domain.Comment;
 import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
-
-import cocoro.users.domain.Likes;
-
 import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 
 //Respositroy 스프링에서 Dao를 인식할 수 있도록 해준다.
 @Repository
@@ -142,10 +140,7 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public void sendMessage(Message message) throws Exception {
 		sqlsession.insert(namespace +".sendMessage" , message);
-
 	}
-	
-
 	//좋아요 누르기 
 	@Override
 	public void usersLike(HashMap<String, Integer> usersLike) throws Exception {
@@ -266,6 +261,11 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public List<Users> autoSearch(String autoSearch) throws Exception {
 		return sqlsession.selectList(namespace + ".autoSearch",autoSearch);
+	}
+	//내가 가입중인 스터디 
+	@Override
+	public List<UsersJoinStudy> UsersJoinStudy(int u_id) throws Exception {
+		return sqlsession.selectList(namespace+ ".UsersJoinStudy", u_id);
 	}
 	
 	
