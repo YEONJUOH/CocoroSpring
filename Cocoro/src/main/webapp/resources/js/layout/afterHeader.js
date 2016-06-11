@@ -55,7 +55,7 @@ $(function(){
 				div += '<div class="col-md-12"><a href="/users/friendPage?u_id='+u_id+'&f_o_id='+data[i].u_id+'"><img src="/resources/img/'+data[i].u_image+'" style="width:40px; height:37px; float: left;"></a>';
 				div += '&nbsp&nbsp'+data[i].u_name+'<p>&nbsp&nbsp'+data[i].u_tag+'</p></div></div>';
 				
-				$('#autoSearch').append(div).hide().fadeIn(1000);
+				$('#autoSearch').append(div).hide().fadeIn(500);
 				}
 		})
 	})
