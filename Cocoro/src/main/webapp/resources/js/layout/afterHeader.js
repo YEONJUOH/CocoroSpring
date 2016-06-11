@@ -14,7 +14,7 @@ $(function(){
 			$('#headerMeesage').empty();
 			for(i = 0 ; i< data.length;i++){
 				
-			var div =	'<a href="/users/friendPage?u_id=${users.u_id}&f_o_id='+data[i].u_id+'">';
+			var div =	'<a href="/users/friendPage?u_id='+u_id+'&f_o_id='+data[i].u_id+'">';
 			
             div +=  '<span class="photo"><img alt="avatar" src="/resources/img/'+data[i].u_image+'"></span>';
             div +=  '<span class="subject">';
@@ -53,9 +53,9 @@ $(function(){
 				for(i=0;i<data.length;i++){
 				var div = '<div class="input-group" id="commentUsers" style="margin-top: 3px">';
 				div += '<div class="col-md-12"><a href="/users/friendPage?u_id='+u_id+'&f_o_id='+data[i].u_id+'"><img src="/resources/img/'+data[i].u_image+'" style="width:40px; height:37px; float: left;"></a>';
-				div += '&nbsp&nbsp'+data[i].u_name+'  <p>&nbsp&nbsp'+data[i].u_tag+'</p></div></div>';
+				div += '&nbsp&nbsp'+data[i].u_name+'<p>&nbsp&nbsp'+data[i].u_tag+'</p></div></div>';
 				
-				$('#autoSearch').append(div).hide().fadeIn(2000);
+				$('#autoSearch').append(div).hide().fadeIn(1000);
 				}
 		})
 	})
