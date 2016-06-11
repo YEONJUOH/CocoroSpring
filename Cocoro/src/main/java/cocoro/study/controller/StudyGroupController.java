@@ -1,28 +1,29 @@
 package cocoro.study.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cocoro.study.domain.Apply;
-import cocoro.study.domain.ListRank;
+import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.study.service.StudyGroupService;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
+import cocoro.users.service.UsersService;
 
 @Controller
 @RequestMapping("/study/*")
@@ -32,6 +33,9 @@ public class StudyGroupController {
 	
 	@Inject
 	private StudyGroupService service;
+	
+	@Inject
+	private UsersService u_service;
 	
 	@RequestMapping(value="/createStudy", method = RequestMethod.GET)
 	public void createStudyGET(StudyGroup studygroup) throws Exception{
@@ -98,7 +102,7 @@ public class StudyGroupController {
 	public String createStudy2POST(
 			@RequestParam("online") String online,
 			@RequestParam("s_abil") int s_abil,
-			StudyGroup studygroup) throws Exception {
+			StudyGroup studygroup, HttpServletRequest request) throws Exception {
 		
 		// 온라인 체크
 		
@@ -119,10 +123,7 @@ public class StudyGroupController {
 			}
 		
 		// 실력 수치 입력
-		if(studygroup.getS_abil_check()==-1)
-		{
-			studygroup.setS_abil_check(s_abil);
-		}
+		studygroup.setS_abil_check(s_abil);
 		
 		// 스터디 생성
 		service.createStudy(studygroup);
@@ -143,6 +144,35 @@ public class StudyGroupController {
 		
 		service.insertS_leaderAbilityInfo(map2);
 		}
+		
+		// 디파짓 설정한 경우 스터디 계좌생성
+		StudyGroup newstudygroup = service.selectStudy(service.newStudy(studygroup.getS_leader_id()));
+		
+        if(newstudygroup.getS_deposit()!=-1)
+        {
+        	// 랜덤으로 스터디 계좌번호를 생성
+    		Random random = new Random();
+            int s_account = random.nextInt(9999)+1;
+            System.out.println("생성된 계좌번호" + s_account);
+            
+            //리더의 디파짓 자동 입금
+            StudyAccount studyAccount = new StudyAccount();
+            Users users = (Users)request.getSession().getAttribute("users");
+            
+            UsersAccount usersaccount = u_service.usersAccountInfo(users.getU_id());
+            int leader_balance = usersaccount.getU_balance();
+        	int k = leader_balance - newstudygroup.getS_deposit();
+        	System.out.println(leader_balance);
+        	System.out.println(newstudygroup.getS_deposit());
+        	studyAccount.setS_account(s_account);
+        	studyAccount.setS_id(newstudygroup.getS_id());
+        	studyAccount.setS_balance(newstudygroup.getS_deposit());
+        	// 리더의 계좌에서 돈 뺴주기
+        	usersaccount.setU_balance(leader_balance-newstudygroup.getS_deposit());
+        	service.updateS_leader_balance(usersaccount);
+        	service.createStudyAccount(studyAccount);
+        }
+        
 		
 		return "redirect:/study/success";
 	}

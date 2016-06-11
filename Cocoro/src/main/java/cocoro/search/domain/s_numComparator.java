@@ -7,13 +7,14 @@ import javax.inject.Inject;
 
 
 import cocoro.search.persistence.SearchDAO;
+import cocoro.search.persistence.SearchDAOImpl;
 
 public class s_numComparator implements Comparator{
 
 	 String[] interests;
 	 
 	 @Inject
-	 private SearchDAO dao;
+	 private SearchDAOImpl dao;
 	 
 	 public s_numComparator(String[] interests) {
 		super();
@@ -26,6 +27,8 @@ public class s_numComparator implements Comparator{
 		
 		String str1 = interests[(Integer)o1];
 		String str2 = interests[(Integer)o2];	
+		System.out.println("comparator"+str1);
+		
 		
 		int snum1=0;
 		try {

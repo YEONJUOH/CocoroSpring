@@ -221,6 +221,50 @@
       	<artifactId>spring-security-config</artifactId>
       	<version>3.2.3.RELEASE</version>
       </dependency>
+            <!-- mahout -->
+
+      <dependency>
+         <groupId>org.apache.mahout</groupId>
+         <artifactId>mahout-math</artifactId>
+         <version>0.10.2</version>
+      </dependency>
+
+      <!-- http://mvnrepository.com/artifact/org.apache.mahout/mahout-integration -->
+      <dependency>
+         <groupId>org.apache.mahout</groupId>
+         <artifactId>mahout-integration</artifactId>
+         <version>0.9</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.apache.mahout</groupId>
+         <artifactId>mahout-mr</artifactId>
+         <version>0.10.2</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mongodb</groupId>
+         <artifactId>mongo-java-driver</artifactId>
+         <version>2.9.3</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mongodb</groupId>
+         <artifactId>mongodb-driver</artifactId>
+         <version>3.0.0</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mongodb</groupId>
+         <artifactId>mongodb-driver-core</artifactId>
+         <version>3.0.0</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.mongodb</groupId>
+         <artifactId>bson</artifactId>
+         <version>2.9.3</version>
+      </dependency>
 	</dependencies>
 	<build>
 		<plugins>

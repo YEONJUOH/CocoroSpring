@@ -1,5 +1,4 @@
 package cocoro.mahout;
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.sql.DataSource;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
@@ -25,19 +23,16 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.client.*;
 
-import cocoro.search.persistence.SearchDAO;
 import cocoro.study.domain.StudyGroup;
+import cocoro.study.service.StudyGroupServiceImpl;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class MongoDB {
 
-	
-	
-	
-	
+	/*@Inject
+	private StudyGroupServiceImpl service;*/
+		
 	public static void createSiliconnitride() throws UnknownHostException {
 		BasicDBObject searchinfo = new BasicDBObject();
 		
@@ -99,10 +94,11 @@ public class MongoDB {
 			e.printStackTrace();
 		}
 	}
-	public static List<StudyGroup> recommend(int s_id) throws UnknownHostException, ParseException {
+	public static List<Integer> recommend(int s_id) throws UnknownHostException, ParseException,Exception {
 		System.out.println("하자");
 
-		 List<StudyGroup> listS =new ArrayList<StudyGroup>();
+		StudyGroupServiceImpl service = new StudyGroupServiceImpl();
+		 List<Integer> listS =new ArrayList<Integer>();
 		
 		try {
 			MongoDBDataModel dm = new MongoDBDataModel("localhost", 27017, "mydb", "searchinfo", false, false, null);
@@ -123,10 +119,10 @@ public class MongoDB {
 				
 				
 				if(itemId==s_id){
-					
-					StudyGroup group = new StudyGroup();
-					group.setS_id((int)recommendation.getItemID());
-					listS.add(group);
+					System.out.println("i'me here"+(int)recommendation.getItemID());
+				   
+				    //StudyGroup group = new StudyGroup();
+				    listS.add((int)recommendation.getItemID());
 				}
 				
 				
@@ -147,5 +143,4 @@ public class MongoDB {
 		//createSiliconnitride();
 		recommend();
 	}*/
-
 }

@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.apache.catalina.connector.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cocoro.users.domain.Comment;
+import cocoro.users.domain.CommentUsers;
 import cocoro.users.domain.Follow;
 import cocoro.users.domain.Likes;
 import cocoro.users.domain.LoginVo;
 import cocoro.users.domain.Mento;
+import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
 import cocoro.users.service.UsersServiceImpl;
@@ -107,6 +110,13 @@ public class UsersController {
 	return "afterMain";
 	}
 	
+	//로그아웃 
+	@RequestMapping("/logout")
+	public String logout(HttpSession session)throws Exception {
+	session.invalidate();
+	return "redirect:/";
+	}
+	
 	//마이페이지 
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(@RequestParam("u_id")Integer u_id, Model model)throws Exception {
@@ -120,6 +130,19 @@ public class UsersController {
 		List<Users> followMe = service.usersFollowListMe(u_id);
 		//내가 팔로우 중인사람
 		List<Users> followYou = service.usersFollowListYou(u_id);
+		//멘토판단
+		Mento mento  = service.usersMentoCheck(u_id);
+		if(mento != null){
+			model.addAttribute("mento", mento);
+		}
+		
+		//후기 모든 댓글
+		List<CommentUsers> commentAllList = service.commentAllList();
+		List<Users> usersList = service.usersList();
+		model.addAttribute("usersList",usersList);
+		if(commentAllList != null){
+		model.addAttribute("commentAllList", commentAllList);	
+		}
 		
 		//계좌정보 계좌가 없으면 생성해줘라
 		UsersAccount usersAccount =  service.usersAccountInfo(u_id);
@@ -127,7 +150,6 @@ public class UsersController {
 			//랜덤으로 계좌번호를 생성
 			Random random = new Random();
 	        int account = random.nextInt(9999)+1;
-	        System.out.println("생성된 계좌번호" + account);
 	        //계좌생성
 	        UsersAccount createAccount = new UsersAccount();
 	        createAccount.setU_account(account);
@@ -137,14 +159,9 @@ public class UsersController {
 	        usersAccount = service.usersAccountInfo(u_id);
 			
 			model.addAttribute("usersAccount",usersAccount);
-			System.out.println("계좌생성");
 		}
 		
 		model.addAttribute("usersAccount", usersAccount);
-		
-		System.out.println("나를 팔로우하고있는 사람 :" + followMe.size());
-		System.out.println("내가 팔로우하고있는 사람 :" + followYou.size());
-		
 		model.addAttribute("cList", cList);
 		model.addAttribute("uList", uList);
 		model.addAttribute("followMe", followMe);
@@ -175,7 +192,6 @@ public class UsersController {
 			
 			if(follow != null){
 				model.addAttribute("follow",follow);
-				System.out.println("이미 팔로워에요");
 			}
 			//좋아요 체크
 			HashMap<String, Integer> likes = new HashMap<String, Integer>();
@@ -184,12 +200,38 @@ public class UsersController {
 			Likes likeCheck =  service.usersLikeCheck(likes);
 			
 			if(likeCheck != null){
-				System.out.println("좋아요관계입니다");
 				model.addAttribute("likes",likes);
 			}else{
 				System.out.println("좋아요관계가 아닙니다");
 			}
 			
+			//멘토판단
+			Mento mento  = service.usersMentoCheck(f_o_id);
+			if(mento != null){
+				model.addAttribute("mento", mento);
+			}
+			
+			//후기 모든 댓글
+			List<CommentUsers> commentAllList = service.commentAllList();
+			List<Users> usersList = service.usersList();
+			model.addAttribute("usersList",usersList);
+			if(commentAllList != null){
+			model.addAttribute("commentAllList", commentAllList);	
+			}
+			
+			//쪽지
+			HashMap<String, Integer> oneMyMessage = new HashMap<String, Integer>();
+			oneMyMessage.put("message_u_id", u_id);
+			oneMyMessage.put("message_o_id", f_o_id);
+			//내가 보낸메세지
+			
+			List<Message> oneMyList = service.oneMyMessage(oneMyMessage);
+			
+			for(Message MyList : oneMyList){
+				System.out.println("받는사람 " + MyList.getMessage_u_id() + "받은 메세지 :" + MyList.getMessage_comment());
+			}
+			
+			model.addAttribute("oneMyList" ,oneMyList);
 			model.addAttribute("fUsers", fUsers);
 			model.addAttribute("cList", cList);
 			model.addAttribute("uList", uList);
@@ -208,7 +250,6 @@ public class UsersController {
 			follow.put("f_o_id", u_id);
 			follow.put("u_id", f_o_id);
 			
-			System.out.println("팔로우 컨트롤러");
 			service.usersFollow(follow);
 		}
 		//팔로우취소  
@@ -217,9 +258,6 @@ public class UsersController {
 					HashMap<String, Integer> unFollow = new HashMap<String, Integer>();
 					unFollow.put("f_o_id", u_id);
 					unFollow.put("u_id", f_o_id);
-					
-					System.out.println("내아이디"+ u_id);
-					System.out.println("친구아이디"+f_o_id);
 					
 					Follow follow = service.usersFollowCheck(unFollow);
 					
@@ -234,9 +272,6 @@ public class UsersController {
 					HashMap<String, Integer> usersLikes = new HashMap<String, Integer>();
 					usersLikes.put("l_o_id", u_id);
 					usersLikes.put("u_id", l_o_id);
-					
-					System.out.println("내아이디"+ u_id);
-					System.out.println("친구아이디"+l_o_id);
 					// 좋아요 수 + 
 					service.usersLikeUpdate(l_o_id);
 					service.usersLike(usersLikes);
@@ -273,6 +308,30 @@ public class UsersController {
 		service.usersAfter(comment);
 		
 		return comment;
+		}
+		
+		//쪽지 보내기 
+		@RequestMapping("/mSendMessage")
+		public @ResponseBody Message mSendMessage(Message message,@RequestParam("message_comment")String message_comment)throws Exception{
+			
+			message.setMessage_Comment(message_comment);
+			service.sendMessage(message);
+			
+			return message;
+		}
+		// 버튼눌렸을때업데이트
+		@RequestMapping("/updateMessage")
+		public @ResponseBody List<Message> updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
+			
+			HashMap<String, Integer> updateMessage = new HashMap<String, Integer>();
+			updateMessage.put("message_u_id", message_u_id);
+			updateMessage.put("message_o_id", message_o_id);
+			
+			service.updateMessage(updateMessage);
+			//리스트 다시리턴
+			List<Message> oneMyList = service.oneMyMessage(updateMessage);
+			
+			return oneMyList;
 		}
 		
 		//이미지 업로드시 중복될수 있는 이름 때문에

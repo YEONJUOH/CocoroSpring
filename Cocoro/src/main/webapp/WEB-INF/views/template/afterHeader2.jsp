@@ -11,14 +11,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<link href="/resources/css/login/login.css" rel="stylesheet">
-<script src="/resources/js/login/login.js"></script>
- <link href="/resources/css/layout/header.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <style type="text/css">
+/* select {
+	display: inline-block;
+}
+
+li input {
+	width: 100%;
+}
+
+#loginBtn {
+	margin-top: 35px;
+} */
+.navbar-right{
+padding-left: 160px;
+}
+
 select{
 display: inline-block;
 }
 </style>
+<link href="/resources/css/login/login.css" rel="stylesheet">
+<script src="/resources/js/login/login.js"></script>
+ <link href="/resources/css/layout/header.css" rel="stylesheet">
+
 </head>
 <body>
 	<!-- 네비게이션바 -->
@@ -34,9 +56,35 @@ display: inline-block;
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="beforeMain"><b>Cocoro</b></a>
+				 				<form class="navbar-form navbar-left" role="search"
+					 method="get" action="/search/searchMain">
+					 	<select class="form-control" id="searchCtg" name="searchCtg">
+					
+					<option selected="selected">
+					
+					 스터디
+						</option>
+					 
+					<option selected="selected" value="인물">
+					
+					 인물
+						</option>
+					 	
+					
+						
+					 	</select>
+					 <div class="form-group">
+						<input type="text" class="form-control" placeholder="Search"
+							name="searchWord" value="${search.searchWord }" >
+							
+							
+					</div>
+					<button type="submit" class="btn btn-default">검색</button>
+					
+					 </form>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav navbar-right" style="float: right;">
+				 <ul class="nav navbar-nav navbar-right" style="float: right;">
 					<li><a href="#">Study</a></li>
 					<!-- 메세지 보기 -->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,7 +125,7 @@ display: inline-block;
 							<li><a href="#"><button class="btn-primary" style="width:100%;">로그아웃</button></a></li>
 						</ul>
 					   </li>
-				</ul>
+				</ul> 
 			</div>
 		</div>
 		</nav>

@@ -57,7 +57,7 @@
 	<!--업로드 위치 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
-			value="/Users/hi/git/CocoroSpring/Cocoro/src/main/webapp/resources/img" />
+			value="C:\Users\OHYEONJU\Documents\workspace-sts-3.7.3.RELEASE\.metadata\.plugins\org.eclipse.wst.server.core\tmp1\wtpwebapps\Cocoro\resources\img" />
 	</beans:bean>
 
 	<context:component-scan base-package="cocoro.home.controller" />

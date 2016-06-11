@@ -6,10 +6,10 @@
 
 <tiles-definitions>
 <!-- 로그인전 메인 레이아웃-->
-	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+<!-- 	<definition name="before_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/beforeHeader.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
-	</definition>
+	</definition>  -->
 
 
 <!-- 로그인후	 -->
@@ -51,11 +51,7 @@
 	
 	<definition name="studyview" extends="studyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/StudyDetail/studydetail.jsp"></put-attribute>
-<<<<<<< HEAD
-	</definition>
-=======
-	</definition>
->>>>>>> branch 'master' of https://github.com/YEONJUOH/CocoroSpring.git
+</definition>
 
 </tiles-definitions>
 

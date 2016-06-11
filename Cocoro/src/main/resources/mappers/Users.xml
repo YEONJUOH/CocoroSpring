@@ -111,7 +111,7 @@
    <!-- 내가 팔로우하고있는 사람들  -->
    <select id="usersFollowListYou" parameterType="int"  resultType="Users">
       select * from USERS 
-      where u_id in (select f.F_O_ID 
+      where u_id in (select f.u_id 
                   from USERS u JOIN FOLLOW f 
                   ON u.U_ID = f.U_ID WHERE f.f_o_id=#{u_id})
    </select>
@@ -119,11 +119,19 @@
    <update id="usersModify" parameterType="Users">
       UPDATE USERS 
       SET
-      u_image = #{u_image},u_bgimg=#{u_bgimg},u_intro = #{u_intro},
+      u_intro = #{u_intro},
       u_tag = #{u_tag},u_address_check=#{u_address_check},
       u_address = #{u_address},
       u_sns_address=#{u_sns_address},u_mento_check = #{u_mento_check}
       WHERE u_id= #{u_id}
+   </update>
+   <!-- 배경이미지 -->
+    <update id="usersBg" parameterType="Users">
+      UPDATE USERS SET u_bgimg = #{u_bgimg} WHERE u_id= #{u_id}
+   </update>
+   <!-- 프로필사진 -->
+    <update id="usersProfile" parameterType="Users">
+      UPDATE USERS SET u_image = #{u_image} WHERE u_id= #{u_id}
    </update>
    <!-- 회원가입시 계좌등록 -->
    <insert id="usersAccount" parameterType="UsersAccount" >

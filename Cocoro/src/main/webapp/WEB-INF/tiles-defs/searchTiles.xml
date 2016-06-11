@@ -24,11 +24,11 @@
 	</definition>
 	
 <!-- 로그인후	메인레이아웃 -->
-	<definition name="after_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
+<!-- 	<definition name="after_layout" template="/WEB-INF/views/template/beforeLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/template/afterHeader.jsp"></put-attribute>
 
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"></put-attribute>
-	</definition>
+	</definition> -->
 
 <!-- 검색 -->
 <definition name="searchMain" extends="search_layout">

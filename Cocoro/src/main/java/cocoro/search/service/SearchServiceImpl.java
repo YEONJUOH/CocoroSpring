@@ -17,6 +17,9 @@ import cocoro.search.domain.tagSearch;
 import cocoro.search.domain.tagSuggestion;
 import cocoro.search.persistence.SearchDAO;
 import cocoro.study.domain.StudyGroup;
+import cocoro.study.persistance.StudyGroupDao;
+import cocoro.study.persistance.StudyGroupDaoImpl;
+import cocoro.study.service.StudyGroupServiceImpl;
 import cocoro.users.domain.Users;
 
 @Service
@@ -25,6 +28,9 @@ public class SearchServiceImpl implements SearchService {
 	@Inject
 	private SearchDAO dao;
     private MongoDB mongo;
+    
+    @Inject
+    private StudyGroupDaoImpl sDao;
 	
 	
 	
@@ -117,8 +123,13 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<StudyGroup> item_recommend(int u_id) throws Exception {
 		// TODO Auto-generated method stub
-		
-		List<StudyGroup> listS= mongo.recommend(u_id);
+		List<StudyGroup> listS = new ArrayList<StudyGroup>();
+		List<Integer> listI= mongo.recommend(u_id);
+		for(int i=0;i<listI.size();i++){
+			System.out.println("DFS"+listI.get(i));
+			StudyGroup group = sDao.selectStudy(listI.get(i));
+			listS.add(group);
+		}
 		
 		return listS;
 	}

@@ -10,17 +10,21 @@ import org.springframework.stereotype.Service;
 
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
+import cocoro.study.domain.StudyAccount;
 import cocoro.study.domain.StudyActivity;
 import cocoro.study.domain.StudyGroup;
 import cocoro.study.persistance.StudyGroupDao;
+import cocoro.study.persistance.StudyGroupDaoImpl;
 import cocoro.users.domain.Users;
+import cocoro.users.domain.UsersAccount;
 
 @Service
 public class StudyGroupServiceImpl implements StudyGroupService {
 	
 	@Inject
-	StudyGroupDao dao;
-
+	private StudyGroupDaoImpl dao;
+	
+	
 	@Override
 	public void createStudy(StudyGroup studygroup) throws Exception {
 		dao.createStudy(studygroup);
@@ -84,6 +88,17 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 	@Override
 	public List<ListRank> listRank(int s_id) throws Exception {
 		return dao.listRank(s_id);
+	}
+
+	@Override
+	public void updateS_leader_balance(UsersAccount usersaccount) {
+		dao.updateS_leader_balance(usersaccount);
+	}
+
+	@Override
+	public void createStudyAccount(StudyAccount studyAccount) {
+		dao.createStudyAccount(studyAccount);
+		
 	}
 
 	
