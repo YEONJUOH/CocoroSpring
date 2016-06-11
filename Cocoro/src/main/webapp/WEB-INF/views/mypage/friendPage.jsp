@@ -31,13 +31,16 @@
 										<img align="left"class="fb-image-profile thumbnail" src="/resources/img/${fUsers.u_image}" alt="Profile image example" style="width: 180px; height: 170px;" />
 									<div class="fb-profile-text">
 										<h1>${fUsers.u_name}</h1>
+										<c:if test="${mento != null}">
+										(멘토)
+										</c:if>
 										<!-- 팔로우하기 -->
 										<div>
 										<c:if test="${follow == null}">
 										<form  method="post" id="followSend">
-											<input type="hidden" id="f_o_id" name="f_o_id" value="${fUsers.u_id}">
-											<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우</button>
+											<input type="hidden" id="f_o_id"  name="f_o_id" value="${fUsers.u_id}">
+											<input type="hidden" id="u_id"  name="u_id" value="${users.u_id}">
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;"><i class="glyphicon glyphicon-thumbs-up"></i></button>
 										</form>
 										</c:if>
 										<c:if test="${follow != null}">
@@ -45,7 +48,7 @@
 										<form method="post" id="unFollwForm">
 											<input type="hidden" name="f_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" id="followBtn" style="float: left;">팔로우취소</button>
+											<button class="btn-primary" type="submit" id="followBtn" style="float: left;"><i class="glyphicon glyphicon-thumbs-down"></i></button>
 										</form>
 										</c:if>
 										<!-- 좋아요 -->
@@ -53,7 +56,7 @@
 										<form  method="post" id="likesForm">
 											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" style="float: left;">좋아요</button>
+											<button class="btn-primary" type="submit" style="float: left;"><i class="glyphicon glyphicon-heart-empty"></i></button>
 										</form>
 										</c:if>
 										<c:if test="${likes != null}">
@@ -61,11 +64,11 @@
 										<form method="post" id="unLikesForm">
 											<input type="hidden" name="l_o_id" value="${fUsers.u_id}">
 											<input type="hidden" name="u_id" value="${users.u_id}">
-											<button class="btn-primary" type="submit" style="float: left;">좋아요취소</button>
+											<button class="btn-primary" type="submit" style="float: left;"><i class="glyphicon glyphicon-heart"></i></button>
 										</form>
 										</c:if>
 										<!--쪽지보내기 -->
-										<button class="btn-primary" id="addClass" style="float: left;">쪽지</button>
+										<button class="btn-primary" id="addClass" style="float: left;"><i class="glyphicon glyphicon-comment"></i></button>
 										</div>
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
@@ -80,17 +83,25 @@
 													<div class="col-sm-5">
 														<div class="panel panel-default">
 															<div class="panel-body">
-																<p class="lead">관심사</p>
+																<p class="lead"><i class="glyphicon glyphicon-heart"></i>&nbsp관심사</p>
 																<p>${fUsers.u_tag}</p>
 															</div>
 														</div>
+														<c:if test="${mento != null }">
+														<div class="panel panel-default">
+															<div class="panel-body">
+																<p class="lead"><i class="glyphicon glyphicon-pencil"></i>&nbsp진행중인 멘토링</p>
+																<p>${mento.m_major}</p>
+															</div>
+														</div>
+														</c:if>
 
 														<!--참여중인 스터디 -->
 														<div class="panel panel-default">
 															<div class="panel-heading">
 														<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
 																<h4>
-																	<i class="glyphicon glyphicon-search"></i>참여중인 스터디
+																	<i class="glyphicon glyphicon-search"></i>&nbsp 참여중인 스터디
 																</h4>
 															</div>
 															<div class="panel-body">
@@ -100,13 +111,22 @@
 																	<a href="" class="list-group-item">신토익 스터디</a> <a
 																		href="" class="list-group-item">경복궁관람</a>
 																</div>
+																<div class="panel-heading">
+																<h4>
+																   목표달성률 : ${fUsers.u_goal_ration}% 
+														               <div class="progress">
+														                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="background-color:#ffb819; width: ${fUsers.u_goal_ration}%">
+														               </div>
+														               </div>
+																</h4>
+															</div>
 															</div>
 														</div>
 														<!-- 팔로우 중인친구 -->
 														<div class="panel panel-default" id="followYou">
 															<div class="panel-heading">
 																<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="pull-right ">더보기</a>
-																<h4>${fUsers.u_name}님이 팔로우중인 사람들</h4>
+																<h4><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp${fUsers.u_name}님이 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12">
@@ -135,7 +155,7 @@
 														<div class="panel panel-default" id="followMe">
 															<div class="panel-heading">
 																<a href="#" class="pull-right">더보기</a>
-																<h4>${fUsers.u_name}님을 팔로우중인 사람들</h4>
+																<h4><i class="glyphicon glyphicon-eye-open"></i>&nbsp${fUsers.u_name}님을 팔로우중인 사람들</h4>
 															</div>
 															<div class="panel-body">
 																<div class="list-group col-md-12" id="followYouBody">
@@ -166,7 +186,7 @@
 														<div class="well">
 															<form action="/users/usersAfter" id="commentForm" enctype="multipart/form-data" method="post">
 																<div class="input-group text-center">
-																	<input type="text" id="comment" name="c_comment" class="form-control input-lg" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
+																	<input type="text" id="comment" name="c_comment" class="form-control input-lg" style="position: static;" placeholder="무슨생각을 가지고계세요?"> <span class="input-group-btn">
 																	<button class="btn btn-lg btn-primary" type="submit">쓰기</button></span>
 																</div>
 																<div><input type="file" name="file" id="file"></div>
@@ -200,7 +220,7 @@
 																	<div class="input-group">
 																		<input type="hidden" id="c_id" name="c_id" value="${cList.c_id}">
 																		<input type="hidden" id="u_id" name="u_id" value="${fUsers.u_id}">
-																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">
+																		<input type="text" id="cu_comment" class="form-control" name="cu_comment" style="position: static; "placeholder="댓글을 달아보세요.">
 																		<input type="hidden" value="${users.u_name}" id="name">
 																		<input type="hidden" value="${users.u_image}" id="image">
 																		<div class="input-group-btn">
@@ -244,15 +264,26 @@
 																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${fUsers.u_image}" alt="Lorem ipsum" /></a>
 																</div>
 														<article class="search-result row">
-															<div class="col-xs-12 col-sm-12 col-md-2"
-																style="margin-top: 20px;">
+															<div class="col-xs-12 col-sm-12 col-md-2" style="margin-top: 20px;">
 																<ul class="meta-search">
-																	<li><i class="glyphicon glyphicon-calendar"></i>
-																		생년월일 : <span>${fUsers.u_birth}</span></li>
-																	<li><i class="glyphicon glyphicon-time"></i> 주소 :
-																		<span> ${fUsers.u_address} </span></li>
-																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 :
-																		<span>${fUsers.u_tag}</span></li>
+																	<c:choose>
+																		<c:when test="${fUsers.u_birth_check == 'F'}">
+																			<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span> 비공개 </span></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li><i class="glyphicon glyphicon-calendar"></i> 생년월일 : <span>${fUsers.u_birth}</span></li>
+																		</c:otherwise>
+																	</c:choose>
+																	<c:choose>
+																		<c:when test="${fUsers.u_address_check == 'F'}">
+																			<li><i class="glyphicon glyphicon-home"></i> 주소 : <span> 비공개 </span></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li><i class="glyphicon glyphicon-home"></i> 주소 : <span> ${fUsers.u_address} </span></li>
+																		</c:otherwise>
+																	</c:choose>
+																	<li><i class="glyphicon glyphicon-tags"></i> 관심사 : <span>${fUsers.u_tag}</span></li>
+																	<li><i class="glyphicon glyphicon-send"></i> SNS : <span>${fUsers.u_sns_address}</span></li>
 																</ul>
 															</div>
 															<div class="col-xs-12 col-sm-12 col-md-7 excerpet">

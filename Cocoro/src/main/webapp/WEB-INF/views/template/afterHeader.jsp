@@ -43,7 +43,7 @@ display: inline-block;
 					<li><a href="#" style="color: #fff;">Study</a></li>
 					<!-- 메세지 보기 -->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" id="headerNewMassage" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
-						Message</a>
+						Message </a>
 					 <ul class="dropdown-menu extended inbox" style=" margin-top: 11px;" id="messageBox">
                             <li>
                                 <p class="green">${users.u_name}의 쪽지함</p>
@@ -68,7 +68,10 @@ display: inline-block;
 				</ul>
 			</div>
 		</div>
-		<div style="position: absolute;width: 240px;height:auto;background-color: #fff;margin-left: 90px;"  id ="autoSearch">
+		<!-- 자동완성 폼  -->
+		<div style="position: absolute;width: 240px;height:auto;background-color: #fff;margin-left: 90px;" id ="autoForm" >
+			<div  id ="autoSearch">
+			</div>
 		</div>
 		</nav>
 	</div>

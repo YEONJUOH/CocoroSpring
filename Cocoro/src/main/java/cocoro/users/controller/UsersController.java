@@ -205,6 +205,12 @@ public class UsersController {
 				System.out.println("좋아요관계가 아닙니다");
 			}
 			
+			//멘토판단
+			Mento mento  = service.usersMentoCheck(f_o_id);
+			if(mento != null){
+				model.addAttribute("mento", mento);
+			}
+			
 			//후기 모든 댓글
 			List<CommentUsers> commentAllList = service.commentAllList();
 			List<Users> usersList = service.usersList();

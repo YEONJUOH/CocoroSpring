@@ -29,7 +29,7 @@ $('#commentForm').submit(function(e){
 				div += '<form id="cu_commentForm" method="post"><div class="input-group">';
 				div += '<input type="hidden" id="c_id" name="c_id" value="'+data.c_id+'">';
 				div += '<input type="hidden" id="u_id" name="u_id" value="${users.u_id}">';
-				div += '<input type="text" id="cu_comment" class="form-control" name="cu_comment" placeholder="댓글을 달아보세요.">';
+				div += '<input type="text" id="cu_comment" class="form-control" name="cu_comment"style="position: static;" placeholder="댓글을 달아보세요.">';
 				div += '<input type="hidden" value="${users.u_name}" id="name">';
 				div += '<input type="hidden" value="${users.u_image}" id="image">';
 				div += '<div class="input-group-btn">';
@@ -48,6 +48,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#followSend').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/follow',
@@ -59,7 +61,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('팔로우 성공');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 			}
 		})	
 	});
@@ -69,6 +71,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#unFollwForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/unFollow',
@@ -80,7 +84,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('팔로우 취소');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});
@@ -89,6 +93,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#likesForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/usersLikes',
@@ -100,7 +106,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('좋아요');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});
@@ -109,6 +115,8 @@ $('#commentForm').submit(function(e){
 		event.preventDefault();
 		
 		var params = $('#unLikesForm').serialize();
+		var u_id = $('#u_id').val();
+		var f_o_id = $('#f_o_id').val();
 		
 		$.ajax({
 			url: '/users/usersUnLikes',
@@ -120,7 +128,7 @@ $('#commentForm').submit(function(e){
 			},
 			error : function(){
 				alert('싫어요');
-				location.href = "/users/friendPage?u_id=${users.u_id}&f_o_id=${fUsers.u_id}";
+				location.href = "/users/friendPage?u_id="+u_id+"&f_o_id="+f_o_id+"";
 				}
 		})	
 	});
