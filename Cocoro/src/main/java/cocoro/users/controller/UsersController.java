@@ -36,6 +36,7 @@ import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 import cocoro.users.service.UsersServiceImpl;
 
 //users로 들오는 모든 맵핑을 받겠다.
@@ -160,13 +161,18 @@ public class UsersController {
 			
 			model.addAttribute("usersAccount",usersAccount);
 		}
+		//내가 가입한 스터디의 리스트
+		List<UsersJoinStudy> studyList = service.studyList(u_id);
+		if(studyList != null){
+			model.addAttribute("studyList", studyList);
+		}
 		
 		model.addAttribute("usersAccount", usersAccount);
 		model.addAttribute("cList", cList);
 		model.addAttribute("uList", uList);
 		model.addAttribute("followMe", followMe);
 		model.addAttribute("followYou", followYou);
-		
+		model.addAttribute("studyList", studyList);
 	return "mypage";
 	}
 	//친구페이지 
@@ -230,6 +236,14 @@ public class UsersController {
 			for(Message MyList : oneMyList){
 				System.out.println("받는사람 " + MyList.getMessage_u_id() + "받은 메세지 :" + MyList.getMessage_comment());
 			}
+			//내가 가입한 스터디의 리스트
+			List<UsersJoinStudy> studyList = service.studyList(f_o_id);
+			if(studyList != null ){
+				model.addAttribute("studyList", studyList);
+			}else{
+				model.addAttribute("studyList", null);
+			}
+			System.out.println(studyList.toString());
 			
 			model.addAttribute("oneMyList" ,oneMyList);
 			model.addAttribute("fUsers", fUsers);
@@ -292,7 +306,7 @@ public class UsersController {
 		@RequestMapping("/usersAfter")
 		public @ResponseBody Comment usersAfter(Comment comment, MultipartFile file)throws Exception{
 		String c_comment = comment.getC_comment();
-		c_comment = new String(c_comment.getBytes("8859_1"),"utf-8");
+		//c_comment = new String(c_comment.getBytes("8859_1"),"utf-8");
 		//한글이 깨져서 인코딩을 해줌
 		comment.setC_comment(c_comment);
 		//파일 업로드
@@ -304,6 +318,7 @@ public class UsersController {
 			comment.setC_img("");
 		}
 		System.out.println(file.getOriginalFilename());
+		System.out.println("후기 : " + comment.getC_comment());
 		//넘어온 파일이 없다면 null이들어간다.
 		service.usersAfter(comment);
 		

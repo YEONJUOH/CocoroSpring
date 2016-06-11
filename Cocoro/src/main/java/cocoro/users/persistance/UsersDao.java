@@ -11,6 +11,7 @@ import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 
 public interface UsersDao {
 	//인설트
@@ -112,6 +113,9 @@ public interface UsersDao {
 	public void usersAccountPlus(UsersAccount usersAccount)throws Exception;
 	//출금 
 	public void usersAccountMinus(UsersAccount usersAccount)throws Exception;
+	
+	//내가 가입한 스터디 뽑아오기 
+	public List<UsersJoinStudy> UsersJoinStudy(int u_id)throws Exception;
 	
 	
 

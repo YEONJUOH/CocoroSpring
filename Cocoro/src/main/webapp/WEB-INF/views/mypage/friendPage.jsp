@@ -106,10 +106,16 @@
 															</div>
 															<div class="panel-body">
 																<div class="list-group">
-																	<a href="" class="list-group-item">취준생들의 쉼터</a>
-																	<h5 class="pull-right">2016-5-31</h5>
-																	<a href="" class="list-group-item">신토익 스터디</a> <a
-																		href="" class="list-group-item">경복궁관람</a>
+																	
+																	<c:if test="${studyList != null }">
+																	<c:forEach var="studyList" items="${studyList}">
+																		<a href="${studyList.s_id }" class="list-group-item">${studyList.s_name} <h5 class="pull-right">${studyList.s_last_login}</h5></a>
+																	</c:forEach>
+																	</c:if>
+																	<c:if test="${studyList == '[]' }">
+																	가입 된 스터디가 없습니다.
+																	</c:if>
+																	
 																</div>
 																<div class="panel-heading">
 																<h4>

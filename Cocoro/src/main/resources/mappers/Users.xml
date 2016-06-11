@@ -292,6 +292,14 @@
 	delete from Message WHERE message_id = #{message_id}
 	</delete>
 	
+	<!-- 유저가 가입한 스터디 -->
+	<select id="UsersJoinStudy" parameterType="UsersJoinStudy" resultType="UsersJoinStudy">
+	select sa.s_last_login, s.s_name,sa.S_ID from 
+	STUDYACTIVITY sa JOIN study s
+	ON sa.S_id = s.s_id
+	where sa.U_ID = #{u_id} 
+	</select>
+	
 	<!-- 페이징 -->
 	<select id="listFollowUsers" resultType="Users">
     <![CDATA[
@@ -322,6 +330,7 @@
                   ON u.U_ID = f.U_ID WHERE u.U_ID=#{u_id})
     ]]>
     </select>
+    
 	
 </mapper>
 

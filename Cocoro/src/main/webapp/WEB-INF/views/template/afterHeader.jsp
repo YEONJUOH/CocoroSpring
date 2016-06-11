@@ -40,7 +40,7 @@ display: inline-block;
 					<li><select class="form-control" style="margin-top:12px;"><option>인물</option><option>스터디</select></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" style="float: right;">
-					<li><a href="#" style="color: #fff;">Study</a></li>
+					<li><a href="/study/createStudy" style="color: #fff;">Study</a></li>
 					<!-- 메세지 보기 -->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" id="headerNewMassage" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
 						Message </a>

@@ -16,6 +16,7 @@ import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 import cocoro.users.persistance.UsersDao;
 
 @Service
@@ -255,6 +256,10 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public List<Users> autoSearch(String autoSearch) throws Exception {
 		return dao.autoSearch(autoSearch);
+	}
+	//내가 가입한 스터디 목
+	public List<UsersJoinStudy> studyList(Integer u_id) throws Exception {
+		return dao.UsersJoinStudy(u_id);
 	}
 	
 	

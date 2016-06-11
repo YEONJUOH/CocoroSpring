@@ -55,11 +55,10 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 		PlanInfo pi = new PlanInfo();
 		SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd");
 		Apply ap = new Apply();
-		
+		int s_id = Integer.parseInt(request.getParameter("s_id"));
 		//스터디홈페이지 접속한 유저 정보를 가지고온다.
 		Users users = (Users)request.getSession().getAttribute("users");
 		//스터디 번호 나중에 넘어오게될 파라메터를 지금은 일단 2라고 데이터를 박아 놓음
-		int s_id = 13;
 		int u_id = users.getU_id();
 		ap.setS_id(s_id);
 		ap.setU_id(u_id);
@@ -73,9 +72,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 		 }
 		//지난 일정과 미래의 일정을 가지고오는 부분
 		List<PlanInfo> afdate = service.afterplan(pi);
-		System.out.println(afdate.toString());
 		List<PlanInfo> bedate =service.beforeplan(pi);
-		System.out.println(bedate.toString());
 		//스터디 홈페이지는 가입자만 들어올수 있다는 가정하에 users_id와 스터디 번호를 조합하여 studyactivitiy의 최근접속일을 업데이트한다.
 		Map<String,Integer> map = new HashMap<String,Integer>();
 	 	map.put("s_id", s_id);
@@ -88,7 +85,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 	 	Map<String,Integer> map2 = new HashMap<String,Integer>();
 	 	map2.put("j_id", sa.getJ_id());
 	 	if(pi2 != null){
-	 		map2.put("plan_id", pi.getPlan_id());
+	 		 map2.put("plan_id", pi2.getPlan_id());
 		 }else{
 			 map2.put("plan_id", 0);
 		 }
