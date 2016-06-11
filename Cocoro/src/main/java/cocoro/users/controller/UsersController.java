@@ -36,6 +36,7 @@ import cocoro.users.domain.Mento;
 import cocoro.users.domain.Message;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
+import cocoro.users.domain.UsersJoinStudy;
 import cocoro.users.service.UsersServiceImpl;
 
 //users로 들오는 모든 맵핑을 받겠다.
@@ -165,7 +166,7 @@ public class UsersController {
 		if(studyList != null){
 			model.addAttribute("studyList", studyList);
 		}
-		
+		System.out.println(studyList.toString());
 		model.addAttribute("usersAccount", usersAccount);
 		model.addAttribute("cList", cList);
 		model.addAttribute("uList", uList);

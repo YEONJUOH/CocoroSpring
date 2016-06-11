@@ -57,6 +57,7 @@ public class HomeController {
 		if(users!=null){
 			
 			try {
+				System.out.println("~~");
 				 System.out.println("whowho~! "+users.getU_tag());
 				list = service.tagSuggest(users.getU_tag());
 				listS = service.item_recommend(users.getU_id());

@@ -16,6 +16,22 @@ select{
 display: inline-block;
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	$('#headerNewMassage').click(function(){
+	$('#messageBox').hide().fadeIn(500);
+	})
+	$('#messageClose').click(function(){
+		$('#messageBox').fadeOut();
+	})
+	$('#search_btn').click(function(){
+		$('#search_form').submit();
+	})
+	
+})
+
+
+</script>
 </head>
 <body>
 	<input type="hidden" id="u_id" name = "u_id" value="${users.u_id}">
@@ -31,32 +47,61 @@ display: inline-block;
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/users/afterMain" style="color: #fff;"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="/" style="color: #fff;"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse" style="background-color: #3b5998">
 				<!--  검색 -->
+				<form method="get" action="/search/searchMain" id="search_form">
 				<ul class="nav navbar-nav navbar-left" style="float: left; ">
-					<li><a href="#"><input type="text" id="searchKey" class="form-control" style="width: 100%; height:28px; margin-left:10px; display: inline" placeholder="검색해주세요.."></a></li>
-					<li><select class="form-control" style="margin-top:12px;"><option>인물</option><option>스터디</select></li>
+				
+					<li><a href="#"><input type="text" id="searchKey" class="form-control" style="width: 100%; height:32px; margin-left:10px; display: inline" name="searchWord" value="${search.searchWord }" placeholder="검색해주세요.."></a></li>
+					<li><select class="form-control" style="margin-top:14px; id="searchCtg" name="searchCtg"">
+					<c:choose>
+					<c:when test='${search!=null&& search.getSearchCtg().equals("스터디")}'>
+					<option selected="selected"></c:when>
+					<c:otherwise>	
+					<option>
+					</c:otherwise>
+					
+					 </c:choose>
+					 스터디
+						</option>
+					  <c:choose>
+					<c:when test='${search!=null&& search.getSearchCtg().equals("인물")}'>
+					<option selected="selected" value="인물"></c:when>
+					<c:otherwise>	
+					<option>
+					</c:otherwise>
+					
+					 </c:choose>
+					 인물
+						</option>
+					 	
+					</select></li>
+					<li><button id="search_btn" class="btn-success" style="margin-top: 14px;width: 60px;height: 35px;margin-left: 5px;">검색</button></li>
+				
 				</ul>
+				</form>
 				<ul class="nav navbar-nav navbar-right" style="float: right;">
 					<li><a href="/study/createStudy" style="color: #fff;">Study</a></li>
 					<!-- 메세지 보기 -->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" id="headerNewMassage" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
 						Message </a>
-					 <ul class="dropdown-menu extended inbox" style=" margin-top: 11px;" id="messageBox">
+				 	 <ul class="dropdown-menu extended inbox" style=" margin-top: 11px;" id="messageBox">
                             <li>
-                                <p class="green">${users.u_name}의 쪽지함</p>
+                                <p class="green">${users.u_name}의 쪽지함<i class="glyphicon glyphicon-remove pull-right" id="messageClose"></i>&nbsp</p>
                             </li>
                             <li id ="headerMeesage">
                             </li>
                         </ul>
 					  </li>
-					   
 					   <!-- 마이페이지 -->
 					   	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 						<img src="/resources/img/${users.u_image}" class="img-circle" style="width: 35px; height: 30px;">
 						<ul class="dropdown-menu" role="menu">
+							 <li>
+                                <p class="green">${users.u_name}의 쪽지함<i class="glyphicon glyphicon-remove pull-right" id="messageClose"></i>&nbsp</p>
+                            </li>
 							<li>
 							<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 200px;">
 							</li>
