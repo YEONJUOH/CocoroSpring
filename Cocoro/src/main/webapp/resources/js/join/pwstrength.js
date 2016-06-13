@@ -707,8 +707,3 @@ var methods = {};
     };
 }(jQuery, methods));
 }(jQuery));
-
-
-$(function(){
-	alert("in");
-})
