@@ -72,19 +72,28 @@ public class UsersController {
 		System.out.println("성별: "  +u_email);
 		System.out.println("이메일: "  +u_sex);
 		
-		Users users = new Users();
-		
-		users.setU_name(u_name);
-		users.setU_email(u_email);
-		
-		if(u_sex.equals("male")){
-			users.setU_sex("남");
+		Users uCheck = service.joinOverlap(u_email);
+		String re = null;
+		// 중복검사 만약 아이디가 있다면 
+		if(uCheck != null){
+			re =  "redirect:/";
 		}else{
-			users.setU_sex("여");
+			//아이디가 존재하지 않는다면
+			Users users = new Users();
+			
+			users.setU_name(u_name);
+			users.setU_email(u_email);
+			
+			if(u_sex.equals("male")){
+				users.setU_sex("남");
+			}else{
+				users.setU_sex("여");
+			}
+			service.insertFacebook(users);
+			
+			re = "redirect:/users/joinLogin?u_email="+users.getU_email()+"&u_pwd=1234";
 		}
-		service.insertFacebook(users);
-		
-		return "redirect:/users/joinLogin?u_email="+users.getU_email()+"&u_pwd=1234";
+		return re;
 	}
 	
 	

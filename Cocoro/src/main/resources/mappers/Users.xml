@@ -69,6 +69,10 @@
       SET u_last_login = SYSDATE
       WHERE u_id= #{u_id}
    </update>
+   <!-- 회원가입시 중복검사 -->
+   <select id="joinOverlap" parameterType="String" resultType="Users">
+   	select * from users where u_email = #{u_email}
+   </select>
    <!-- 멘토등록 -->
    <insert id="usersMento" parameterType="Mento">
    insert into MENTO(M_ID,U_ID,M_MAJOR,M_CHECK_DATE)

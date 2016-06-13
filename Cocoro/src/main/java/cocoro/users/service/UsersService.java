@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpRequest;
@@ -45,6 +46,8 @@ public interface UsersService {
 		public List<Users> autoSearch(String autoSearch)throws Exception;
 		//페이스북 로그인 
 		public void insertFacebook(Users users)throws Exception;
+		//중복검사 
+		public Users joinOverlap(String u_email)throws Exception;
 		
 		
 		//멘토

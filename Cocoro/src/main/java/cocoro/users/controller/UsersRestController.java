@@ -72,13 +72,19 @@ public class UsersRestController {
 		return users;
 	}
 	
-	/*
-	 if(hList.getMessage_o_id() == hUlist.getU_id()){
-				System.out.println("보낸사람이름 : " + hUlist.getU_name());
-				System.out.println("보낸내용 :" + hList.getMessage_comment());
-				
-			}
-	 */
+	//중복체크
+	@RequestMapping(value = "/joinOverlap" , method=RequestMethod.GET)
+	public @ResponseBody Users joinOverlap(@RequestParam("u_email")String u_email)throws Exception{
+		System.out.println(u_email);
+		Users users = service.joinOverlap(u_email);
+		
+		if(users == null){
+			System.out.println("중복된 값이없습니다");
+			return null;
+		}
+		System.out.println("중복된 값이있습니다r");
+		return users;
+	}
 	
 	// 헤더 메세지 
 	@RequestMapping(value = "/headerMessage" , method=RequestMethod.POST)

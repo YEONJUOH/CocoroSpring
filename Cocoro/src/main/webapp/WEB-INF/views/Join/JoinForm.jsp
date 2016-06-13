@@ -74,7 +74,21 @@ $(function(){
 	    	location.href = "/users/insertFacebook?u_name="+u_name+"&u_email="+u_email+"&u_sex="+u_gender+"";
 	    });
 	  }
+	  //중복값 체크
+		$('#u_email').keyup(function(){
+			var u_email = $('#u_email').val();
+			
+		   $('#checkform').empty();
+			console.log(u_email);
+			
+			$.getJSON('/rest/joinOverlap',{u_email:$('#u_email').val()},function(data){
+				div = '<div style="color: #3b5999" id="Check"><b>중복된 아이디가 있습니다</b></div>';
+				$('#checkform').append(div);
+		})
+	})
 })
+
+
 </script>
 <link rel="stylesheet" href="/resources/css/layout/style.css" media="screen" title="no title" charset="utf-8">
 </head>
@@ -93,9 +107,11 @@ $(function(){
 			<form class="form-horizontal" action="/users/insertUsers" method="post">
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="inputEmail">이메일</label>
-					<div class="col-md-8">
+					<div class="col-md-8" id="emailForm">
 						<input class="form-control" id="u_email" name ="u_email" type="email" placeholder="이메일" required>
+						<div id="checkform"></div>
 					</div>
+					
 				</div>
 				
 				<div class="form-group">
@@ -147,10 +163,10 @@ $(function(){
 					<br /> <br /> <br />
 
 					<div class="form-group">
-						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" type="submit">회원가입</button>
-							<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
-						</div>
+						<div class="col-sm-6 text-center" style="float: right;">
+							<button class="btn-lg btn-success" type="submit" style="margin-left: 15%; height: 40px">회원가입</button>
+							<div class="fb-login-button" style="display: inline-table; position: absolute;" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="true"></div>
+							</div>
 					</form>
 					</div>
 		</div>

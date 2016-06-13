@@ -272,6 +272,12 @@ public class UsersDaoImpl implements UsersDao {
 	public void insertFacebook(Users users) throws Exception {
 		sqlsession.insert(namespace +".insertFacebook" , users);
 	}
+	//중복검사
+	@Override
+	public Users joinOverlap(String u_email) throws Exception {
+		return sqlsession.selectOne(namespace +".joinOverlap" , u_email);
+	}
+	
 	
 	
 	

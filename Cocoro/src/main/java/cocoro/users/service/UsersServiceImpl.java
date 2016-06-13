@@ -261,10 +261,17 @@ public class UsersServiceImpl implements UsersService {
 	public List<UsersJoinStudy> studyList(Integer u_id) throws Exception {
 		return dao.UsersJoinStudy(u_id);
 	}
+	//페이스북 회원가입
 	@Override
 	public void insertFacebook(Users users) throws Exception {
 		dao.insertFacebook(users);
 	}
+	//중복검사
+	@Override
+	public Users joinOverlap(String u_email) throws Exception {
+		return dao.joinOverlap(u_email);
+	}
+	
 	
 	
 	
