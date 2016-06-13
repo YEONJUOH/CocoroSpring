@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cocoro.search.domain.SearchInfo;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
 import cocoro.study.domain.StudyAccount;
@@ -44,5 +45,13 @@ public interface StudyGroupDao {
 	public void updateS_leader_balance(UsersAccount usersaccount);
 
 	public void createStudyAccount(StudyAccount studyAccount);
+	
+	public void insert_searchinfo(Map<String, Object> map7);
+	
+	public SearchInfo check_searchinfo(Map<String, Object> map7);
+	
+	public void updatehit_searchinfo(Map<String, Object> map7);
+	
+	public void updatedate_searchinfo(Map<String, Object> map7);
 
 }

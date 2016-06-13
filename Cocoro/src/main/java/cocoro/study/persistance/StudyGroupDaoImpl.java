@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import cocoro.search.domain.SearchInfo;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.ListRank;
 import cocoro.study.domain.StudyAccount;
@@ -109,6 +110,29 @@ public class StudyGroupDaoImpl implements StudyGroupDao {
 	@Override
 	public void createStudyAccount(StudyAccount studyAccount) {
 		session.insert(namespace+".createStudyAccount", studyAccount);
+	}
+
+	
+	@Override
+	public void insert_searchinfo(Map<String, Object> map7) {
+		session.insert(namespace+".insert_searchinfo", map7);
+	}
+
+	@Override
+	public SearchInfo check_searchinfo(Map<String, Object> map7) {
+		return session.selectOne(namespace+".check_searchinfo", map7);
+	}
+
+
+	@Override
+	public void updatehit_searchinfo(Map<String, Object> map7) {
+		session.update(namespace+".updatehit_searchinfo", map7);
+	}
+
+
+	@Override
+	public void updatedate_searchinfo(Map<String, Object> map7) {
+		session.update(namespace+".updatedate_searchinfo", map7);
 	}
 
 

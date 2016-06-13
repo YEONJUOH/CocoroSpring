@@ -185,7 +185,7 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="/previewStudy", method = RequestMethod.GET)
-	public String previewStudy(@RequestParam("s_id") int s_id, Model model)throws Exception{
+	public String previewStudy(@RequestParam("s_id") int s_id, Model model, HttpServletRequest request)throws Exception{
 		
 		StudyGroup studygroup = service.selectStudy(s_id);
 		
@@ -223,6 +223,24 @@ public class StudyGroupController {
 	    model.addAttribute("end_min", end_min);
 		model.addAttribute("studygroup",studygroup);
 		model.addAttribute("leaderInfo", leaderInfo);
+		
+		// searchinfo 업데이트
+		Users users = (Users)request.getSession().getAttribute("users");
+		Map<String, Object> map7 = new HashMap<String, Object>();
+		map7.put("u_id", users.getU_id());
+		map7.put("s_id", s_id);
+		
+		// 한번도 클릭한적 없으면 searchinfo에 insert
+		if(service.check_searchinfo(map7)==null)
+		{
+			service.insert_searchinfo(map7);
+		}
+		// 이미 클릭한곳 다시 클릭하는 경우 searchinfo에 update
+		else
+		{
+			service.updatehit_searchinfo(map7);
+			service.updatedate_searchinfo(map7);
+		}
 		
 		return "previewStudy";
 	}
@@ -264,7 +282,7 @@ public class StudyGroupController {
 				return "redirect:/study/fail2?s_id="+s_id;  // fail2 페이지에서 이미 가입된 스터디라는 얼럿창 띄워주고 메인으로 보내기
 			}
 		}
-		return "redirect:/study/previewStudy?s_id="+s_id;
+		return "redirect:/users/afterMain";
 	}
 	
 	@RequestMapping(value="/enterStudy", method = RequestMethod.GET)

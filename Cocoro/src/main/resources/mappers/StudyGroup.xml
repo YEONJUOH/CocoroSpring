@@ -56,7 +56,7 @@
 		select *
 		from study where s_id = #{s_id}
 	</select>
-
+	
 
 	<select id="selectUsers" parameterType="java.util.HashMap"
 		resultType="Users">
@@ -110,6 +110,27 @@
 	<update id="updateS_leader_balance" parameterType="Usersaccount">
 		update usersaccount set u_balance = #{u_balance} where u_id = #{u_id}
 	</update>
+	
+	<insert id="insert_searchinfo" parameterType="java.util.HashMap">
+		insert into SEARCHINFO values
+		(
+		#{u_id}, #{s_id}, (select nvl(max(s_hit),0) from searchinfo where u_id = #{u_id} and s_id = #{s_id})+1, SYSDATE
+		)
+	</insert>
+	
+	<select id="check_searchinfo" parameterType="java.util.HashMap" resultType="SearchInfo">
+		select * from searchinfo where s_id = #{s_id} and u_id = #{u_id}
+	</select>
+	
+	
+	<update id="updatehit_searchinfo">
+		update searchinfo set s_hit = s_hit+1 where u_id = #{u_id} and s_id = #{s_id}
+	</update>
+	
+	<update id="updatedate_searchinfo">
+		update searchinfo set search_date = SYSDATE where u_id = #{u_id} and s_id = #{s_id}
+	</update>
+	
 	
 </mapper>
 
