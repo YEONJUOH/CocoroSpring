@@ -42,7 +42,6 @@ function sendId() {
 				data : params,
 				success : displayResult,
 				error : function() {
-					alert("씨뎅");
 				}
 
 			});

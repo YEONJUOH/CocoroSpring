@@ -57,18 +57,12 @@ $(function(){
 				<a class="navbar-brand" href="beforeMain" style="color: #fff"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-			<!--  검색 -->
-				<ul class="nav navbar-nav navbar-left" style="float: left; ">
-					<li><a href="#"><input type="text"class="form-control" style="width: 100%; height:28px; margin-top: 22px; margin-left:10px; placeholder="검색해주세요.."></a></li>
-					<li><select class="form-control" style="margin-top:34px;"><option>인물</option><option>스터디</select></li>
-				</ul>
 			<!-- 로그인 -->	
 				<form action="" method="post" id="loginForm">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#"  style="color: #fff">ID<br><input type="text" class="form-control" name="u_email" id="email" required></a><div id="check"></div></li>
 					<li><a href="#"  style="color: #fff">PW<br><input type="password" class="form-control" name="u_pwd" id="pwd" required></a></li>
 					<li><button class="btn-success" id="loginBtn" type="submit" style="width: 100%;">로그인</button></li>
-					<li><button class="btn-danger" id="loginBtn" type="submit" style="width: 100%; margin-left: 4px">가입</button></li>
 				</ul>
 				</form>
 			</div>

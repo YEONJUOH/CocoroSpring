@@ -24,13 +24,11 @@ $(function(){
 	$('#messageClose').click(function(){
 		$('#messageBox').fadeOut();
 	})
+	
 	$('#search_btn').click(function(){
 		$('#search_form').submit();
 	})
-	
 })
-
-
 </script>
 </head>
 <body>
@@ -47,7 +45,7 @@ $(function(){
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/" style="color: #fff;"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="/users/afterMain" style="color: #fff;"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse" style="background-color: #3b5998">
 				<!--  검색 -->
@@ -62,7 +60,6 @@ $(function(){
 					<c:otherwise>	
 					<option>
 					</c:otherwise>
-					
 					 </c:choose>
 					 스터디
 						</option>
@@ -72,11 +69,9 @@ $(function(){
 					<c:otherwise>	
 					<option>
 					</c:otherwise>
-					
 					 </c:choose>
 					 인물
 						</option>
-					 	
 					</select></li>
 					<li><button id="search_btn" class="btn-success" style="margin-top: 14px;width: 60px;height: 35px;margin-left: 5px;">검색</button></li>
 				
@@ -96,12 +91,9 @@ $(function(){
                         </ul>
 					  </li>
 					   <!-- 마이페이지 -->
-					   	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+					   	<li class="dropdown"><a href="#" id="mypageBtn" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 						<img src="/resources/img/${users.u_image}" class="img-circle" style="width: 35px; height: 30px;">
-						<ul class="dropdown-menu" role="menu">
-							 <li>
-                                <p class="green">${users.u_name}의 쪽지함<i class="glyphicon glyphicon-remove pull-right" id="messageClose"></i>&nbsp</p>
-                            </li>
+						<ul class="dropdown-menu" role="menu" id="mypageForm">
 							<li>
 							<img src="/resources/img/${users.u_image}" class="img-rounded" style="width: 200px;">
 							</li>

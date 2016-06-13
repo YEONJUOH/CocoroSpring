@@ -68,7 +68,7 @@ $(function(){
    html+='<div class="row"><div class="col-md-1"></div><div class="col-md-9">';
    html+='<div class="well well-sm"><div class="row infoBox">';
    html+='<div class="col-xs-3 col-md-3 text-center ">';
-   <% if(users.getU_id()!= listU.get(i).getU_id()){ %>
+   <% if(users.getU_id() != listU.get(i).getU_id()){ %>
    html+='<a href="/users/friendPage?u_id=${users.u_id}&f_o_id=<%=listU.get(i).getU_id()%>"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';
    <%}else{%>
    html+='<a href="/users/mypage?u_id=${users.u_id}"><img src="/resources/img/userPic.PNG" alt="bootsnipp" class="img-rounded img-responsive"/></a>';

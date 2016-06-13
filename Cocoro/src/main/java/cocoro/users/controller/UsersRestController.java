@@ -57,7 +57,6 @@ public class UsersRestController {
 	//유저 로그인
 	@RequestMapping("/usersLogin")
 	public @ResponseBody Users usersLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpSession session,Model model)throws Exception{
-		System.out.println("로그인 컨트롤러");
 		
 		HashMap<String, String> login = new HashMap<String, String>();
 		login.put("u_email",u_email);

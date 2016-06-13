@@ -18,6 +18,7 @@ import org.apache.catalina.connector.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,11 +55,32 @@ public class UsersController {
 	private UsersServiceImpl service;
 	
 	//회원가입
-	@RequestMapping("/insertUsers")
+	@RequestMapping(value="/insertUsers",method=RequestMethod.POST)
 	public String insertUsers(Users users)throws Exception{
+		System.out.println("회원가입폼");
 		service.insertUsers(users);
-		return "redirect:beforeMain";
+
+		return "redirect:/users/joinLogin?u_email="+users.getU_email()+"&u_pwd="+users.getU_pwd()+"";
 	}
+	
+	//회원가입하고 바로 로그인
+	@RequestMapping("/joinLogin")
+	public String joinLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpSession session,Model model)throws Exception{
+		
+		HashMap<String, String> login = new HashMap<String, String>();
+		login.put("u_email",u_email);
+		login.put("u_pwd", u_pwd);
+		
+		Users users = service.usersLogin(login);
+		List<Message> receiveList = null;
+		if(users != null){
+		model.addAttribute("users",users);
+		session.setAttribute("users", users);
+		service.usersLoginTime(users.getU_id());
+	  }
+		return "redirect:/users/afterMain";
+	}
+
 	
 		//배경이미지 변경
 			@RequestMapping("/usersBg")
@@ -119,6 +141,7 @@ public class UsersController {
 	}
 	
 	//마이페이지 
+	@Transactional
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(@RequestParam("u_id")Integer u_id, Model model)throws Exception {
 		System.out.println("유저번호" + u_id);
@@ -175,7 +198,9 @@ public class UsersController {
 		model.addAttribute("studyList", studyList);
 	return "mypage";
 	} 
+	
 	//친구페이지 
+		@Transactional
 		@RequestMapping(value = "/friendPage", method = {RequestMethod.POST,RequestMethod.GET})
 		public String friednPage(@RequestParam("u_id")Integer u_id,@RequestParam("f_o_id")Integer f_o_id,Model model)throws Exception {
 			System.out.println("친구번호" + f_o_id);
@@ -255,6 +280,7 @@ public class UsersController {
 		return "friendPage";
 		}
 		
+		
 		//팔로우 
 		@RequestMapping(value="/follow",method = RequestMethod.POST)
 		public void follow(@RequestParam("u_id")int u_id,@RequestParam("f_o_id")int f_o_id)throws Exception{
@@ -281,6 +307,7 @@ public class UsersController {
 					service.usersUnFollow(unFollow);
 				}
 				//좋아요누르기  
+				@Transactional
 				@RequestMapping("/usersLikes")
 				public void usersLikes(@RequestParam("u_id")int u_id,@RequestParam("l_o_id")int l_o_id,Model model)throws Exception{
 					HashMap<String, Integer> usersLikes = new HashMap<String, Integer>();
@@ -291,6 +318,7 @@ public class UsersController {
 					service.usersLike(usersLikes);
 				}
 				//싫어요  
+				@Transactional
 				@RequestMapping("/usersUnLikes")
 				public void usersUnLikes(@RequestParam("u_id")int u_id,@RequestParam("l_o_id")int l_o_id,Model model)throws Exception{
 					HashMap<String, Integer> usersLikes = new HashMap<String, Integer>();
@@ -335,6 +363,7 @@ public class UsersController {
 			return message;
 		}
 		// 버튼눌렸을때업데이트
+		@Transactional
 		@RequestMapping("/updateMessage")
 		public @ResponseBody List<Message> updateMessage(@RequestParam("u_id")int message_u_id,@RequestParam("f_o_id")int message_o_id)throws Exception{
 			

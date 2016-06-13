@@ -66,7 +66,6 @@ $(function(){
 			});
 		
 		 function initialize() {
-			 //alert("hi");
 		        var input = document.getElementById('searchTextField');
 		        var autocomplete = new google.maps.places.Autocomplete(input);
 		        google.maps.event.addListener(autocomplete, 'place_changed', function () {
