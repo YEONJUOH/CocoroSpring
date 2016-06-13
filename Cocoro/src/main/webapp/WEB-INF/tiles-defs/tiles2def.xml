@@ -51,7 +51,20 @@
 	
 	<definition name="studyview" extends="studyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/StudyDetail/studydetail.jsp"></put-attribute>
-</definition>
+	</definition>
+
+	<!-- 스터디생성 -->
+	<definition name="createStudy" extends="studyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/study/createStudy.jsp"></put-attribute>
+	</definition>
+	<definition name="createStudy2" extends="studyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/study/createStudy2.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="previewStudy" extends="studyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/study/previewStudy.jsp"></put-attribute>
+	</definition>
+	<!-- 스터디프리뷰 -->
 
 </tiles-definitions>
 

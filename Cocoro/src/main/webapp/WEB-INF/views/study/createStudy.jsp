@@ -5,16 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<!-- Bootstrap 3.3.4 -->
+<!-- Bootstrap 3.3.4 
 <script src="/resources/js/bootstrap.min.js"></script>
+-->
 <!-- jQuery 2.1.4 -->
 <script src="/resources/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- carousel -->
 <!-- css -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
 <link href="/resources/css/createStudy/createStudy.css" rel="stylesheet" type="text/css" />
+<!-- 
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+ -->
 <!-- js -->
 <script src="/resources/js/createStudy/createStudy.js"></script>
 <script src="/resources/js/carousel.js"></script>

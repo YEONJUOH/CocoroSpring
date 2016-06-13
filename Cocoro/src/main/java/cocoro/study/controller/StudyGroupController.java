@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,8 @@ public class StudyGroupController {
 	private UsersService u_service;
 	
 	@RequestMapping(value="/createStudy", method = RequestMethod.GET)
-	public void createStudyGET(StudyGroup studygroup) throws Exception{
+	public String createStudyGET(StudyGroup studygroup) throws Exception{
+		return "createStudy";
 	}
 	
 	@RequestMapping(value="/createStudy", method = RequestMethod.POST)
@@ -94,8 +96,8 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="/createStudy2",method = RequestMethod.GET)
-	public void createStudy2GET(StudyGroup studygroup) throws Exception{
-				
+	public String createStudy2GET(StudyGroup studygroup) throws Exception{
+				return "createStudy2";
 	}
 	
 	@RequestMapping(value="/createStudy2", method = RequestMethod.POST)
@@ -183,7 +185,7 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="/previewStudy", method = RequestMethod.GET)
-	public void previewStudy(@RequestParam("s_id") int s_id, Model model)throws Exception{
+	public String previewStudy(@RequestParam("s_id") int s_id, Model model)throws Exception{
 		
 		StudyGroup studygroup = service.selectStudy(s_id);
 		
@@ -221,9 +223,11 @@ public class StudyGroupController {
 	    model.addAttribute("end_min", end_min);
 		model.addAttribute("studygroup",studygroup);
 		model.addAttribute("leaderInfo", leaderInfo);
+		
+		return "previewStudy";
 	}
 	
-
+	
 	
 	
 	@RequestMapping(value="/applyStudy", method = RequestMethod.GET)
