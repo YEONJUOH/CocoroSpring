@@ -267,6 +267,11 @@ public class UsersDaoImpl implements UsersDao {
 	public List<UsersJoinStudy> UsersJoinStudy(int u_id) throws Exception {
 		return sqlsession.selectList(namespace+ ".UsersJoinStudy", u_id);
 	}
+	//페이스북 로그인
+	@Override
+	public void insertFacebook(Users users) throws Exception {
+		sqlsession.insert(namespace +".insertFacebook" , users);
+	}
 	
 	
 	

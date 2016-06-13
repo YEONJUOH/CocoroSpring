@@ -267,7 +267,7 @@
 															<c:forEach var="followYou" items="${followYou}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" width="90px" height="30px" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followYou.u_name}</div>
 																	<input type="hidden" name="u_id" value="${users.u_id}">
@@ -281,6 +281,7 @@
 															</c:forEach>				
 															</div>
 													</div>	
+													
 													<!-- 나를 팔로우중인 -->
 														<div class="panel panel-default">
 															<div class="panel-heading">
@@ -290,7 +291,7 @@
 															<c:forEach var="followMe" items="${followMe}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" width="90px" height="30px" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followMe.u_name}</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">
@@ -308,48 +309,20 @@
 																<h4><i class="glyphicon glyphicon-pencil"></i>&nbsp 활동중인 스터디</h4>
 															</div>
 															<div class="search-result row" id="ingStudy" style="margin-top: 20px;">
-													       <div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
-															<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
-															<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
-															<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
-																<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
-																<div class="col-md-6">
-																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
-																</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">토익만세</div>
-																<div class="col-xs-6 col-sm-6 col-md-3">탈퇴</div>
-															</div>
+																<c:if test="${studyList != null }">
+																	<c:forEach var="studyList" items="${studyList}">
+																	   <div class="col-md-6">
+																			<div class="col-xs-6 col-sm-6 col-md-3">
+																			<a href="/StudyDetail/studydetail?s_id=${studyList.s_id}"  title="Lorem ipsum" class="thumbnail"><img src="/resources/img/default.jpg" alt="Lorem ipsum" /></a>
+																			</div>
+																			<div class="col-xs-6 col-sm-6 col-md-3">${studyList.s_name}</div>
+																			<div class="col-xs-6 col-sm-6 col-md-3">${studyList.s_last_login}</div>
+																		</div>
+																	</c:forEach>
+																	</c:if>
+																	<c:if test="${studyList == '[]' }">
+																		가입 된 스터디가 없습니다.
+																	</c:if>
 															</div>
 													</div>								
 												</div>

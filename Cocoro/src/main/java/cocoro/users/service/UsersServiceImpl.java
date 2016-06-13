@@ -261,6 +261,10 @@ public class UsersServiceImpl implements UsersService {
 	public List<UsersJoinStudy> studyList(Integer u_id) throws Exception {
 		return dao.UsersJoinStudy(u_id);
 	}
+	@Override
+	public void insertFacebook(Users users) throws Exception {
+		dao.insertFacebook(users);
+	}
 	
 	
 	

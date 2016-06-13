@@ -63,6 +63,31 @@ public class UsersController {
 		return "redirect:/users/joinLogin?u_email="+users.getU_email()+"&u_pwd="+users.getU_pwd()+"";
 	}
 	
+	//회원가입
+	@RequestMapping(value="/insertFacebook",method=RequestMethod.GET)
+	public String insertFacebook(@RequestParam("u_name")String u_name,@RequestParam("u_email")String u_email,
+			@RequestParam("u_sex")String u_sex)throws Exception{
+
+		System.out.println("이름: "  +u_name);
+		System.out.println("성별: "  +u_email);
+		System.out.println("이메일: "  +u_sex);
+		
+		Users users = new Users();
+		
+		users.setU_name(u_name);
+		users.setU_email(u_email);
+		
+		if(u_sex.equals("male")){
+			users.setU_sex("남");
+		}else{
+			users.setU_sex("여");
+		}
+		service.insertFacebook(users);
+		
+		return "redirect:/users/joinLogin?u_email="+users.getU_email()+"&u_pwd=1234";
+	}
+	
+	
 	//회원가입하고 바로 로그인
 	@RequestMapping("/joinLogin")
 	public String joinLogin(@RequestParam("u_email")String u_email,@RequestParam("u_pwd")String u_pwd,HttpSession session,Model model)throws Exception{

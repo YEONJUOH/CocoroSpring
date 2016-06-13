@@ -39,6 +39,14 @@
       values(users_seq.NEXTVAL,#{u_name},#{u_email},#{u_pwd},#{u_birth},'T',#{u_address},'T','default.jpg',#{u_sex},'다른회원에게 당신을 알려주세요',
       '#태그를 이용해 관심사를 적어주세요',SYSDATE,SYSDATE,'F',0,'sns정보를입력하세요',0,'defaultBg.jpg')
    </insert>
+   
+    <insert id="insertFacebook" parameterType="Users">
+      insert into USERS(u_id,u_name,u_email,u_pwd,u_birth,u_birth_check,u_address,u_address_check,u_image,u_sex,u_intro,
+      u_tag,u_history,u_last_login,u_mento_check,u_like_num,u_sns_address,u_goal_ration,u_bgimg)
+      values(users_seq.NEXTVAL,#{u_name},#{u_email},'1234',null,'T','거주지를 알려주세요','T','default.jpg',#{u_sex},'다른회원에게 당신을 알려주세요',
+      '#태그를 이용해 관심사를 적어주세요',SYSDATE,SYSDATE,'F',0,'sns정보를입력하세요',0,'defaultBg.jpg')
+   </insert>
+   
    <!-- 회원삭제 -->
    <delete id="delUsers">
    delete FROM USers WHERE U_ID = #{u_id}

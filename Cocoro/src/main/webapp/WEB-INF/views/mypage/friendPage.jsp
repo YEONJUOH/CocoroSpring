@@ -308,7 +308,7 @@
 															<c:forEach var="followYou" items="${followYou}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followYou.u_image}" width="90px" height="30px" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followYou.u_name}</div>
 																<c:choose>
@@ -336,7 +336,7 @@
 															<c:forEach var="followMe" items="${followMe}">
 															<div class="col-md-6">
 																<div class="col-xs-6 col-sm-6 col-md-3">
-																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" alt="Lorem ipsum" /></a>
+																<a href="#" title="Lorem ipsum" class="thumbnail"><img src="/resources/img/${followMe.u_image}" width="90px" height="30px" alt="Lorem ipsum" /></a>
 																</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">${followMe.u_name}</div>
 																<div class="col-xs-6 col-sm-6 col-md-3">

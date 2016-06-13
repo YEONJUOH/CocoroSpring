@@ -17,6 +17,65 @@
 	text-align: center;
 }
 </style>
+<script>
+$(function(){
+
+
+	  function statusChangeCallback(response) {
+	    if (response.status === 'connected') {
+	    	console.log('로그인 성공3');
+	      testAPI();
+	    } else if (response.status === 'not_authorized') {
+	       	console.log('로그인 성공');
+	    } else {
+	    	console.log('로그인 성공2');
+	    }
+	  }
+
+	  function checkLoginState() {
+	    FB.getLoginStatus(function(response) {
+	      statusChangeCallback(response);
+	    });
+	  }
+	  
+	  window.fbAsyncInit = function() {
+	  FB.init({
+	    appId      : '257802867918704',
+	    cookie     : true,  // enable cookies to allow the server to access
+	    xfbml      : true,  // parse social plugins on this page
+	    version    : 'v2.2' // use version 2.2
+	  });
+	  
+	  FB.getLoginStatus(function(response) {
+	    statusChangeCallback(response);
+	  })
+	  };
+
+	  // Load the SDK asynchronously
+	  (function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+	  function testAPI() {
+	    FB.api('/me?fields=name,email,gender', function(response) {
+	        console.log(response.name + '---'+response.email+'---'+response.gender+'---');
+
+	    	var u_name = response.name;
+	    	var u_email = response.email;
+	    	var u_gender = response.gender;
+	    	
+	    	FB.logout(function(response) {
+	    	});
+	    	
+	    	location.href = "/users/insertFacebook?u_name="+u_name+"&u_email="+u_email+"&u_sex="+u_gender+"";
+	    });
+	  }
+})
+</script>
 <link rel="stylesheet" href="/resources/css/layout/style.css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
@@ -90,15 +149,11 @@
 					<div class="form-group">
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success" type="submit">회원가입</button>
+							<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
 						</div>
-			</form>
+					</form>
 					</div>
 		</div>
-		
-		
-		
-		
-		
 		
 <script type="text/javascript" src="/resources/js/join/jQuery.js"></script>
 	<script type="text/javascript" src="/resources/js/join/pwstrength.js"></script>

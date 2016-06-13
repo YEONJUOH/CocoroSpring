@@ -43,6 +43,8 @@ public interface UsersService {
 		public void usersLoginTime(int u_id)throws Exception;
 		//친구 자동검색 
 		public List<Users> autoSearch(String autoSearch)throws Exception;
+		//페이스북 로그인 
+		public void insertFacebook(Users users)throws Exception;
 		
 		
 		//멘토
