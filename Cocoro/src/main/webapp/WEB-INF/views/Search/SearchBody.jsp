@@ -33,7 +33,7 @@
       html +='<div class="row"><div class="col-md-1"></div>';
       html +='<div class="col-md-9"><div class="well well-sm"><div class="row infoBox">';
       html +='<div class="col-xs-3 col-md-3 text-center ">';
-      html +='<a href="../../page/preview/previewStudy.jsp?s_id=<%=list.get(i).getS_id()%>"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" />';
+      html +='<a href="../../study/previewStudy?s_id=<%=list.get(i).getS_id()%>"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" />';
       html+='</a>';
      
       html +='<div><a href="/study/previewStudy?s_id=<%=list.get(i).getS_id()%>"><span class="glyphicon glyphicon-info-sign"></span></a>';
