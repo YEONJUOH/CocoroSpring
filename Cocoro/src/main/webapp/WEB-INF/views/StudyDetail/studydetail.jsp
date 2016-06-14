@@ -44,6 +44,7 @@
 							var jsonObj={};
 							jsonObj.id = json[i].plan_id;
 							jsonObj.title=json[i].plan_name;
+							jsonObj.content = json[i].plan_comment;
 							jsonObj.start=json[i].plan_date ;
 							list.push(jsonObj);
 						}
@@ -88,20 +89,39 @@
 							editable: true,
 							eventLimit: true, // allow "more" link when too many events
 							eventClick:function(calEvent, jsEvent, view) {
-								
-								alert('Event: ' + calEvent.title);
-						        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-						        alert('View: ' + view.name);
+								if(confirm("삭제 하시겠습니까?")){
+									$.ajax({
+										url:'deleteschedule?plan_id='+calEvent.id,
+										success: function(){
+											alert("성공했어요");
+										},
+										error:function(){
+											alert("실패햇어요");
+										}
+										
+									});//a작스닫기
+									$('#calendar').fullCalendar('removeEvents',calEvent.id);
+								}else{
+									if(confirm("수정하시겠습니까?")){
+										calEvent.title = prompt("제목을 수정해주세요.");
+										var content = prompt("내용용을 수정해주세요.");
+										var date = prompt("날짜를 수정해주세요.");
+ 										calEvent.start = date; 
+										$.ajax({
+											url:'updateschedule?plan_id='+calEvent.id+'&plan_name='+calEvent.title+'&plan_comment='+content+'&plan_date='+date,
+											success: function(){
 				
-						        // change the border color just for fun
-						        $(this).css('border-color', 'red');
-						        
-								var title = prompt("뭐 넣을래?");
-								calEvent.title = title;
-						        
-				
-						        $('#calendar').fullCalendar('updateEvent', event,true);
-				
+											},
+											error:function(){
+											
+											}
+											
+										});//a작스닫기
+										 $('#calendar').fullCalendar('updateEvent', calEvent,true);
+									}else{
+										alert("아무것도 안할꺼야 흐힣흐힣");
+									}
+								}
 						    }//이벤트클릭 끝
 						});//캘린더 끝
 						},//success end
@@ -206,11 +226,30 @@
 			}
 		});//ajax 닫기
 	}
+	//스터디 멤버 강퇴하기
+	function Forcedexit(j_id,index){
+		$.ajax({
+			url:'Forcedexit?j_id='+j_id,
+			type:'get',
+			success: function(){
+				console.log("해결해결");
+				var item = document.getElementById("Forcedexit_"+index);
+				var parent = item.parentNode.parentNode;
+				if(item != null){
+					item.parentNode.parentNode.parentNode.removeChild(parent);
+				}
+			},
+			error:function(){
+				console.log("에러에러");
+			}
+			
+		});//a작스닫기
+	}
 </script>
 </head>
 <body>
 	<div class="bg-success" style="margin-left: 100px; margin-right: 100px; margin-top:50px;">
-	  		<div style="float: left;"><img src="/resources/js/calendar/ab.PNG" alt="..." class="img-thumbnail" style="height:140px;"></div>
+	  		<div style="float: left;"><img src="/resources/img/${leaderuser.u_image }" alt="..." class="img-thumbnail" style="height:140px;"></div>
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
 	  		<p style="float: left;"><h3>${study.s_name }</h3></p>
 	  		
@@ -228,6 +267,9 @@
  				 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			</button>
 			</c:if>
+			<button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="modal" data-target="#studyMemberlist">
+ 				 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+			</button>
 			<!-- 가입신청한 사람들을 표시해주기 위한 모달모달 -->
 					<!--    Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
@@ -262,6 +304,51 @@
 												</c:forEach>
 											</c:if>
 											<c:if test="${list.size() == 0 }">
+												<tr>
+													<td colspan='3'>가입 희망자가 없습니다.</td>
+												</tr>
+											</c:if>
+										</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 현재 가입된 스터디 멤버를 표시해주기 위한 모달모달 -->
+					<!--    Modal -->
+					<div class="modal fade" id="studyMemberlist" role="dialog">
+						<div class="modal-dialog">
+							<!--  Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2>스터디 멤버 리스트 </h2>
+								</div>
+								<div class="modal-body">
+										<table class="table table-hover">
+											<tr>
+												<th>J_ID</th>
+												<th>이미지</th>
+												<th>사용자명</th>
+												<th>성별</th>
+												<th>실력</th>
+												<th>스터디 가입일</th>
+												<th>스터디 접속일</th>
+												<c:if test="${study.s_leader_id == users.u_id}"><th>강퇴</th></c:if>
+											</tr> 
+											<c:if test="${Memberlist.size() != 0}">
+												<c:forEach  var="o" begin="0" end="${Memberlist.size()-1}" step="1">
+															<tr>
+																<td>${Memberlist.get(o).j_id }</td> 
+																<td><a href="/users/friendPage?u_id=${users.u_id }&f_o_id=${Memberlist.get(o).u_id}"><img src="/resources/img/${Memberlist.get(o).u_image}" class="img-circle" style="width: 35px; height: 30px;"></a></td>
+																<td>${Memberlist.get(o).u_name}</td>
+																<td>${Memberlist.get(o).u_sex}</td>
+																<td>${Memberlist.get(o).a_rank}</td>
+																<td>${Memberlist.get(o).j_date}</td>
+																<td>${Memberlist.get(o).s_last_login}</td>
+																<c:if test="${study.s_leader_id == users.u_id}"><td><button id="Forcedexit_${o}" type="button" class="btn btn-danger" onclick="Forcedexit(${Memberlist.get(o).j_id},${o})">강퇴</button></td></c:if>
+															</tr>
+												</c:forEach>
+											</c:if>
+											<c:if test="${Memberlist.size() == 0 }">
 												<tr>
 													<td colspan='3'>가입 희망자가 없습니다.</td>
 												</tr>

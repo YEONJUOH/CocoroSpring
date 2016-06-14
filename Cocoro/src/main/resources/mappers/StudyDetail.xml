@@ -116,6 +116,24 @@
 	<select id="beforeplan" resultType="PlanInfo">
 		select * from planinfo where s_id = #{s_id}and plan_date <![CDATA[<]]> #{plan_date}
 	</select>
+	<delete id="deleteschedule" parameterType="int">
+		delete from PlanInfo where plan_id = #{plan_id}
+	</delete>
+	<update id="updateschedule" parameterType="PlanInfo">
+		update PlanInfo set plan_name=#{plan_name}, plan_comment=#{plan_comment},plan_date=#{plan_date} where plan_id=#{plan_id} 
+	</update>
+	<select id="memberList" resultType="MemberList" parameterType="int">
+		select s.J_ID j_id, u.U_ID u_id, u.U_NAME u_name,a.A_RANK a_rank ,s.J_DATE j_date,s.S_LAST_LOGIN s_last_login ,u.U_IMAGE u_image,u.U_SEX u_sex  from STUDYACTIVITY s , USERS u,ABILITYINFO a WHERE u.U_ID = s.U_ID and s.J_ID = a.J_ID and s.S_ID = #{s_id}
+	</select>
+	<delete id="Forcedexit" parameterType="int">
+		delete from studyActivity where j_id = #{j_id}
+	</delete>
+	<delete id="deleteability" parameterType="int">
+		delete from abilityInfo where j_id = #{j_id}
+	</delete>
+	<select id="leaderimg" parameterType="int" resultType="Users">
+		select * from users where u_id = #{s_leader_id}
+	</select>
 </mapper>
 
 

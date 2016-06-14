@@ -12,6 +12,7 @@ import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
 import cocoro.study.domain.Attend;
+import cocoro.study.domain.MemberList;
 import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
@@ -138,6 +139,32 @@ public class StudyDetailServiceImpl implements StudyDetailService {
 	@Override
 	public List<PlanInfo> beforeplan(PlanInfo pi) {
 		return dao.beforeplan(pi);
+	}
+
+	@Override
+	public int deleteschedule(int plan_id) {
+		return dao.deleteschedule(plan_id);
+	}
+
+	@Override
+	public int updateschedule(PlanInfo pn) {
+		return dao.updateschedule(pn);
+	}
+
+	@Override
+	public List<MemberList> memberList(int s_id) {
+		return dao.memberList(s_id);
+	}
+
+	@Override
+	public int Forcedexit(int j_id) {
+		dao.deleteability(j_id);
+		return dao.Forcedexit(j_id);
+	}
+
+	@Override
+	public Users leaderimg(int s_leader_id) {
+		return dao.leaderimg(s_leader_id);
 	}
 
 

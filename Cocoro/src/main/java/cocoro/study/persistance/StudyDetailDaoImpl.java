@@ -14,6 +14,7 @@ import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
 import cocoro.study.domain.Attend;
+import cocoro.study.domain.MemberList;
 import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyActivity;
@@ -141,6 +142,36 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 	@Override
 	public List<PlanInfo> beforeplan(PlanInfo pi) {
 		return session.selectList(namespace+".beforeplan", pi);
+	}
+
+	@Override
+	public int deleteschedule(int plan_id) {
+		return session.delete(namespace+".deleteschedule", plan_id);
+	}
+
+	@Override
+	public int updateschedule(PlanInfo pn) {
+		return session.update(namespace+".updateschedule", pn);
+	}
+
+	@Override
+	public List<MemberList> memberList(int s_id) {
+		return session.selectList(namespace+".memberList", s_id);
+	}
+
+	@Override
+	public int Forcedexit(int j_id) {
+		return session.delete(namespace+".Forcedexit", j_id);
+	}
+
+	@Override
+	public void deleteability(int j_id) {
+		session.delete(namespace+".deleteability", j_id);
+	}
+
+	@Override
+	public Users leaderimg(int s_leader_id) {
+		return session.selectOne(namespace+".leaderimg", s_leader_id);
 	}
 	
 

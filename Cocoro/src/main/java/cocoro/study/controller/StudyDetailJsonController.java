@@ -51,4 +51,20 @@ public class StudyDetailJsonController {
 		}
 		return pen;
 	}
+	@RequestMapping("deleteschedule")
+	public void deleteschedule(@RequestParam("plan_id") int plan_id) throws Exception{
+		System.out.println("JSON컨트롤러 스케줄삭제");
+		int x = service.deleteschedule(plan_id);
+	}
+	
+	@RequestMapping("updateschedule")
+	public void updateschedule(PlanInfo pn) throws Exception{
+		System.out.println("JSON컨트롤러 스케줄수정");
+		int x = service.updateschedule(pn);
+	}
+	@RequestMapping("Forcedexit")
+	public void Forcedexit(@RequestParam("j_id") int j_id)throws Exception{
+		System.out.println("JSON컨트롤러 강퇴고고");
+		int x = service.Forcedexit(j_id);
+	}
 }
