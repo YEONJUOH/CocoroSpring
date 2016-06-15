@@ -48,6 +48,13 @@
 		<beans:property name="order" value="2"></beans:property> </beans:bean> -->
 
 	<!-- 인터셉터 설정 -->
+	<beans:bean id="studyInterceptor" class="cocoro.study.controller.StudyDetailInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/StudyDetail/*"/>
+			<beans:ref bean="studyInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
 	<!--업로드 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

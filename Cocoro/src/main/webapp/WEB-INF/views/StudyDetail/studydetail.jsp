@@ -18,6 +18,15 @@
     box-shadow: 3px 3px 0px transparent;
     transition: 0.5s;
     }
+.trash { color:rgb(209, 91, 71); }
+.flag { color:rgb(248, 148, 6); }
+.panel-body { padding:0px; }
+.panel-footer .pagination { margin: 0; }
+.panel .glyphicon,.list-group-item .glyphicon { margin-right:5px; }
+.panel-body .radio, .checkbox { display:inline-block;margin:0px; }
+.panel-body input[type=checkbox]:checked + label { text-decoration: line-through;color: rgb(128, 144, 160); }
+.list-group-item:hover, a.list-group-item:focus {text-decoration: none;background-color: rgb(245, 245, 245);}
+.list-group { margin-bottom:0px; }
 </style>
 <link href='/resources/js/calendar/fullcalendar.css' rel='stylesheet' />
 <link href='/resources/js/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -248,6 +257,7 @@
 </script>
 </head>
 <body>
+	<!-- 스터디의 정보 표시 및 설정-->
 	<div class="bg-success" style="margin-left: 100px; margin-right: 100px; margin-top:50px;">
 	  		<div style="float: left;"><img src="/resources/img/${leaderuser.u_image }" alt="..." class="img-thumbnail" style="height:140px;"></div>
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
@@ -363,30 +373,200 @@
 			<br />
 			</div>
 			<div class="mid" style="height: 450px;width: 100%;border-top:10px solid white;">
-				<div style="height: 440px;float: left;">
-					<div>
-						<c:if test="${beforedate != '[]' }">
-							<c:forEach var="o" begin="0" end="${beforedate.size()-1}" step="1" >
-							<h3>이전 계획</h3>
-								<ul>
-									<li>${beforedate.get(o).plan_name }</li>
-									<li>${beforedate.get(o).plan_comment }</li>
-									<li id="${beforedate.get(o).plan_id }">${beforedate.get(o).plan_date }</li>
-								</ul>															
-							</c:forEach>
-						</c:if>
-						<c:if test="${afterdate != '[]' }">
-							<h3> 예정 계획</h3>
-							<c:forEach  var="o" begin="0" end="${afterdate.size()-1}" step="1">
-								<ul>
-									<li>${afterdate.get(o).plan_name }</li>
-									<li>${afterdate.get(o).plan_comment }</li>
-									<li id="${afterdate.get(o).plan_id }">${afterdate.get(o).plan_date }</li>
-								</ul>															
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
+			<div class="container"  style="width:500px">
+					    <div class="row">
+					        <div>
+					            <div class="panel panel-primary">
+					                <div class="panel-heading">
+					                    <span class="glyphicon glyphicon-list"></span>이전 계획
+					                    <div class="pull-right action-buttons">
+					                        <div class="btn-group pull-right">
+					                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+					                                <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
+					                            </button>
+					                            <ul class="dropdown-menu slidedown">
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
+					                            </ul>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="panel-body">
+					                    <ul class="list-group">
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox" />
+					                                <label for="checkbox">
+					                                    List group item heading
+					                                </label>
+					                            </div>
+					                            <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox2" />
+					                                <label for="checkbox2">
+					                                    List group item heading 1
+					                                </label>
+					                            </div>
+					                           <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox5" />
+					                                <label for="checkbox5">
+					                                    List group item heading 2
+					                                </label>
+					                            </div>
+					                           <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                    </ul>
+					                </div>
+					                <div class="panel-footer">
+					                    <div class="row">
+					                        <div class="col-md-6">
+					                            <h6>
+					                                Total Count <span class="label label-info">25</span></h6>
+					                        </div>
+					                        <div class="col-md-6">
+					                            <ul class="pagination pagination-sm pull-right">
+					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
+					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
+					                                <li><a href="javascript:void(0)">»</a></li>
+					                            </ul>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div><!-- 미드미아 -->
+					<div class="container" style="width:500px">
+					    <div class="row">
+					        <div>
+					            <div class="panel panel-primary">
+					                <div class="panel-heading">
+					                    <span class="glyphicon glyphicon-list"></span>예정 계획
+					                    <div class="pull-right action-buttons">
+					                        <div class="btn-group pull-right">
+					                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+					                                <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
+					                            </button>
+					                            <ul class="dropdown-menu slidedown">
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
+					                            </ul>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="panel-body">
+					                    <ul class="list-group">
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox" />
+					                                <label for="checkbox">
+					                                    List group item heading
+					                                </label>
+					                            </div>
+					                            <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox2" />
+					                                <label for="checkbox2">
+					                                    List group item heading 1
+					                                </label>
+					                            </div>
+					                           <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                        <li class="list-group-item">
+					                            <div class="checkbox">
+					                                <input type="checkbox" id="checkbox5" />
+					                                <label for="checkbox5">
+					                                    List group item heading 2
+					                                </label>
+					                            </div>
+					                           <div class="pull-right action-buttons">
+					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+					                            </div>
+					                        </li>
+					                    </ul>
+					                </div>
+					                <div class="panel-footer">
+					                    <div class="row">
+					                        <div class="col-md-6">
+					                            <h6>
+					                                Total Count <span class="label label-info">25</span></h6>
+					                        </div>
+					                        <div class="col-md-6">
+					                            <ul class="pagination pagination-sm pull-right">
+					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
+					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
+					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
+					                                <li><a href="javascript:void(0)">»</a></li>
+					                            </ul>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div><!-- 미드미아 -->
+<!-- 				<div style="height: 440px;float: left;"> -->
+<!-- 					<div> -->
+<%-- 						<c:if test="${beforedate != '[]' }"> --%>
+<%-- 							<c:forEach var="o" begin="0" end="${beforedate.size()-1}" step="1" > --%>
+<!-- 							<h3>이전 계획</h3> -->
+<!-- 								<ul> -->
+<%-- 									<li>${beforedate.get(o).plan_name }</li> --%>
+<%-- 									<li>${beforedate.get(o).plan_comment }</li> --%>
+<%-- 									<li id="${beforedate.get(o).plan_id }">${beforedate.get(o).plan_date }</li> --%>
+<!-- 								</ul>															 -->
+<%-- 							</c:forEach> --%>
+<%-- 						</c:if> --%>
+<%-- 						<c:if test="${afterdate != '[]' }"> --%>
+<!-- 							<h3> 예정 계획</h3> -->
+<%-- 							<c:forEach  var="o" begin="0" end="${afterdate.size()-1}" step="1"> --%>
+<!-- 								<ul> -->
+<%-- 									<li>${afterdate.get(o).plan_name }</li> --%>
+<%-- 									<li>${afterdate.get(o).plan_comment }</li> --%>
+<%-- 									<li id="${afterdate.get(o).plan_id }">${afterdate.get(o).plan_date }</li> --%>
+<!-- 								</ul>															 -->
+<%-- 							</c:forEach> --%>
+<%-- 						</c:if> --%>
+<!-- 					</div> -->
+<!-- 				</div> -->
 				<div style="float: right;">
 					<div id='calendar' style="width: 500px; height: 450px;"></div>
 				</div>
