@@ -52,19 +52,30 @@
 	<definition name="studyview" extends="studyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/StudyDetail/studydetail.jsp"></put-attribute>
 	</definition>
-
+	
+	
+	<!-- 스터디 레이아웃 -->
+	<definition name="studyLayout2" template="/WEB-INF/views/template/studyLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/studyHeader.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/studyFooter.jsp"></put-attribute>
+	</definition> 
+	
+	<definition name="studyLayout3" template="/WEB-INF/views/template/studyLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/template/studyHeader.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/template/studyFooter2.jsp"></put-attribute>
+	</definition> 
+	
 	<!-- 스터디생성 -->
-	<definition name="createStudy" extends="studyLayout">
+	<definition name="createStudy" extends="studyLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/study/createStudy.jsp"></put-attribute>
 	</definition>
-	<definition name="createStudy2" extends="studyLayout">
+	<definition name="createStudy2" extends="studyLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/study/createStudy2.jsp"></put-attribute>
 	</definition>
 	
-	<definition name="previewStudy" extends="studyLayout">
+	<definition name="previewStudy" extends="studyLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/study/previewStudy.jsp"></put-attribute>
 	</definition>
-	<!-- 스터디프리뷰 -->
 
 </tiles-definitions>
 
