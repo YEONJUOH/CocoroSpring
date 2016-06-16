@@ -19,8 +19,6 @@
 </style>
 <script>
 $(function(){
-
-
 	  function statusChangeCallback(response) {
 	    if (response.status === 'connected') {
 	    	console.log('로그인 성공3');
