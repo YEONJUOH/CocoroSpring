@@ -13,6 +13,7 @@ import cocoro.study.domain.StudyGroup;
 import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
 import cocoro.study.domain.Attend;
+import cocoro.study.domain.Board;
 import cocoro.study.domain.MemberList;
 import cocoro.study.domain.Penalty;
 
@@ -45,4 +46,5 @@ public interface StudyDetailService {
 	public List<MemberList> memberList(int s_id);
 	public int Forcedexit(int j_id);
 	public Users leaderimg(int s_leader_id);
+	public List<Board> boardlist(int s_id);
 }

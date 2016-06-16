@@ -134,6 +134,9 @@
 	<select id="leaderimg" parameterType="int" resultType="Users">
 		select * from users where u_id = #{s_leader_id}
 	</select>
+	<select id="boardlist" parameterType="int" resultType="Board">
+		select * from board where s_id = #{s_id}
+	</select>
 </mapper>
 
 

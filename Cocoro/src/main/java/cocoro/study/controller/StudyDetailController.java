@@ -29,6 +29,7 @@ import cocoro.study.domain.StudyGroup;
 import cocoro.study.service.StudyDetailService;
 import cocoro.study.service.StudyGroupService;
 import cocoro.study.domain.Attend;
+import cocoro.study.domain.Board;
 import cocoro.study.domain.MemberList;
 import cocoro.study.domain.Penalty;
 import cocoro.users.domain.Users;
@@ -101,6 +102,8 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 		List<MemberList> memList = service.memberList(s_id);
 		//스터디 방장이 이미지를 가지고 오기 위한 문장
 		Users leaderuser = service.leaderimg(study.getS_leader_id());
+		//스터디 공지사항 불러오기 위한 문장
+		List<Board> board = service.boardlist(s_id);
 		//각각의 데이터를 바인딩하기 위한 문장
 		model.addAttribute("Attend", at);
 		model.addAttribute("studyactivitiy", sa);
@@ -112,6 +115,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 		model.addAttribute("afterdate", afdate);
 		model.addAttribute("Memberlist",memList);
 		model.addAttribute("leaderuser", leaderuser);
+		model.addAttribute("Board", board);
 		return "studyview";
 	}
 	//캘린더 작업에서 스케줄 입력을 하는 작업 부분

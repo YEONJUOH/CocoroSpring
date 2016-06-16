@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html> 
 <head>
@@ -258,7 +260,7 @@
 </head>
 <body>
 	<!-- 스터디의 정보 표시 및 설정-->
-	<div class="bg-success" style="margin-left: 100px; margin-right: 100px; margin-top:50px;">
+	<div style="margin-left: 100px;margin-right: 100px;margin-top:50px;background-color: #f5f5f5;">
 	  		<div style="float: left;"><img src="/resources/img/${leaderuser.u_image }" alt="..." class="img-thumbnail" style="height:140px;"></div>
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
 	  		<p style="float: left;"><h3>${study.s_name }</h3></p>
@@ -373,20 +375,19 @@
 			<br />
 			</div>
 			<div class="mid" style="height: 450px;width: 100%;border-top:10px solid white;">
-			<div class="container"  style="width:500px">
+			<div style="float:left;margin-left: 60px;margin-top: 25px;">
+			<div  style="width:500px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
 					                <div class="panel-heading">
-					                    <span class="glyphicon glyphicon-list"></span>이전 계획
+					                    <span class="glyphicon glyphicon-list"></span>이전 일정
 					                    <div class="pull-right action-buttons">
 					                        <div class="btn-group pull-right">
 					                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
 					                                <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
 					                            </button>
 					                            <ul class="dropdown-menu slidedown">
-					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
 					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
 					                            </ul>
 					                        </div>
@@ -394,54 +395,28 @@
 					                </div>
 					                <div class="panel-body">
 					                    <ul class="list-group">
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox" />
-					                                <label for="checkbox">
-					                                    List group item heading
-					                                </label>
-					                            </div>
-					                            <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox2" />
-					                                <label for="checkbox2">
-					                                    List group item heading 1
-					                                </label>
-					                            </div>
-					                           <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox5" />
-					                                <label for="checkbox5">
-					                                    List group item heading 2
-					                                </label>
-					                            </div>
-					                           <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
+						                    <c:if test="${beforedate != '[]' }">
+						                        <c:forEach var="o" begin="0" end="${beforedate.size()-1}" step="1" >
+						                        <li class="list-group-item">
+						                                <label>
+						                                   ${beforedate.get(o).plan_name }&nbsp;${beforedate.get(o).plan_comment }&nbsp; ${fn:substring(beforedate.get(o).plan_date,0,10) }
+						                                </label>
+						                            <div class="pull-right action-buttons">
+						                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+						                            </div>
+						                        </li>
+						                        </c:forEach>
+						                    </c:if>
+						                    <c:if test="${beforedate == '[]' }">
+						                    	<li class="list-group-item">
+						                    		<label>이전 일정이 없습니다.</label>
+						                    	</li>
+						                    </c:if>
 					                    </ul>
 					                </div>
 					                <div class="panel-footer">
 					                    <div class="row">
-					                        <div class="col-md-6">
-					                            <h6>
-					                                Total Count <span class="label label-info">25</span></h6>
-					                        </div>
-					                        <div class="col-md-6">
+					                        <div class="col-md-12">
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
@@ -458,20 +433,18 @@
 					        </div>
 					    </div>
 					</div><!-- 미드미아 -->
-					<div class="container" style="width:500px">
+					<div style="width:500px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
 					                <div class="panel-heading">
-					                    <span class="glyphicon glyphicon-list"></span>예정 계획
+					                    <span class="glyphicon glyphicon-list"></span>미래 일정
 					                    <div class="pull-right action-buttons">
 					                        <div class="btn-group pull-right">
 					                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
 					                                <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
 					                            </button>
 					                            <ul class="dropdown-menu slidedown">
-					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
 					                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
 					                            </ul>
 					                        </div>
@@ -479,54 +452,25 @@
 					                </div>
 					                <div class="panel-body">
 					                    <ul class="list-group">
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox" />
-					                                <label for="checkbox">
-					                                    List group item heading
-					                                </label>
-					                            </div>
-					                            <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox2" />
-					                                <label for="checkbox2">
-					                                    List group item heading 1
-					                                </label>
-					                            </div>
-					                           <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
-					                        <li class="list-group-item">
-					                            <div class="checkbox">
-					                                <input type="checkbox" id="checkbox5" />
-					                                <label for="checkbox5">
-					                                    List group item heading 2
-					                                </label>
-					                            </div>
-					                           <div class="pull-right action-buttons">
-					                                <a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-pencil"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-					                                <a href="http://www.jquery2dotnet.com" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-					                            </div>
-					                        </li>
+					                    	<c:if test="${afterdate != '[]' }"> 
+					                    	<c:forEach  var="o" begin="0" end="${afterdate.size()-1}" step="1">
+						                        <li class="list-group-item">
+						                                <label>
+						                                    ${afterdate.get(o).plan_name } &nbsp; ${afterdate.get(o).plan_comment } &nbsp;${fn:substring(afterdate.get(o).plan_date,0,10) }
+						                                </label>
+						                        </li>
+					                        </c:forEach>
+					                        </c:if>
+					                        <c:if test="${afterdate =='[]' }">
+					                        	<li class="list-group-item">
+						                    		<label>이후 일정이 없습니다.</label>
+						                    	</li>
+					                        </c:if>
 					                    </ul>
 					                </div>
 					                <div class="panel-footer">
 					                    <div class="row">
-					                        <div class="col-md-6">
-					                            <h6>
-					                                Total Count <span class="label label-info">25</span></h6>
-					                        </div>
-					                        <div class="col-md-6">
+					                        <div class="col-md-12">
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
@@ -543,41 +487,18 @@
 					        </div>
 					    </div>
 					</div><!-- 미드미아 -->
-<!-- 				<div style="height: 440px;float: left;"> -->
-<!-- 					<div> -->
-<%-- 						<c:if test="${beforedate != '[]' }"> --%>
-<%-- 							<c:forEach var="o" begin="0" end="${beforedate.size()-1}" step="1" > --%>
-<!-- 							<h3>이전 계획</h3> -->
-<!-- 								<ul> -->
-<%-- 									<li>${beforedate.get(o).plan_name }</li> --%>
-<%-- 									<li>${beforedate.get(o).plan_comment }</li> --%>
-<%-- 									<li id="${beforedate.get(o).plan_id }">${beforedate.get(o).plan_date }</li> --%>
-<!-- 								</ul>															 -->
-<%-- 							</c:forEach> --%>
-<%-- 						</c:if> --%>
-<%-- 						<c:if test="${afterdate != '[]' }"> --%>
-<!-- 							<h3> 예정 계획</h3> -->
-<%-- 							<c:forEach  var="o" begin="0" end="${afterdate.size()-1}" step="1"> --%>
-<!-- 								<ul> -->
-<%-- 									<li>${afterdate.get(o).plan_name }</li> --%>
-<%-- 									<li>${afterdate.get(o).plan_comment }</li> --%>
-<%-- 									<li id="${afterdate.get(o).plan_id }">${afterdate.get(o).plan_date }</li> --%>
-<!-- 								</ul>															 -->
-<%-- 							</c:forEach> --%>
-<%-- 						</c:if> --%>
-<!-- 					</div> -->
-<!-- 				</div> -->
-				<div style="float: right;">
+					</div><!-- 왼쪽 사이트 블럭 -->
+				<div style="margin-top: 5px;margin-right: 30px;float: right;">
 					<div id='calendar' style="width: 500px; height: 450px;"></div>
 				</div>
 			</div>
 			<div class="foot" style="height: 250px;width: 100%;border-top:10px solid white">
 			<center>
 				<div class="container">
-				    <div class="row col-md-6 col-md-offset-2 custyle">
-				    <table class="table table-striped custab">
+				    <div style="width: 70%;">
+				    <table class="table table-striped custab" style="margin-top: 0px;margin-bottom: 0px;">
 				    <thead>
-				    <div><p>공지사항</p><p><a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> 글쓰기</a></p></div>
+				    <div><h3 class="btn btn-primary" style="float: left;width: 100%;">공지사항</h3></div>
 				        <tr>
 				            <th>번호</th>
 				            <th>제목</th>
@@ -586,31 +507,25 @@
 				            <th colspan="2">조회수</th>
 				        </tr>
 				    </thead>
-				            <tr>
-				                <td>1</td>
-				                <td>News</td>
-				                <td>Breaking</td>
-				                <td>Published</td>
-				                <td>Citizen</td>
-				                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-				            </tr>
-				            <tr>
-				                <td>1</td>
-				                <td>News</td>
-				                <td>Breaking</td>
-				                <td>Published</td>
-				                <td>Citizen</td>
-				                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-				            </tr>
-				             <tr>
-				                <td>1</td>
-				                <td>News</td>
-				                <td>Breaking</td>
-				                <td>Published</td>
-				                <td>Citizen</td>
-				                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-				            </tr>
+				    		<c:if test="${Board != '[]' }">
+				    		<c:forEach  var="o" begin="0" end="${Board.size()-1}" step="1">
+					            <tr>
+					                <td>${Board.get(o).seq }</td>
+					                <td>${Board.get(o).title }</td>
+					                <td>${Board.get(o).writer }</td>
+					                <td>${Board.get(o).regdate }</td>
+					                <td>${Board.get(o).hitcount }</td>
+					                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+					            </tr>
+				            </c:forEach>
+				            </c:if>
+				            <c:if test="${Board == null }">
+					            <tr>
+					                <td colspan="6">공지사항이 없습니다.</td>
+					            </tr>
+				            </c:if>
 				    </table>
+				    	<p><a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> 글쓰기</a></p>
 				    </div>
 				</div>
 			</center>

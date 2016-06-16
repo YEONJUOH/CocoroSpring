@@ -14,6 +14,7 @@ import cocoro.search.domain.Search;
 import cocoro.study.domain.Apply;
 import cocoro.study.domain.Applydata;
 import cocoro.study.domain.Attend;
+import cocoro.study.domain.Board;
 import cocoro.study.domain.MemberList;
 import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
@@ -172,6 +173,11 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 	@Override
 	public Users leaderimg(int s_leader_id) {
 		return session.selectOne(namespace+".leaderimg", s_leader_id);
+	}
+
+	@Override
+	public List<Board> boardlist(int s_id) {
+		return session.selectList(namespace+".boardlist", s_id);
 	}
 	
 
