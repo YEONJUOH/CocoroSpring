@@ -69,7 +69,7 @@
 										</c:if>
 										<!--쪽지보내기 -->
 										<button class="btn-primary" id="addClass" style="float: left;"><i class="glyphicon glyphicon-comment"></i></button>
-										</div>
+										</div> 
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
 											<ul class="nav nav-tabs" role="tablist" style="margin-left: 87%;">
