@@ -73,8 +73,8 @@
 										<div role="tabpanel">
 											<!--탭 메뉴 -->
 											<ul class="nav nav-tabs" role="tablist" style="margin-left: 87%;">
-												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+												<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">타임라인</a></li>
+												<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">프로필</a></li>
 											</ul>
 											<!-- Home탭 메뉴 -->
 											<div class="tab-content">
