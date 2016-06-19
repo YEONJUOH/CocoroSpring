@@ -49,5 +49,6 @@ public interface StudyDetailService {
 	public List<Board> boardlist(int s_id);
 	public Board boardDetail(Board board);
 	public void boardinput(Board board);
-	public void boarddelete(int seq);
+	public int boarddelete(int seq);
+	public void studydeadLine(int s_id);
 }

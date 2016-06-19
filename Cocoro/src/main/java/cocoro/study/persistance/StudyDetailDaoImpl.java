@@ -147,7 +147,8 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 
 	@Override
 	public int deleteschedule(int plan_id) {
-		return session.delete(namespace+".deleteschedule", plan_id);
+		int re = session.delete(namespace+".deleteschedule", plan_id);
+		return re; 
 	}
 
 	@Override
@@ -191,8 +192,14 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 	}
 
 	@Override
-	public void boarddelete(int seq) {
-		session.delete(namespace+".boarddelete", seq);
+	public int boarddelete(int seq) {
+		int re = session.delete(namespace+".boarddelete", seq);
+		return re;
+	}
+
+	@Override
+	public void studydeadLine(int s_id) {
+		session.update(namespace+".studydeadLine", s_id);
 	}
 	
 

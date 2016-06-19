@@ -57,7 +57,6 @@ public class StudyDetailInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		
-		
 	}
 	
 	

@@ -138,7 +138,7 @@
 		select * from board where s_id = #{s_id} order by seq
 	</select>
 	<select id="boardDetail" parameterType="Board" resultType="Board">
-		select * from board where s_id = #{s_id} and seq = #{seq}
+		select * from board where s_id = #{s_id} and seq = #{seq} order by seq desc
 	</select>
 	<insert id="boardinput" parameterType="Board">
 		insert into board values((select NVL(MAX(seq),0) from board)+1,#{title},#{writer},#{contents},sysdate,0,#{s_id})
@@ -146,6 +146,9 @@
 	<delete id="boarddelete" parameterType="int">
 		delete from board where seq = #{seq}
 	</delete>
+	<update id="studydeadLine" parameterType="int">
+		update study set s_fix_member= 'T'  where s_id= #{s_id}
+	</update>
 </mapper>
 
 

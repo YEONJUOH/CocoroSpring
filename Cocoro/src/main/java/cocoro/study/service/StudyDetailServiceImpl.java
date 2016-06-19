@@ -185,9 +185,14 @@ public class StudyDetailServiceImpl implements StudyDetailService {
 	}
 
 	@Override
-	public void boarddelete(int seq) {
-		dao.boarddelete(seq);
+	public int boarddelete(int seq) {
+		return dao.boarddelete(seq);
 		
+	}
+
+	@Override
+	public void studydeadLine(int s_id) {
+		dao.studydeadLine(s_id);
 	}
 
 
