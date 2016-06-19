@@ -29,16 +29,14 @@ $(function(){
 	    	console.log('로그인 성공2');
 	    }
 	  }
-
 	  function checkLoginState() {
 	    FB.getLoginStatus(function(response) {
 	      statusChangeCallback(response);
 	    });
 	  }
-	  
 	  window.fbAsyncInit = function() {
 	  FB.init({
-	    appId      : '296133470724425',
+	    appId      : '257802867918704',
 	    cookie     : true,  // enable cookies to allow the server to access
 	    xfbml      : true,  // parse social plugins on this page
 	    version    : 'v2.2' // use version 2.2
@@ -92,8 +90,9 @@ $(function(){
 </head>
 <body>
 	<!-- 첫번째 메뉴 -->
-	<div class="row col-md-12" style="margin-top: 50px;">
+	<div class="row col-md-12" style="margin-top: 55px;">
 		<div class="col-md-6 text-center">
+		<img src="/resources/img/mainBG3.png" style="margin-top: 20%;" width="90%;" height="300px;">
 		</div>
 		
 		<div class="col-md-6">
