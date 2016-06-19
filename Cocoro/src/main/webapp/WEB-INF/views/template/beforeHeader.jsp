@@ -54,7 +54,7 @@ $(function(){
 					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar">
 					</span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="beforeMain" style="color: #fff"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="beforeMain" style="color: #fff; font-size: 30px;"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<!-- 로그인 -->	
