@@ -36,7 +36,6 @@ import cocoro.users.domain.Users;
 import cocoro.users.domain.UsersAccount;
 
 @Controller
-@RequestMapping("/StudyDetail/*")
 public class StudyDetailController {
 
 private static final Logger logger = LoggerFactory.getLogger(StudyDetailController.class);
@@ -49,7 +48,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 	
 	//studydetail.jsp에 들어가는 작업 부분
 	//기존 USER session 정보와 파라메터로 넘어오는 s_id를 받아서 진행됨
-	@RequestMapping("studydetail")
+	@RequestMapping("/StudyDetail/studydetail")
 	public String StudyDetail(HttpServletRequest request,Model model) throws Exception{
 		System.out.println("studydetail 컨트롤러");
 		//메소드 안에서 필요한것들을 생성해놓은 부분
@@ -120,20 +119,20 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 	}
 	//캘린더 작업에서 스케줄 입력을 하는 작업 부분
 	// users의 세션값 + 사용자가 선택한 스케줄을 입력함.Ajax로 연동
-	@RequestMapping("insertschedule")
+	@RequestMapping("/StudyDetailJson/insertschedule")
 	public void insertschedule(PlanInfo plan,HttpServletRequest request)throws Exception{
 		System.out.println("인서트다");
 		service.insertSchedule(plan);	
 	}
 	//스터디룸에 입장버튼을 클리하면 작동하는 부분
-	@RequestMapping("StudyRoom")
+	@RequestMapping("/StudyDetailJson/StudyRoom")
 	public String StudyRoom()throws Exception{
 		System.out.println("스터디룸 입장");
 		return "/StudyDetail/StudyRoom";
 	}
 	
 	//지원한 사람들을 승인하는 컨트롤러
-	@RequestMapping("applygogo")
+	@RequestMapping("/StudyDetailJson/applygogo")
 	public void applygogo(@RequestParam("apply_id") int apply_id )throws Exception{
 		System.out.println("가입승인 컨트롤러 디파짓 안씀");
 		 if(apply_id != 0){
@@ -156,7 +155,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 		 }
 	}
 	//지원한 사람들을 승인하는 컨트롤러(디파짓 사용)
-		@RequestMapping("applygogoyesdepoist")
+		@RequestMapping("/StudyDetailJson/applygogoyesdepoist")
 		public void applygogoyesdepoist(@RequestParam("apply_id") int apply_id )throws Exception{
 			System.out.println("가입승인 컨트롤러 디파짓 사용");
 			 if(apply_id != 0){
@@ -198,7 +197,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 			 }
 		}
 	//가입처리를 거절한다!! 
-	@RequestMapping("rejectgogo")
+	@RequestMapping("/StudyDetailJson/rejectgogo")
 	public void rejectgogo(@RequestParam("apply_id") int apply_id )throws Exception{
 		System.out.println("가입거부 컨트롤러");
 		//거절한다!! 삭제한다!!
@@ -206,7 +205,7 @@ private static final Logger logger = LoggerFactory.getLogger(StudyDetailControll
 	}
 	
 	//출석체크를 처리한다!!
-	@RequestMapping("Attend")
+	@RequestMapping("/StudyDetailJson/Attend")
 	public void Attendput(@RequestParam("plan_id") int plan_id,@RequestParam("j_id") int j_id)throws Exception{
 		System.out.println("출석체크완료시키는부분");
 		//출석을 시키는 부분

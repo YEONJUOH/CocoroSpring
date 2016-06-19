@@ -84,7 +84,7 @@
 						               };
 						           var full = (start)._d.getFullYear()+"-"+((start)._d.getUTCMonth()+1)+"-"+(start)._d.getDate();
 									$.ajax({
-										url:'insertschedule?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
+										url:'../StudyDetailJson/insertschedule?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
 										type:'get',
 										dataType : 'json',
 										success: function(){
@@ -514,10 +514,6 @@
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
 					                                <li><a href="javascript:void(0)">»</a></li>
 					                            </ul>
 					                        </div>
@@ -568,10 +564,6 @@
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
 					                                <li><a href="javascript:void(0)">»</a></li>
 					                            </ul>
 					                        </div>
