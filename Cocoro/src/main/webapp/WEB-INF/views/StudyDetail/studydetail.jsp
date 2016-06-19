@@ -39,6 +39,7 @@
 (function($){
 	$(document).ready(function() {
 				var list=[];
+				var o;
 				var date = new Date();
 				var d = date.getDate();
 				var m = date.getMonth();
@@ -46,7 +47,7 @@
 				var temp = "${s_id}";
 				//로드될때 해당 스터디의 일정을 검색해서 바인딩 시키는 부분
 				$.ajax({
- 					url:'json-events22?s_id='+temp, 
+ 					url:'../StudyDetailJson/json-events22?s_id='+temp, 
 					type:'post',
 					dataType:'json',
 					success:function(json){
@@ -83,7 +84,7 @@
 						               };
 						           var full = (start)._d.getFullYear()+"-"+((start)._d.getUTCMonth()+1)+"-"+(start)._d.getDate();
 									$.ajax({
-										url:'insertschedule?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
+										url:'../StudyDetailJson/insertschedule?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
 										type:'get',
 										dataType : 'json',
 										success: function(){
@@ -94,6 +95,7 @@
 									});//a작스닫기
 									
 									$('#calendar').fullCalendar('renderEvent',eventData,true);
+									location.href ="studydetail?s_id="+temp;
 								}
 								$('#calendar').fullCalendar('unselect');
 							},
@@ -102,16 +104,17 @@
 							eventClick:function(calEvent, jsEvent, view) {
 								if(confirm("삭제 하시겠습니까?")){
 									$.ajax({
-										url:'deleteschedule?plan_id='+calEvent.id,
+										url:'../StudyDetailJson/deleteschedule?plan_id='+calEvent.id,
 										success: function(){
-											alert("성공했어요");
+											alert("성공");
 										},
 										error:function(){
-											alert("실패햇어요");
+											alert("실패");
 										}
 										
 									});//a작스닫기
 									$('#calendar').fullCalendar('removeEvents',calEvent.id);
+									location.href ="studydetail?s_id="+temp;
 								}else{
 									if(confirm("수정하시겠습니까?")){
 										calEvent.title = prompt("제목을 수정해주세요.");
@@ -119,18 +122,20 @@
 										var date = prompt("날짜를 수정해주세요.");
  										calEvent.start = date; 
 										$.ajax({
-											url:'updateschedule?plan_id='+calEvent.id+'&plan_name='+calEvent.title+'&plan_comment='+content+'&plan_date='+date,
+											url:'../StudyDetailJson/updateschedule?plan_id='+calEvent.id+'&plan_name='+calEvent.title+'&plan_comment='+content+'&plan_date='+date,
 											success: function(){
-				
+												console.log("날짜수정 성공");
 											},
 											error:function(){
-											
+												console.log("날짜수정 실패");
 											}
 											
 										});//a작스닫기
 										 $('#calendar').fullCalendar('updateEvent', calEvent,true);
+										 location.href ="studydetail?s_id="+temp;
+										
 									}else{
-										alert("아무것도 안할꺼야 흐힣흐힣");
+										console.log("캘린더수정삭제 안할경우");
 									}
 								}
 						    }//이벤트클릭 끝
@@ -147,11 +152,11 @@
 	//가입 지원자의 지원을 허가 할때 발생하는 함수(디파짓 사용)
 	function applygogo(apply_id,index){
 		$.ajax({
-			url:'applygogo?apply_id='+apply_id,
+			url:'../StudyDetailJson/applygogo?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
-				alert("꺼죨");
+				console.log("가입지원자 허가");
 			},
 			error:function(){
 				var item = document.getElementById("btnreject_"+index);
@@ -166,11 +171,11 @@
 	////가입 지원자의 지원을 허가 할때 발생하는 함수(디파짓 사용안함)
 	function applygogoyesdepoist(apply_id,index){
 		$.ajax({
-			url:'applygogoyesdepoist?apply_id='+apply_id,
+			url:'../StudyDetailJson/applygogoyesdepoist?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
-				alert("꺼죨");
+				console.log("가입지원자 발생함수");
 			},
 			error:function(){
 				var item = document.getElementById("btnreject_"+index);
@@ -185,13 +190,14 @@
 	//가입지원자를 거부하였을때 발생하는 함수
 	function rejectgogo(apply_id,index){
 		$.ajax({
-			url:'rejectgogo?apply_id='+apply_id,
+			url:'../StudyDetailJson/rejectgogo?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
 				console.log("ㅎㅎ0거부거부");
 			},
 			error:function(){
+				console.log("지원자 거부거부");
 				var item = document.getElementById("btnreject_"+index);
 				var parent = item.parentNode.parentNode;
 				if(item != null){
@@ -208,13 +214,14 @@
 	//출석체크
 	function Attendcheck(plan_id,j_id){
 		$.ajax({
-			url:'Attend?plan_id='+plan_id+'&j_id='+j_id,
+			url:'../StudyDetailJson/Attend?plan_id='+plan_id+'&j_id='+j_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
-				console.log("ㅎㅎ0거부거부");
+				console.log("출석체크 성공");
 			},
 			error:function(){
+				console.log("출석체크 실패");
 				var k =document.getElementById("attendbtn");
 				var oo = k.parentNode;
 				oo.removeChild(k);
@@ -226,21 +233,22 @@
 		var pn = $("#penaltyname").val();
 		var pv= $("#penaltyvalue").val();
 		$.ajax({
-			url:'penaltyinput?p_name='+pn+'&p_price='+pv+'&s_id='+s_id,
+			url:'../StudyDetailJson/penaltyinput?p_name='+pn+'&p_price='+pv+'&s_id='+s_id,
 			type:'get',
 			dataType : 'json',
 			success: function(data){
 				$("#penaltytable").add
+				console.log("페널티 설정 성공");
 			},
 			error:function(){
-				alert("에러에러");
+				console.log("페널티 에러부분");
 			}
 		});//ajax 닫기
 	}
 	//스터디 멤버 강퇴하기
 	function Forcedexit(j_id,index){
 		$.ajax({
-			url:'Forcedexit?j_id='+j_id,
+			url:'../StudyDetailJson/Forcedexit?j_id='+j_id,
 			type:'get',
 			success: function(){
 				console.log("해결해결");
@@ -256,6 +264,87 @@
 			
 		});//a작스닫기
 	}
+	function boardDetail(seq,s_id){
+		$.ajax({
+			url:'../StudyDetailJson/boardDetail?seq='+seq+"&s_id="+s_id,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				$("#seq").val(data.seq);
+				$("#title").val(data.title);
+				$("#writer").val(data.writer);
+				$("#regdate").val(data.regdate);
+				$("#contents").val(data.contents);
+			},
+			error:function(){
+				console.log("에러에러");
+			}
+			
+		});//a작스닫기
+	}
+	function boardinput(s_id){
+		var title = $("#title2").val();
+		var contents = $("#contents2").val();
+		var writer = $("#writer2").val();
+		$.ajax({
+			url:'../StudyDetailJson/boardinput?title='+title+"&contents="+contents+"&writer="+writer+"&s_id="+s_id,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				location.href ="studydetail?s_id="+s_id;
+// 				var item = document.getElementById("Forcedexit_"+index);
+// 				var parent = item.parentNode.parentNode;
+// 				if(item != null){
+// 					item.parentNode.parentNode.parentNode.removeChild(parent);
+// 				}
+
+			},
+			error:function(){
+				location.href ="studydetail?s_id="+s_id;
+			}
+			
+		});//a작스닫기
+	}
+	function noticeDelete(seq,s_id){
+		alert("탔니");
+		$.ajax({
+			url:'../StudyDetailJson/noticeDelete?seq='+seq,
+			type:'get',
+			dataType : 'json',
+			success: function(){
+				console.log("ㅎㅎ");
+// 				alert("끝");
+				location.href ="studydetail?s_id="+s_id;
+// 				var item = document.getElementById("Forcedexit_"+index);
+// 				var parent = item.parentNode.parentNode;
+// 				if(item != null){
+// 					item.parentNode.parentNode.parentNode.removeChild(parent);
+// 				}
+			},
+			error:function(){
+				console.log("ㅅㅅ");
+// 				alert("끝1");
+				location.href ="studydetail?s_id="+s_id;
+			}
+		});//a작스닫기
+	}
+	function studydeadLine(s_id){
+		$.ajax({
+			url:'../StudyDetailJson/studydeadLine?s_id='+s_id,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				console.log("마감 성공");
+				location.href ="studydeadLine?s_id="+s_id;
+				
+			},
+			error:function(){
+				location.href ="studydetail?s_id="+s_id;
+				console.log("마감 실패");
+			}
+			
+		});a작스닫기
+	}
 </script>
 </head>
 <body>
@@ -270,6 +359,11 @@
 	  		<c:if test="${study.s_attend_check=='T' }"><c:if test="${plan != null }"><c:if test="${Attend == null}"><button type="button" class="btn btn-default" id="attendbtn" onclick="Attendcheck(${plan.plan_id},${studyactivitiy.j_id})">출석체크</button></c:if></c:if></c:if>
 
 	  		<c:if test="${study.s_leader_id == users.u_id}">
+	  		<c:if test="${study.s_fix_member== 'F' }">
+		  		<button type="button" class="btn btn-info" aria-label="Left Align" onclick="studydeadLine(${study.s_id})">
+	 				 모집 완료
+				</button>
+			</c:if>
 	  		<c:if test="${study.s_deposit>0 }">
 		  		<button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="modal" data-target="#positModal">
 	 				 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
@@ -375,8 +469,8 @@
 			<br />
 			</div>
 			<div class="mid" style="height: 450px;width: 100%;border-top:10px solid white;">
-			<div style="float:left;margin-left: 60px;margin-top: 25px;">
-			<div  style="width:500px">
+			<div style="float:left;margin-left: 40px;margin-top: 25px;">
+			<div  style="width:450px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
@@ -420,10 +514,6 @@
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
 					                                <li><a href="javascript:void(0)">»</a></li>
 					                            </ul>
 					                        </div>
@@ -433,7 +523,7 @@
 					        </div>
 					    </div>
 					</div><!-- 미드미아 -->
-					<div style="width:500px">
+					<div style="width:450px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
@@ -474,10 +564,6 @@
 					                            <ul class="pagination pagination-sm pull-right">
 					                                <li class="disabled"><a href="javascript:void(0)">«</a></li>
 					                                <li class="active"><a href="javascript:void(0)">1 <span class="sr-only">(current)</span></a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">2</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">3</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">4</a></li>
-					                                <li><a href="http://www.jquery2dotnet.com">5</a></li>
 					                                <li><a href="javascript:void(0)">»</a></li>
 					                            </ul>
 					                        </div>
@@ -488,7 +574,7 @@
 					    </div>
 					</div><!-- 미드미아 -->
 					</div><!-- 왼쪽 사이트 블럭 -->
-				<div style="margin-top: 5px;margin-right: 30px;float: right;">
+				<div style="margin-top: 5px;margin-right: 20px;float: right;">
 					<div id='calendar' style="width: 500px; height: 450px;"></div>
 				</div>
 			</div>
@@ -503,19 +589,17 @@
 				            <th>번호</th>
 				            <th>제목</th>
 				            <th>작성자</th>
-				            <th>작성일</th>
-				            <th colspan="2">조회수</th>
+				            <th colspan="2">작성일</th>
 				        </tr>
 				    </thead>
 				    		<c:if test="${Board != '[]' }">
 				    		<c:forEach  var="o" begin="0" end="${Board.size()-1}" step="1">
 					            <tr>
 					                <td>${Board.get(o).seq }</td>
-					                <td>${Board.get(o).title }</td>
+					                <td><a onclick="javascript:boardDetail(${Board.get(o).seq},${Board.get(o).s_id })"  data-toggle="modal" data-target="#BoardModal">${Board.get(o).title } </a></td>
 					                <td>${Board.get(o).writer }</td>
 					                <td>${Board.get(o).regdate }</td>
-					                <td>${Board.get(o).hitcount }</td>
-					                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+					                <td class="text-center"><button onclick="noticeDelete(${Board.get(o).seq},${study.s_id})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button></td>
 					            </tr>
 				            </c:forEach>
 				            </c:if>
@@ -525,7 +609,7 @@
 					            </tr>
 				            </c:if>
 				    </table>
-				    	<p><a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> 글쓰기</a></p>
+				    	<c:if test="${study.s_leader_id == users.u_id}"><p><button data-toggle="modal" data-target="#BoardwriterModal" class="btn btn-primary btn-xs pull-right" onclick=""><b>+</b> 글쓰기</button></p></c:if>
 				    </div>
 				</div>
 			</center>
@@ -569,6 +653,75 @@
 										<input type="text" id="penaltyname"/> &nbsp;&nbsp; Name &nbsp;&nbsp; <input type="text" id="penaltyvalue"/> &nbsp; Value &nbsp;
 										<button type="button" class="btn btn-default" name="depositbtn" aria-label="Left Align" onclick="penaltyinput(${study.s_id})" >
 							 				 추가
+										</button>
+								</div>
+							</div>
+						</div>
+					</div>
+		<!-- 공지사항 읽기를 위한  모달모달 -->
+					<!--    Modal -->
+					<div class="modal fade" id="BoardModal" role="dialog">
+						<div class="modal-dialog">
+							<!--  Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2>공지글 읽기 </h2>
+								</div>
+								<div class="modal-body">
+										<table class="table table-hover" id="penaltytable">
+											<tr>
+												<th>글번호</th>
+												<td><input type="text" id="seq" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>작성자</th>
+												<td><input type="text" id="writer" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>작성일</th>
+												<td><input type="text" id="regdate" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>제목</th>
+												<td><input type="text" id="title"  readonly="readonly"/></td>
+											</tr>
+											<tr>
+												<th>내용</th>
+												<td><textarea id="contents" readonly="readonly"></textarea></td>
+											</tr>
+										</table>
+										<hr />
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 공지사항 쓰기를 위한  모달모달 -->
+					<!--    Modal -->
+					<div class="modal fade" id="BoardwriterModal" role="dialog">
+						<div class="modal-dialog">
+							<!--  Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2>공지글 쓰기 </h2>
+								</div>
+								<div class="modal-body">
+										<table class="table table-hover" id="penaltytable">
+											<tr>
+												<th>작성자</th>
+												<td><input type="text" id="writer2" readonly="readonly" value="${users.u_name }" /></td>
+											</tr>
+											<tr>
+												<th>제목</th>
+												<td><input type="text" id="title2"  name="title2"/></td>
+											</tr>
+											<tr>
+												<th>내용</th>
+												<td><textarea id="contents2" name="contents2"></textarea></td>
+											</tr>
+										</table>
+										<hr />
+										<button type="button" class="btn btn-default" name="boardbtn" aria-label="Right Align" onclick="boardinput(${study.s_id})" >
+							 				 글쓰기
 										</button>
 								</div>
 							</div>

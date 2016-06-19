@@ -47,4 +47,8 @@ public interface StudyDetailService {
 	public int Forcedexit(int j_id);
 	public Users leaderimg(int s_leader_id);
 	public List<Board> boardlist(int s_id);
+	public Board boardDetail(Board board);
+	public void boardinput(Board board);
+	public int boarddelete(int seq);
+	public void studydeadLine(int s_id);
 }

@@ -1,7 +1,7 @@
 package cocoro.study.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public class Board implements Serializable{
 	private int seq;
@@ -53,6 +53,11 @@ public class Board implements Serializable{
 	}
 	public void setS_id(int s_id) {
 		this.s_id = s_id;
+	}
+	@Override
+	public String toString() {
+		return "Board [seq=" + seq + ", title=" + title + ", writer=" + writer + ", contents=" + contents + ", regdate="
+				+ regdate + ", hitcount=" + hitcount + ", s_id=" + s_id + "]";
 	}
 	
 	
