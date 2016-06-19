@@ -208,8 +208,8 @@
 		});//a작스닫기
 	}
 	//스터디룸에 입장하기버튼을 눌렀을때 가는 함수
-	function StudyRoomjoin(){
-		location.href="/StudyDetail/StudyRoom";
+	function StudyRoomjoin(s_id,u_id){
+		location.href="http://localhost:3000?s_id="+s_id+"&u_id="+u_id;
 	}
 	//출석체크
 	function Attendcheck(plan_id,j_id){
@@ -354,7 +354,7 @@
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
 	  		<p style="float: left;"><h3>${study.s_name }</h3></p>
 	  		
-	  		<c:if test="${study.s_online == 'T' }"><button type="button" class="btn btn-danger" onclick="javasciprt:StudyRoomjoin()">스터디룸 입장</button></c:if>
+	  		<c:if test="${study.s_online == 'T' }"><button type="button" class="btn btn-danger" onclick="javasciprt:StudyRoomjoin(${study.s_id},${users.u_id })">스터디룸 입장</button></c:if>
 	  		
 	  		<c:if test="${study.s_attend_check=='T' }"><c:if test="${plan != null }"><c:if test="${Attend == null}"><button type="button" class="btn btn-default" id="attendbtn" onclick="Attendcheck(${plan.plan_id},${studyactivitiy.j_id})">출석체크</button></c:if></c:if></c:if>
 
