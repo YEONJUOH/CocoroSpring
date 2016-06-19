@@ -179,6 +179,21 @@ public class StudyDetailDaoImpl implements StudyDetailDao {
 	public List<Board> boardlist(int s_id) {
 		return session.selectList(namespace+".boardlist", s_id);
 	}
+
+	@Override
+	public Board boardDetail(Board board) {
+		return session.selectOne(namespace+".boardDetail", board);
+	}
+
+	@Override
+	public void boardinput(Board board) {
+		session.insert(namespace+".boardinput", board);
+	}
+
+	@Override
+	public void boarddelete(int seq) {
+		session.delete(namespace+".boarddelete", seq);
+	}
 	
 
 	

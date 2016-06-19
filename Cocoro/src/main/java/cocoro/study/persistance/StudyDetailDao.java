@@ -48,4 +48,7 @@ public interface StudyDetailDao {
 	public void deleteability(int j_id);
 	public Users leaderimg(int s_leader_id);
 	public List<Board> boardlist(int s_id);
+	public Board boardDetail(Board board);
+	public void boardinput(Board board);
+	public void boarddelete(int seq);
 }

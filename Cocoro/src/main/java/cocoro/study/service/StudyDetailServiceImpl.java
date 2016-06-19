@@ -173,5 +173,22 @@ public class StudyDetailServiceImpl implements StudyDetailService {
 		return dao.boardlist(s_id);
 	}
 
+	@Override
+	public Board boardDetail(Board board) {
+		return dao.boardDetail(board);
+	}
+
+	@Override
+	public void boardinput(Board board) {
+		dao.boardinput(board);
+		
+	}
+
+	@Override
+	public void boarddelete(int seq) {
+		dao.boarddelete(seq);
+		
+	}
+
 
 }

@@ -256,6 +256,70 @@
 			
 		});//a작스닫기
 	}
+	function boardDetail(seq,s_id){
+		$.ajax({
+			url:'boardDetail?seq='+seq+"&s_id="+s_id,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				$("#seq").val(data.seq);
+				$("#title").val(data.title);
+				$("#writer").val(data.writer);
+				$("#regdate").val(data.regdate);
+				$("#contents").val(data.contents);
+// 				var item = document.getElementById("Forcedexit_"+index);
+// 				var parent = item.parentNode.parentNode;
+// 				if(item != null){
+// 					item.parentNode.parentNode.parentNode.removeChild(parent);
+// 				}
+			},
+			error:function(){
+				console.log("에러에러");
+			}
+			
+		});//a작스닫기
+	}
+	function boardinput(s_id){
+		var title = $("#title2").val();
+		var contents = $("#contents2").val();
+		var writer = $("#writer2").val();
+		$.ajax({
+			url:'boardinput?title='+title+"&contents="+contents+"&writer="+writer+"&s_id="+s_id,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				location.href ="studydetail?s_id="+s_id;
+// 				var item = document.getElementById("Forcedexit_"+index);
+// 				var parent = item.parentNode.parentNode;
+// 				if(item != null){
+// 					item.parentNode.parentNode.parentNode.removeChild(parent);
+// 				}
+			},
+			error:function(){
+				location.href ="studydetail?s_id="+s_id;
+			}
+			
+		});//a작스닫기
+	}
+	function boarddelete(seq,s_id){
+		$.ajax({
+			url:'boarddelete?seq='+seq,
+			type:'get',
+			dataType : 'json',
+			success: function(data){
+				location.href ="studydetail?s_id="+s_id;
+// 				var item = document.getElementById("Forcedexit_"+index);
+// 				var parent = item.parentNode.parentNode;
+// 				if(item != null){
+// 					item.parentNode.parentNode.parentNode.removeChild(parent);
+// 				}
+			},
+			error:function(){
+				location.href ="studydetail?s_id="+s_id;
+			}
+			
+		});//a작스닫기
+	}
 </script>
 </head>
 <body>
@@ -503,19 +567,17 @@
 				            <th>번호</th>
 				            <th>제목</th>
 				            <th>작성자</th>
-				            <th>작성일</th>
-				            <th colspan="2">조회수</th>
+				            <th colspan="2">작성일</th>
 				        </tr>
 				    </thead>
 				    		<c:if test="${Board != '[]' }">
 				    		<c:forEach  var="o" begin="0" end="${Board.size()-1}" step="1">
 					            <tr>
 					                <td>${Board.get(o).seq }</td>
-					                <td>${Board.get(o).title }</td>
+					                <td><a onclick="javascript:boardDetail(${Board.get(o).seq},${Board.get(o).s_id })"  data-toggle="modal" data-target="#BoardModal">${Board.get(o).title } </a></td>
 					                <td>${Board.get(o).writer }</td>
 					                <td>${Board.get(o).regdate }</td>
-					                <td>${Board.get(o).hitcount }</td>
-					                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+					                <td class="text-center"><button onclick="boarddelete(${Board.get(o).seq},${study.s_id})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button></td>
 					            </tr>
 				            </c:forEach>
 				            </c:if>
@@ -525,7 +587,7 @@
 					            </tr>
 				            </c:if>
 				    </table>
-				    	<p><a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> 글쓰기</a></p>
+				    	<c:if test="${study.s_leader_id == users.u_id}"><p><button data-toggle="modal" data-target="#BoardwriterModal" class="btn btn-primary btn-xs pull-right" onclick=""><b>+</b> 글쓰기</button></p></c:if>
 				    </div>
 				</div>
 			</center>
@@ -569,6 +631,75 @@
 										<input type="text" id="penaltyname"/> &nbsp;&nbsp; Name &nbsp;&nbsp; <input type="text" id="penaltyvalue"/> &nbsp; Value &nbsp;
 										<button type="button" class="btn btn-default" name="depositbtn" aria-label="Left Align" onclick="penaltyinput(${study.s_id})" >
 							 				 추가
+										</button>
+								</div>
+							</div>
+						</div>
+					</div>
+		<!-- 공지사항 읽기를 위한  모달모달 -->
+					<!--    Modal -->
+					<div class="modal fade" id="BoardModal" role="dialog">
+						<div class="modal-dialog">
+							<!--  Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2>공지글 읽기 </h2>
+								</div>
+								<div class="modal-body">
+										<table class="table table-hover" id="penaltytable">
+											<tr>
+												<th>글번호</th>
+												<td><input type="text" id="seq" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>작성자</th>
+												<td><input type="text" id="writer" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>작성일</th>
+												<td><input type="text" id="regdate" readonly="readonly" /></td>
+											</tr>
+											<tr>
+												<th>제목</th>
+												<td><input type="text" id="title"  readonly="readonly"/></td>
+											</tr>
+											<tr>
+												<th>내용</th>
+												<td><textarea id="contents" readonly="readonly"></textarea></td>
+											</tr>
+										</table>
+										<hr />
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 공지사항 쓰기를 위한  모달모달 -->
+					<!--    Modal -->
+					<div class="modal fade" id="BoardwriterModal" role="dialog">
+						<div class="modal-dialog">
+							<!--  Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h2>공지글 쓰기 </h2>
+								</div>
+								<div class="modal-body">
+										<table class="table table-hover" id="penaltytable">
+											<tr>
+												<th>작성자</th>
+												<td><input type="text" id="writer2" readonly="readonly" value="${users.u_name }" /></td>
+											</tr>
+											<tr>
+												<th>제목</th>
+												<td><input type="text" id="title2"  name="title2"/></td>
+											</tr>
+											<tr>
+												<th>내용</th>
+												<td><textarea id="contents2" name="contents2"></textarea></td>
+											</tr>
+										</table>
+										<hr />
+										<button type="button" class="btn btn-default" name="boardbtn" aria-label="Right Align" onclick="boardinput(${study.s_id})" >
+							 				 글쓰기
 										</button>
 								</div>
 							</div>

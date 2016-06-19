@@ -1,5 +1,6 @@
 package cocoro.study.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import cocoro.study.domain.Applydata;
+import cocoro.study.domain.Board;
 import cocoro.study.domain.Penalty;
 import cocoro.study.domain.PlanInfo;
 import cocoro.study.domain.StudyGroup;
@@ -66,5 +68,23 @@ public class StudyDetailJsonController {
 	public void Forcedexit(@RequestParam("j_id") int j_id)throws Exception{
 		System.out.println("JSON컨트롤러 강퇴고고");
 		int x = service.Forcedexit(j_id);
+	}
+	@RequestMapping("boardDetail")
+	public Board boardDetail(Board board){
+		System.out.println("JSON컨트롤러 상세정보");
+		System.out.println(board.toString());
+		Board boarddetail = service.boardDetail(board);
+		return boarddetail;
+	}
+	@RequestMapping("boardinput")
+	public void boardinput(Board board){
+		System.out.println("JSON컨트롤러 공지글쓰기");
+		System.out.println(board.toString());
+		service.boardinput(board);
+	}
+	@RequestMapping("boarddelete")
+	public void boarddelete(@RequestParam("seq") int seq){
+		System.out.println("JSON컨트롤러 공지글삭제");
+		service.boarddelete(seq);
 	}
 }
