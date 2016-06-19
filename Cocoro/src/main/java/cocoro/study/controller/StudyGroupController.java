@@ -244,43 +244,57 @@ public class StudyGroupController {
 		
 		return "previewStudy";
 	}
-	
-	
-	
+
 	
 	@RequestMapping(value="/applyStudy", method = RequestMethod.GET)
 	public String applyStudy(
 			@RequestParam("s_id") int s_id,
 			@RequestParam("u_id") int u_id,
-			@RequestParam("rank_for_apply") int rank_for_apply	
+			@RequestParam("rank_for_apply") int rank_for_apply,
+			HttpServletRequest request
 			) throws Exception {
-		Map<String, Object> map4 = new HashMap<String, Object>();
-		map4.put("s_id", s_id);
-		map4.put("u_id", u_id);
-		map4.put("rank_for_apply", rank_for_apply);
 		
+		//유저의 가상계좌 잔액과 스터디 예치금 비교
+		Users users = (Users)request.getSession().getAttribute("users");
+        UsersAccount usersaccount = u_service.usersAccountInfo(users.getU_id());
+        StudyGroup studygroup = service.selectStudy(s_id);
+        int studyDeposit = studygroup.getS_deposit();
+        int usersBalance = usersaccount.getU_balance();
 		
-		Map<String, Object> map6 = new HashMap<String, Object>();
-		map6.put("s_id", s_id);
-		map6.put("u_id", u_id);
-		Apply check_applying = service.check_applying(map6);
-		StudyActivity check_enterStudy = service.check_enterStudy(map6);
-		
-		if(check_applying != null)
+		if(usersBalance >= studyDeposit)
 		{
-			return "redirect:/study/fail?s_id="+s_id;    // fail 페이지에서 이미 가입신청중인 스터디라는 얼럿창 띄워주고 메인으로 보내기 
+			Map<String, Object> map4 = new HashMap<String, Object>();
+			map4.put("s_id", s_id);
+			map4.put("u_id", u_id);
+			map4.put("rank_for_apply", rank_for_apply);
 		
+		
+			Map<String, Object> map6 = new HashMap<String, Object>();
+			map6.put("s_id", s_id);
+			map6.put("u_id", u_id);
+			Apply check_applying = service.check_applying(map6);
+			StudyActivity check_enterStudy = service.check_enterStudy(map6);
+		
+			if(check_applying != null)
+			{
+				return "redirect:/study/fail?s_id="+s_id;    // fail 페이지에서 이미 가입신청중인 스터디라는 얼럿창 띄워주고 메인으로 보내기 
+		
+			}
+			else if(check_applying == null)
+			{
+				if(check_enterStudy == null)       // 현재 신청중도 아니고, 가입되지도 않은 경우에만 스터디 가입신청 가능
+				{
+					service.applyStudy(map4);
+				}
+				else
+				{
+					return "redirect:/study/fail2?s_id="+s_id;  // fail2 페이지에서 이미 가입된 스터디라는 얼럿창 띄워주고 메인으로 보내기
+				}
+			}
 		}
-		else if(check_applying == null)
+		else if(usersBalance < studyDeposit)
 		{
-			if(check_enterStudy == null)       // 현재 신청중도 아니고, 가입되지도 않은 경우에만 스터디 가입신청 가능
-			{
-				service.applyStudy(map4);
-			}
-			else
-			{
-				return "redirect:/study/fail2?s_id="+s_id;  // fail2 페이지에서 이미 가입된 스터디라는 얼럿창 띄워주고 메인으로 보내기
-			}
+			return "redirect:/study/fail3?s_id="+s_id;
 		}
 		return "redirect:/users/afterMain";
 	}
@@ -302,7 +316,7 @@ public class StudyGroupController {
 			service.enterStudy(map5);   // 입장한적없으면 DB에 값 넣고 이동, 추후 개방형 스터디의 디테일 페이지로 이동하도록 수정
 		}
 
-		return "redirect:/study/previewStudy?s_id="+s_id;
+		return "redirect:/StudyDetail/studydetail?s_id="+s_id;
 	}
 	
 	@RequestMapping(value="/fail", method = RequestMethod.GET)
@@ -313,6 +327,11 @@ public class StudyGroupController {
 	@RequestMapping(value="/fail2", method = RequestMethod.GET)
 	public void fail2(@RequestParam("s_id") int s_id) throws Exception {
 		// 이미 가입된 스터디에 중복신청했을 경우
+	}
+	
+	@RequestMapping(value="/fail3", method = RequestMethod.GET)
+	public void fail3(@RequestParam("s_id") int s_id) throws Exception {
+		// 유저의 가상계좌 잔액이 스터디예치금 보다 적을 경우
 	}
 
 }
