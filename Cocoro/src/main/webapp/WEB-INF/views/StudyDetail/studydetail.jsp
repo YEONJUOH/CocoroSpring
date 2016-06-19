@@ -469,8 +469,8 @@
 			<br />
 			</div>
 			<div class="mid" style="height: 450px;width: 100%;border-top:10px solid white;">
-			<div style="float:left;margin-left: 60px;margin-top: 25px;">
-			<div  style="width:500px">
+			<div style="float:left;margin-left: 40px;margin-top: 25px;">
+			<div  style="width:450px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
@@ -523,7 +523,7 @@
 					        </div>
 					    </div>
 					</div><!-- 미드미아 -->
-					<div style="width:500px">
+					<div style="width:450px">
 					    <div class="row">
 					        <div>
 					            <div class="panel panel-primary">
@@ -574,7 +574,7 @@
 					    </div>
 					</div><!-- 미드미아 -->
 					</div><!-- 왼쪽 사이트 블럭 -->
-				<div style="margin-top: 5px;margin-right: 30px;float: right;">
+				<div style="margin-top: 5px;margin-right: 20px;float: right;">
 					<div id='calendar' style="width: 500px; height: 450px;"></div>
 				</div>
 			</div>
