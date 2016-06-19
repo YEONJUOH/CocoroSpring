@@ -450,13 +450,13 @@
 																<td>${Memberlist.get(o).a_rank}</td>
 																<td>${Memberlist.get(o).j_date}</td>
 																<td>${Memberlist.get(o).s_last_login}</td>
-																<c:if test="${study.s_leader_id == users.u_id}"><td><button id="Forcedexit_${o}" type="button" class="btn btn-danger" onclick="Forcedexit(${Memberlist.get(o).j_id},${o})">강퇴</button></td></c:if>
+																<c:if test="${study.s_leader_id == users.u_id}"><c:if test="${Memberlist.get(o).u_name != users.u_name }"><td><button id="Forcedexit_${o}" type="button" class="btn btn-danger" onclick="Forcedexit(${Memberlist.get(o).j_id},${o})">강퇴</button></td></c:if></c:if>
 															</tr>
 												</c:forEach>
 											</c:if>
 											<c:if test="${Memberlist.size() == 0 }">
 												<tr>
-													<td colspan='3'>가입 희망자가 없습니다.</td>
+													<td colspan='3'>스터디원이 없습니다.</td>
 												</tr>
 											</c:if>
 										</table>
