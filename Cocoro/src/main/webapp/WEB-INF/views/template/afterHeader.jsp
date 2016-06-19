@@ -45,7 +45,7 @@ $(function(){
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/users/afterMain" style="color: #fff;"><b>Cocoro</b></a>
+				<a class="navbar-brand" href="/" style="color: #fff;"><b>Cocoro</b></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse" style="background-color: #3b5998">
 				<!--  검색 -->

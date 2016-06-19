@@ -176,7 +176,7 @@ public class StudyGroupController {
         }
         
 		
-		return "redirect:/study/success";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/success", method = RequestMethod.GET)

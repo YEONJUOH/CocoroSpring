@@ -157,7 +157,7 @@
 							html +='<div class="col-md-9"><div class="well well-sm"><div class="row infoBox">';
 							html +='<div class="col-xs-3 col-md-3 text-center ">';
 							html +='<a href="/"><img src="/resources/img/groupImg.PNG" alt="bootsnipp" class="img-rounded img-responsive" /></a>';
-							html +='<div><span class="glyphicon glyphicon-info-sign"><a href="/study/previewStudy?s_id="'+this.s_id>'</a></span><span class="glyphicon glyphicon-home"></span></div></div>';
+							html +='<div><a href="/study/previewStudy?s_id='+this.s_id +'"><span class="glyphicon glyphicon-info-sign"></span></a><span class="glyphicon glyphicon-home"></span></div></div>';
 							html +='<div class="col-xs-8 col-md-8 section-box"><h4><b>';
 							
 							html += this.s_name+'</b></h4>';
