@@ -44,6 +44,8 @@ public class HomeController {
 		return "beforeMain";
 	}
 	
+	
+	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String Main(Model model,HttpSession session){
 		

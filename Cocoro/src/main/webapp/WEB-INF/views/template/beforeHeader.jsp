@@ -32,7 +32,7 @@ $(function(){
 			dataType : 'json',
 			success : function(data){
 				alert('로그인 성공');
-				location.href = "/users/afterMain";
+				location.href = "/";
 			},
 			error : function() {
 				alert('실패');

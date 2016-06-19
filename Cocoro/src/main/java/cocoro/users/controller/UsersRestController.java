@@ -67,6 +67,7 @@ public class UsersRestController {
 		if(users != null){
 		model.addAttribute("users",users);
 		session.setAttribute("users", users);
+		System.out.println("I'm here");
 		service.usersLoginTime(users.getU_id());
 	  }
 		return users;

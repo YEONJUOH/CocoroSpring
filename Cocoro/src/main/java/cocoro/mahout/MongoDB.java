@@ -95,6 +95,7 @@ public class MongoDB {
 		}
 	}
 	public static List<Integer> recommend(int s_id) throws UnknownHostException, ParseException,Exception {
+		createSiliconnitride();
 		System.out.println("하자");
 
 		StudyGroupServiceImpl service = new StudyGroupServiceImpl();

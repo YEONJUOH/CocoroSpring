@@ -48,6 +48,8 @@ public class SearchController {
 	    if(search.getSearchCtg()!=null && search.getSearchCtg().equals("인물")){
 	     listU = service.searchPeople(search);
 	    }
+	   
+	
 	    
 	    model.addAttribute("list",list);
 	    model.addAttribute("listU",listU);
